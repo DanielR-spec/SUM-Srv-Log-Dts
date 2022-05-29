@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
     <wb-module deploy-name="TierLogica">
+                
         <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+                
         <dependent-module archiveName="ServiciosLogica.jar" deploy-path="/" handle="module:/resource/ServiciosLogica/ServiciosLogica">
+                        
+            <dependent-object/>
+                        
+            <dependency-type>uses</dependency-type>
+                    
+        </dependent-module>
+                
+        <dependent-module archiveName="ServiciosLogicaInterface.jar" deploy-path="/" handle="module:/resource/ServiciosLogicaInterface/ServiciosLogicaInterface">
+                        
+            <dependency-type>uses</dependency-type>
+                    
+        </dependent-module>
+                
+        <dependent-module archiveName="Entidades.jar" deploy-path="/lib" handle="module:/resource/Entidades/Entidades">
+                        
+            <dependency-type>uses</dependency-type>
+                    
+        </dependent-module>
+                
+        <dependent-module archiveName="ServiciosDatosInterface.jar" deploy-path="/lib" handle="module:/resource/ServiciosDatosInterface/ServiciosDatosInterface">
+                        
+            <dependency-type>uses</dependency-type>
+                    
+        </dependent-module>
+        <dependent-module archiveName="ApiGateway.war" deploy-path="/" handle="module:/resource/ApiGateway/ApiGateway">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="ServiciosLogicaInterface.jar" deploy-path="/" handle="module:/resource/ServiciosLogicaInterface/ServiciosLogicaInterface">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Entidades.jar" deploy-path="/lib" handle="module:/resource/Entidades/Entidades">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="ServiciosDatosInterface.jar" deploy-path="/lib" handle="module:/resource/ServiciosDatosInterface/ServiciosDatosInterface">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
+            
     </wb-module>
+    
 </project-modules>
