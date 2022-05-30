@@ -9,6 +9,7 @@ import javax.naming.NamingException;
 
 
 import com.conexion.rst.GestorSolicitudes;
+import com.rest.ws.UsuarioDao;
 
 /**
  * @author danie

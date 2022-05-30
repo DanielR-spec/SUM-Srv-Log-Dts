@@ -62,7 +62,7 @@ public class GestorSolicitudes {
 	}
 
 	private static URI getBaseURI() {
-	        return UriBuilder.fromUri("http://localhost:9085/ApiRest/rest/user").build();
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user").build();
 	    }
 
 }

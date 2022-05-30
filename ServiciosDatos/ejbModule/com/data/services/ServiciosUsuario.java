@@ -31,7 +31,7 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 	@Override
 	public List<Usuario> findUsuario(String userName, String password) {
 		// TODO Auto-generated method stub
-		String consulta = "SELECT u FROM usuario u WHERE u.username=:userName AND u.password=:password";
+		String consulta = "SELECT u FROM Usuario u WHERE u.username=:userName AND u.password=:password";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
 		query.setParameter("userName", userName);
 		query.setParameter("password", password);

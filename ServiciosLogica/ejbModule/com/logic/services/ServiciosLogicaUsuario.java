@@ -40,6 +40,29 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 	
 	return serviciosUsuarioRemote.getAllUsuarios();
 	}
+	
+	@Override
+	public Usuario getUser(String userName, String password) {
+		
+		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
+		ServiciosUsuarioRemote serviciosUsuarioRemote = null;
+		try {
+			serviciosUsuarioRemote = localizadorServicios.getRemoteFachadaLogica();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<Usuario>usuarios=serviciosUsuarioRemote.findUsuario(userName, password);
+
+		for (Usuario cliente: usuarios) {
+			if(userName.equals(cliente.getUsername())&&password.equals(cliente.getPassword())){
+				return cliente;
+			}
+		}
+		return null;		
+		
+	}
 
 	@Override
 	public String addUser() {

@@ -14,4 +14,6 @@ public interface ServiciosLogicaUsuarioRemote {
 
 	public String addUser();
 
+	public Usuario getUser(String userName, String password);
+
 }

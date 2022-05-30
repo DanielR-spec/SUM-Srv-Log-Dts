@@ -18,7 +18,10 @@ public class Usuario {
 	}
 	private int Id;
 	private String name;
+	private String secondName;
+	private String userName;
 	private String password;
+	private Boolean isValid;
 	
 	/**
 	 * 
@@ -47,6 +50,44 @@ public class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+
+	public String getSecondName() {
+		return secondName;
+	}
+
+
+
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
+
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+
+	public Boolean getIsValid() {
+		return isValid;
+	}
+
+
+
+	public void setIsValid(Boolean isValid) {
+		this.isValid = isValid;
+	}
+
+
 
 
 

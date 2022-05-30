@@ -7,10 +7,10 @@ package com.rest.ws;
  * @author danie
  *
  */
-public class Usuario {
+public class UsuarioDao {
 	
 	
-	public Usuario(int id, String name, String password) {
+	public UsuarioDao(int id, String name, String password) {
 		super();
 		Id = id;
 		this.name = name;
@@ -23,7 +23,7 @@ public class Usuario {
 	/**
 	 * 
 	 */
-	public Usuario() {
+	public UsuarioDao() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -40,7 +40,7 @@ public class RestApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	public com.rest.ws.Usuario getUsr() throws NamingException{
 	
-		return new ControladorSrv().traerUsuariosInd();
+		return new ControladorSrv().traerUsuariosInd("colio", "56f");
 		
 	}
 
