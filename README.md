@@ -5,6 +5,7 @@ Tier server arquitecture in Java, Jersey API conection
   2. Runtime: Wildfly 25.0.1 -> Bussines Layer
   3. Runtime: Tomcat v9 -> Service Layer
   4. Runtime: Tomcat v9 -> Presentation Layer
+![image](https://user-images.githubusercontent.com/60512858/172479485-c8688074-0488-4545-ac1a-31e89a372e08.png)
 
 Contents
 Manual de instalación y ejecución del proyecto	2
