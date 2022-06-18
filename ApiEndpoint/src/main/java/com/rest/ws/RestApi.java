@@ -23,6 +23,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.conexion.rst.GestorSolicitudes;
 import com.controller.rst.ControladorSrv;
 
 /**
@@ -41,7 +42,7 @@ public class RestApi {
 	@GET
 	@Path("{auth}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String hello(@PathParam("auth") String auth, @QueryParam("user") String name, @Context UriInfo uriInfo) throws NamingException {
+	public String hello(@PathParam("auth") String auth, @QueryParam("user") String name,@QueryParam("psswr") String passw, @Context UriInfo uriInfo) throws NamingException {
 		
 		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
 
@@ -53,8 +54,10 @@ public class RestApi {
 		            + "<br> Keys: " + queryParams.keySet() 
 		            + "<br> Values: " + queryParams.values()
 		            + "<br> Query: " + query;
+		    
+		String text = new GestorSolicitudes().getUser(name, passw);
 		
-		return new ControladorSrv().traerUsuariosInd();
+		return "AccesToken";
 		
 		// return name;
 	}

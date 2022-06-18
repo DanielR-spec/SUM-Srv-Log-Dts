@@ -23,11 +23,13 @@ public class Cliente {
 		
 		// Invocar el servicio usando la referencia remota
 		//System.out.println(fachadaLogica.addUser());
-		List<Usuario> lista = fachadaLogica.getUsers();
-		
+		Usuario usr = fachadaLogica.getUser("carl123", "crl2020");
+		System.out.print(usr.getNombres()+"\n");
+		//usr.getNombres();
+		/*
 		for (Usuario user: lista) {
-			System.out.print(user.getNombres()+"/n");
-		}
+			System.out.print(user.getNombres()+"\n");
+		}*/
 		
 	}
 }

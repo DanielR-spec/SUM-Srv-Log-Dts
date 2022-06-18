@@ -50,7 +50,7 @@ public class ControladorSrv {
 		
 		// TODO Auto-generated method stub
 		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
-		ServiciosLogicaUsuarioRemote fachadaLogica=null;
+		ServiciosLogicaUsuarioRemote fachadaLogica = null;
 		
 		fachadaLogica = localizadorServicios.getRemoteFachadaLogica();
 
@@ -68,11 +68,12 @@ public class ControladorSrv {
 			usuarioR.setPassword(cliente.getPassword());
 			usuarioR.setIsValid(true);
 			
+			if(usuarioR.getIsValid()) {
+				return usuarioR;
+			}
+			
 		}
 		
-		if(usuarioR.getIsValid()) {
-			return usuarioR;
-		}
 
 		/*
 		for (Usuario usuario : lista) {

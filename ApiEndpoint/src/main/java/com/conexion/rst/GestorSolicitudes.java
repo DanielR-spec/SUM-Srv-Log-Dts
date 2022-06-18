@@ -24,15 +24,21 @@ public class GestorSolicitudes {
 	 */
 	
 	
-	public String getUser () {
-		
+	public String getUser (String usr, String pss) {
+	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI());
+		WebTarget target = client.target(getBaseURI()).queryParam("user", usr).queryParam("psswr", pss);
 		
 		String response = target.request()
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
+		
+		/*
+		Client client2 = ClientBuilder.newClient(config);
+		WebTarget target2 = client.target(getBaseURI()).queryParam("user", usr).queryParam("psswr", pss);
+		
+		String response2 = target2.request().accept(MediaType.APPLICATION_JSON).get(String.class);*/
 			
 		return response;
 		

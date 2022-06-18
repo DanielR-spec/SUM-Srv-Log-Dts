@@ -33,7 +33,7 @@ public class ControladorSrv {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.getUser();
+		return gestorSolicitudes.getUser("as","sa");
 	}
 
 }
