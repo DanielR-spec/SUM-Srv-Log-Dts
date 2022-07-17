@@ -12,5 +12,6 @@ public interface ServiciosUsuarioRemote {
 	public List<Usuario> findUsuario(String userName, String password);
 	public String addUsuario();
 	public List<Usuario> getAllUsuarios();
+	Usuario findUserr(String username, String password);
 
 }
