@@ -40,44 +40,33 @@ import com.logic.services.ServiciosLogicaUsuarioRemote;
 @Path("/user")
 public class RestApi {
 
-	/**
-	 * 
-	 */	/*
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String hello(@Context HttpHeaders httpheaders) {
-		//return new ControladorSrv().agregarUsuario();
-		String token = httpheaders.getHeaderString("token");
-		return token;
-	}*/
-	
-
 	
 	@GET
+	@Path("{auth}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public com.rest.ws.Usuario getUsr(@QueryParam("user") String name,@QueryParam("psswr") String passw, @Context UriInfo uriInfo) throws NamingException{
+	public Usuario getUsr(
+			@QueryParam("user") String usr,
+			@QueryParam("psswr") String pass, 
+			@Context UriInfo uriInfo) 
+			throws NamingException{
 		
+		return new ControladorSrv().validateUser(usr, pass);
 		
-	    //JSONObject jsonObj = new JSONObject(token);
-		//ClientConfig config = new ClientConfig();
-		//Client client = ClientBuilder.newClient(config);
-		//WebTarget target = client.target(null);
+	}
+	
+	@GET
+	@Path("{add}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addUsr(
+			@QueryParam("name") String name,
+			@QueryParam("lName") String lName,
+			@QueryParam("user") String usr,
+			@QueryParam("psswr") String pass,
+			@Context UriInfo uriInfo)
+			throws NamingException{
 		
-		//String userName = request.getParameter("username");
-		//String password = request.getParameter("pass");
-		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-
-		String from = uriInfo.getQueryParameters().getFirst("user");
+		return new ControladorSrv().addUser(name, lName, usr, pass);
 		
-	    String query = uriInfo.getRequestUri().getQuery();
-
-		String output = "QueryParams: " + queryParams 
-	            + "<br> Keys: " + queryParams.keySet() 
-	            + "<br> Values: " + queryParams.values()
-	            + "<br> Query: " + query;
-		System.out.print(output);
-		
-		return new ControladorSrv().traerUsuariosInd(name, passw);
 		
 	}
 

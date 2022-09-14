@@ -19,28 +19,78 @@ import org.glassfish.jersey.client.ClientConfig;
  */
 public class GestorSolicitudes {
 
-	/**
-	 * 
+	 /**
+	 * CONSTRUCTOR
 	 */
+	public GestorSolicitudes() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
-	
+	/**
+	 *FUNCION PARA VALIDAR USUARIO 
+	 */
+	//Funciona
 	public String getUser (String usr, String pss) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI()).queryParam("user", usr).queryParam("psswr", pss);
+		WebTarget target = client.target(getBaseURI(1)).queryParam("user", usr).queryParam("psswr", pss);
 		
 		String response = target.request()
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		
+			
+		return response;
+		
+	}      
+	/**
+	 *FUNCION PARA AGREGAR USUARIO 
+	 */
+	//...
+	public String addUser (String name, String lName, String usr, String pss) {
+	
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(
+				getBaseURI(2)).
+				queryParam("name", name).
+				queryParam("lName", lName).
+				queryParam("user", usr).
+				queryParam("psswr", pss);
+		
+		String response = target.request()
+				.accept(MediaType.TEXT_PLAIN)
+				.get(String.class);
+		
+			
+		return response;
+		
+	}    
+
+
+	private static URI getBaseURI(int option) {
+		
+			switch (option) {
+			case 1:
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/auth").build();
+			case 2:
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/add").build();
+			default:
+				break;
+			}
+			return null;
+		
+	    }
+	
+	
+	private void txt() {
 		/*
 		Client client2 = ClientBuilder.newClient(config);
 		WebTarget target2 = client.target(getBaseURI()).queryParam("user", usr).queryParam("psswr", pss);
 		
 		String response2 = target2.request().accept(MediaType.APPLICATION_JSON).get(String.class);*/
-			
-		return response;
 		
 		//WebTarget target = null;
 		
@@ -56,19 +106,6 @@ public class GestorSolicitudes {
        // System.out.println(plainAnswer);
        // System.out.println(xmlAnswer);
        // System.out.println(htmlAnswer);
-		
-	}       
-
-	 /**
-	 * 
-	 */
-	public GestorSolicitudes() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	private static URI getBaseURI() {
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user").build();
-	    }
 
 }

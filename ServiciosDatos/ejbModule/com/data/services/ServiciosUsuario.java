@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -29,6 +30,8 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
         // TODO Auto-generated constructor stub
     }
 
+    //BUSCAR USUARIO, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
+	// READ Funciona
 	@Override
 	public List<Usuario> findUsuario(String usrName, String pass) {
 		// TODO Auto-generated method stub
@@ -38,42 +41,90 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		query.setParameter("passWord", pass);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
+		
+		if (resultList.size()==0) {
+			return null;
+		}
 		return resultList;
 
 	}
 	
+    //AGREGAR USUARIO, AGREGA UN USARIO NUEVO RETORNA LA LISTA DE USUARIOS ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
+	// CREATE Funciona
 	@Override
-	public Usuario findUserr(String username, String password) {
-
-	    Query query = entityManager.createNamedQuery("SELECT p FROM Usuario p WHERE username=usrName and password=pass");
-	    query.setParameter("username", username);
-	    query.setParameter("password", password);
-
-	    return (Usuario) query.getSingleResult();
-	}
-
-	@Override
-	public String addUsuario() {
+	public String addUsuario(Usuario usr) {
 		// TODO Auto-generated method stub
-		Usuario newUsuario = new Usuario();
-		newUsuario.setIdUsuario(4);
-		newUsuario.setNombres("hola");
-		newUsuario.setApellidos("loco");
-		newUsuario.setUsername("hola");
-		newUsuario.setPassword("hola");
-		Usuario user = entityManager.find(Usuario.class, newUsuario.getIdUsuario());
+		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
 		if (user == null) {
-		entityManager.persist(newUsuario);
+		entityManager.persist(usr);
 		return "insertado";
 		} else
 		return "existe";
 
 	}
 
+    //TRAER USUARIOS, RETORNA LA LISTA DE TODOS LOS USUARIOS ENCONTRADOS
+	//READ Funciona
 	@Override
 	public List<Usuario> getAllUsuarios() {
 		// TODO Auto-generated method stub
-		return entityManager.createQuery("SELECT p FROM Usuario p", Usuario.class).getResultList();
+		String consulta ="SELECT p FROM Usuario p";
+		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
+		List<Usuario> resultList = query.getResultList();
+		if (resultList.size()==0) {
+			return null;
+		}
+		return resultList;
+	}
+	
+
+    //ELIMINAR USUARIOS, ELIMINA EL USUARIO, PENSAR EN LA LOGICA DE ID
+	// DELETE Funciona
+	@Override
+	public String delUsuario(Usuario usr) {
+		// TODO Auto-generated method stub
+
+		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
+		if (user.equals(null)) {
+			return "No existe";
+		} else {
+			entityManager.remove(user);
+			return "existe y se elimino";
+		}
+
+	}
+	
+    //ACTUALIZAR USUARIOS, ACTUALIZA LA INFORMACI[ON DE LOS USUARIOS
+	// UPDATE Funciona
+	@Override
+	public String updateUsuario(Usuario usr) {
+		// TODO Auto-generated method stub
+
+		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
+		if (user.equals(null)) {
+			return "No existe";
+		} else {
+			entityManager.merge(usr);
+			entityManager.flush();
+			return "existe y se actualizo";
+		}
+
 	}
 
+
+    //TRAER ID, RETORNA EL ULTIMO ID DE LA BD
+	//READ Funciona
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		String consulta ="SELECT p FROM Usuario p";
+		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
+		List<Usuario> resultList = query.getResultList();
+		if (resultList.size()==0) {
+			return 0;
+		}
+		
+	
+		return resultList.size();
+	}
 }

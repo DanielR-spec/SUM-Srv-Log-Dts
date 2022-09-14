@@ -1,6 +1,8 @@
 package com.logic.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -10,7 +12,6 @@ import com.conexion.srv.LocalizadorServicios;
 import com.data.services.ServiciosUsuarioRemote;
 import com.data.user.Usuario;
 
-
 /**
  * Session Bean implementation class ServiciosLogicaUsuario
  */
@@ -18,15 +19,15 @@ import com.data.user.Usuario;
 @LocalBean
 public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, ServiciosLogicaUsuarioLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public ServiciosLogicaUsuario() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public ServiciosLogicaUsuario() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
-	public List<Usuario> getUsers() {
+	public String test() {
 
 		// TODO Auto-generated method stub
 		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
@@ -37,13 +38,16 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	return serviciosUsuarioRemote.getAllUsuarios();
+
+		return "Entro";
 	}
-	
+
+	//METODO PARA VALIDAR USUARIO, RETORNA LA INFORMACION DEL USR SI EXISTE
+	//FUNCIONA
 	@Override
-	public Usuario getUser(String userName, String password) {
-		
+	public HashMap<String, String> getUser(String user, String pass) {
+
+		// TODO Auto-generated method stub
 		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
 		ServiciosUsuarioRemote serviciosUsuarioRemote = null;
 		try {
@@ -52,22 +56,108 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		List<Usuario>usuarios=serviciosUsuarioRemote.findUsuario(userName, password);
 
-		for (Usuario cliente: usuarios) {
-			if(userName.equals(cliente.getUsername())&&password.equals(cliente.getPassword())){
-				return cliente;
+		HashMap<String, String> usuarioRst = new HashMap<String, String>();
+
+		List<Usuario> usuarioDt = serviciosUsuarioRemote.findUsuario(user, pass);
+
+		if (usuarioDt.size() > 0) {
+			for (Usuario usuario : usuarioDt) {
+				
+				usuarioRst.put("Id", String.valueOf(usuario.getIdUsuario()));
+				usuarioRst.put("Nombre", usuario.getNombres());
+				usuarioRst.put("Apellido", usuario.getApellidos());
+				usuarioRst.put("UserName", usuario.getUsername());
+				usuarioRst.put("Password", usuario.getPassword());
+
 			}
+			return usuarioRst;
 		}
-		return null;		
+
+		return null;
+	}
+	
+	//METODO PARA AGREGAR USUARIO, RETORNA MSN DE CONFIRMACION SI SE AGREGO O NO
+	//FUNCIONA
+	@Override
+	public String addUser( HashMap<String,String> user) {
+
+		// TODO Auto-generated method stub
+		ServiciosUsuarioRemote fachadaDat = lczFachada();
+
+
+		Usuario tstUser = new Usuario();
 		
+	    // iterating through key/value mappings
+	    System.out.print("Entries: ");
+	    
+	    for(Entry<String, String> entry: user.entrySet()) {
+	    	switch (entry.getKey()) {
+				case "nombres": {
+					
+					tstUser.setNombres(entry.getValue());
+					break;
+				}
+				case "apellidos": {
+					
+					tstUser.setApellidos(entry.getValue());
+					break;
+				}
+				case "usuario": {
+					
+					tstUser.setUsername(entry.getValue());
+					break;
+				}
+				case "contrasena": {
+					
+					tstUser.setPassword(entry.getValue());
+					break;
+				}
+				
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+				}
+	    
+	    }
+	    
+	    tstUser.setIdUsuario(getId());
+
+		try {
+	    	return fachadaDat.addUsuario(tstUser);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+	      	return "No se pudo agregar al usuario por el error:" + e;
+
+		}
 	}
 
-	@Override
-	public String addUser() {
-		// TODO Auto-generated method stub
-		return "Holadfsfs";
+	//FUNCIONES AUXILIARES
+
+	public int getId () {
+		ServiciosUsuarioRemote fachadaDat = lczFachada();
+		int id = fachadaDat.getId();
+
+		return id+2;
+		
 	}
+	
+	public ServiciosUsuarioRemote lczFachada() {
+
+		LocalizadorServicios Lcz = new LocalizadorServicios();
+		ServiciosUsuarioRemote fachadaDato = null;
+
+		try {
+			fachadaDato = Lcz.getRemoteFachadaLogica();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return fachadaDato;
+
+	}
+
+	
 
 }

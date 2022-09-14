@@ -24,16 +24,27 @@ public class ControladorSrv {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String agregarUsuario() {
-		// TODO Auto-generated method stub
-		return "Holadfsfs";
-	}
-
-	public String traerUsuariosInd() throws NamingException {
+	/**
+	 *FUNCION PARA VALIDAR USUARIO 
+	 */
+	//Funciona
+	public String validarUsr(String usuario, String clave) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.getUser("as","sa");
+		return gestorSolicitudes.getUser(usuario,clave);
 	}
+	
+	/**
+	 *FUNCION PARA AGREGAR USUARIO 
+	 */
+	//...
+	public String addUsr(String name, String lName, String usr, String pss) throws NamingException {
+
+		// TODO Auto-generated method stub
+		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		return gestorSolicitudes.addUser(name, lName, usr, pss);
+	}
+	
 
 }

@@ -10,8 +10,10 @@ import com.data.user.Usuario;
 public interface ServiciosUsuarioRemote {
 	
 	public List<Usuario> findUsuario(String userName, String password);
-	public String addUsuario();
+	public String addUsuario(Usuario usr);
 	public List<Usuario> getAllUsuarios();
-	Usuario findUserr(String username, String password);
+	public String delUsuario(Usuario usr);
+	public String updateUsuario(Usuario usr);
+	public int getId();
 
 }

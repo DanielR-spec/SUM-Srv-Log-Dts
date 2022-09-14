@@ -3,13 +3,16 @@
  */
 package com.controller.rst;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.naming.NamingException;
 
-import com.data.user.Usuario;
+//import com.data.user.Usuario;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
 import com.conexion.rst.LocalizadorServicios;
+import com.rest.ws.Usuario;
 
 /**
  * @author danie
@@ -24,67 +27,90 @@ public class ControladorSrv {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public List<Usuario> traerUsuarios() {
+//FUNCIONES PRINCIPALES
 
-		// TODO Auto-generated method stub
-		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
-		ServiciosLogicaUsuarioRemote serviciosUsuarioRemote = null;
+	public Usuario validateUser(String usr, String pss) {
+
+		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
+
+		HashMap<String, String> usuario = fachadaLog.getUser(usr, pss);
+
+		Usuario usrRest = new Usuario();
+
+		for (Entry<String, String> entry : usuario.entrySet()) {
+
+			switch (entry.getKey()) {
+			case "Id":
+				usrRest.setId(Integer.valueOf(entry.getValue()));
+				break;
+
+			case "Nombre":
+				usrRest.setName(entry.getValue());
+				break;
+
+			case "Apellido":
+				usrRest.setSecondName(entry.getValue());
+				break;
+
+			case "UserName":
+				usrRest.setUserName(entry.getValue());
+				break;
+
+			case "Password":
+				usrRest.setPassword(entry.getValue());
+				break;
+
+			default:
+
+				// Print statement corresponding case
+				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+
+			}
+
+		}
+
+		Integer id = usrRest.getId();
+		if (id != null) {
+
+			usrRest.setIsValid(true);
+
+		}
+		return usrRest;
+
+	}
+
+	public String addUser(String name, String lName, String usr, String pss) {
+
+		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
+		
+		HashMap<String, String> user = new HashMap<String, String>();
+		
+		user.put("nombres", name);
+		user.put("apellidos", lName);
+		user.put("usuario", usr);
+		user.put("contrasena", pss);
+		
+		String res = fachadaLog.addUser(user);
+		
+		return res;
+
+	}
+
+
+//FUNCIONES AUXILIARES
+	public ServiciosLogicaUsuarioRemote lczFachada() {
+
+		LocalizadorServicios Lcz = new LocalizadorServicios();
+		ServiciosLogicaUsuarioRemote fachadaLogica = null;
+
 		try {
-			serviciosUsuarioRemote = localizadorServicios.getRemoteFachadaLogica();
+			fachadaLogica = Lcz.getRemoteFachadaLogica();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	return serviciosUsuarioRemote.getUsers();
+
+		return fachadaLogica;
+
 	}
-
-	public String agregarUsuario() {
-		// TODO Auto-generated method stub
-		return "Holadfsfs";
-	}
-
-	public com.rest.ws.Usuario traerUsuariosInd(String userName, String password) throws NamingException {
-		// TODO Auto-generated method stub
-		com.rest.ws.Usuario usuarioR = new com.rest.ws.Usuario();
-		
-		// TODO Auto-generated method stub
-		LocalizadorServicios localizadorServicios = new LocalizadorServicios();
-		ServiciosLogicaUsuarioRemote fachadaLogica = null;
-		
-		fachadaLogica = localizadorServicios.getRemoteFachadaLogica();
-
-		// Invocar el servicio usando la referencia remota
-		//System.out.println(fachadaLogica.addUser());
-		//List<Usuario> lista = fachadaLogica.getUsers();
-		
-		Usuario cliente = fachadaLogica.getUser(userName, password);
-		
-		if(cliente!=null) {
-			usuarioR.setId(cliente.getIdUsuario());
-			usuarioR.setName(cliente.getNombres());
-			usuarioR.setSecondName(cliente.getApellidos());
-			usuarioR.setUserName(cliente.getUsername());
-			usuarioR.setPassword(cliente.getPassword());
-			usuarioR.setIsValid(true);
-			
-			if(usuarioR.getIsValid()) {
-				return usuarioR;
-			}
-			
-		}
-		
-
-		/*
-		for (Usuario usuario : lista) {
-			if (usuario.getIdUsuario() == 7) {
-				usuarioR.setId(usuario.getIdUsuario());
-				usuarioR.setName(usuario.getNombres());;
-				usuarioR.setPassword(usuario.getPassword());;
-			}
-		}*/
-	
-		return null;
-	}
-
 }

@@ -39,43 +39,53 @@ public class RestApi {
 	 * 
 	 */	
 	
-	@GET
-	@Path("{auth}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String hello(@PathParam("auth") String auth, @QueryParam("user") String name,@QueryParam("psswr") String passw, @Context UriInfo uriInfo) throws NamingException {
-		
-		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-
-		String from = uriInfo.getQueryParameters().getFirst("user");
-		    // In case you want to get the whole generated string
-		    String query = uriInfo.getRequestUri().getQuery();
-
-		    String output = "QueryParams: " + queryParams 
-		            + "<br> Keys: " + queryParams.keySet() 
-		            + "<br> Values: " + queryParams.values()
-		            + "<br> Query: " + query;
-		    
-		String text = new GestorSolicitudes().getUser(name, passw);
-		
-		return "AccesToken";
-		
-		// return name;
-	}
-
-
-	/*
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response */
-	
-	/*
+	//Funciona
 	@GET
 	@Path("{auth}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUsr() throws NamingException{
+	public String getUsrGate(
+			@QueryParam("user") String name,
+			@QueryParam("psswr") String passw, 
+			@Context UriInfo uriInfo) throws NamingException {
+		    		
+		return new ControladorSrv().validarUsr(name, passw);
+	}
 	
-		return new ControladorSrv().traerUsuariosInd();
+	@GET
+	@Path("{add}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getUsr(
+			@QueryParam("name") String name,
+			@QueryParam("lName") String lName,
+			@QueryParam("user") String usr,
+			@QueryParam("psswr") String pass,
+			@Context UriInfo uriInfo)
+			throws NamingException{
 		
-	}*/
+		return new ControladorSrv().addUsr(name, lName, usr, pass);
+				
+	}
+	
+//	@GET
+//	@Path("{test}")
+//	public String hello(@Context UriInfo uriInfo) throws NamingException {
+	
+//	MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+//
+//	String from = uriInfo.getQueryParameters().getFirst("user");
+//	    // In case you want to get the whole generated string
+//	    String query = uriInfo.getRequestUri().getQuery();
+//
+//	    String output = "QueryParams: " + queryParams 
+//	            + "<br> Keys: " + queryParams.keySet() 
+//	            + "<br> Values: " + queryParams.values()
+//	            + "<br> Query: " + query;
+//		
+//		//String text = new GestorSolicitudes().getUser("carl123", "crl2020");
+//		return "Entroooo";
+//
+//	}
+
+
 
 }
