@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,7 +44,7 @@ public class RestApi {
 	@GET
 	@Path("{auth}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUsrGate(
+	public String getUsr(
 			@QueryParam("user") String name,
 			@QueryParam("psswr") String passw, 
 			@Context UriInfo uriInfo) throws NamingException {
@@ -51,10 +52,14 @@ public class RestApi {
 		return new ControladorSrv().validarUsr(name, passw);
 	}
 	
-	@GET
+	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para
+	//iniciar el proceso de creacion de cuenta 
+	//Entrada: Atributos de creacion de cuenta de usuario
+	//Salida: Str respuesta si se agrego o no
+	@POST
 	@Path("{add}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getUsr(
+	public String addUsr(
 			@QueryParam("name") String name,
 			@QueryParam("lName") String lName,
 			@QueryParam("user") String usr,

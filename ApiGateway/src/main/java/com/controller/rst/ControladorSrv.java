@@ -37,45 +37,48 @@ public class ControladorSrv {
 
 		Usuario usrRest = new Usuario();
 
-		for (Entry<String, String> entry : usuario.entrySet()) {
-
-			switch (entry.getKey()) {
-			case "Id":
-				usrRest.setId(Integer.valueOf(entry.getValue()));
-				break;
-
-			case "Nombre":
-				usrRest.setName(entry.getValue());
-				break;
-
-			case "Apellido":
-				usrRest.setSecondName(entry.getValue());
-				break;
-
-			case "UserName":
-				usrRest.setUserName(entry.getValue());
-				break;
-
-			case "Password":
-				usrRest.setPassword(entry.getValue());
-				break;
-
-			default:
-
-				// Print statement corresponding case
-				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
-
+		if (usuario != null) {
+			for (Entry<String, String> entry : usuario.entrySet()) {
+	
+				switch (entry.getKey()) {
+				case "Id":
+					usrRest.setId(Integer.valueOf(entry.getValue()));
+					break;
+	
+				case "Nombre":
+					usrRest.setName(entry.getValue());
+					break;
+	
+				case "Apellido":
+					usrRest.setSecondName(entry.getValue());
+					break;
+	
+				case "UserName":
+					usrRest.setUserName(entry.getValue());
+					break;
+	
+				case "Password":
+					usrRest.setPassword(entry.getValue());
+					break;
+	
+				default:
+	
+					// Print statement corresponding case
+					throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+	
+				}
 			}
-
 		}
 
 		Integer id = usrRest.getId();
 		if (id != null) {
 
 			usrRest.setIsValid(true);
+			return usrRest;
 
 		}
-		return usrRest;
+		
+		return null;
 
 	}
 

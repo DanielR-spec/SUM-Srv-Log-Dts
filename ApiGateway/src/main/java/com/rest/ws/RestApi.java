@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -54,7 +55,7 @@ public class RestApi {
 		
 	}
 	
-	@GET
+	@POST
 	@Path("{add}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addUsr(

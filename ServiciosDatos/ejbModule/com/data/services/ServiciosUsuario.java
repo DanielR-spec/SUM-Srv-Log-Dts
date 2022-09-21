@@ -57,9 +57,9 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
 		if (user == null) {
 		entityManager.persist(usr);
-		return "insertado";
+		return "usuario insertado";
 		} else
-		return "existe";
+		return "usuario existe";
 
 	}
 
