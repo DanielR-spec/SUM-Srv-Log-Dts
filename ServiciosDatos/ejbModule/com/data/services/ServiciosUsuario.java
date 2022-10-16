@@ -49,6 +49,24 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 
 	}
 	
+    //BUSCAR USUARIO POR ID, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
+	// READ Funciona
+	@Override
+	public List<Usuario> findUsuarioById(String id) {
+		// TODO Auto-generated method stub
+		String consulta = "SELECT e FROM Usuario e WHERE  e.id = :ID";
+		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
+		query.setParameter("ID", Integer.parseInt(id));
+		query.setMaxResults(1);
+		List<Usuario> resultList = query.getResultList();
+		
+		if (resultList.size()==0) {
+			return null;
+		}
+		return resultList;
+
+	}
+	
     //AGREGAR USUARIO, AGREGA UN USARIO NUEVO RETORNA LA LISTA DE USUARIOS ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
 	// CREATE Funciona
 	@Override
@@ -77,7 +95,6 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		return resultList;
 	}
 	
-
     //ELIMINAR USUARIOS, ELIMINA EL USUARIO, PENSAR EN LA LOGICA DE ID
 	// DELETE Funciona
 	@Override
@@ -94,7 +111,7 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 
 	}
 	
-    //ACTUALIZAR USUARIOS, ACTUALIZA LA INFORMACI[ON DE LOS USUARIOS
+    //ACTUALIZAR USUARIOS, ACTUALIZA LA INFORMACION DE LOS USUARIOS
 	// UPDATE Funciona
 	@Override
 	public String updateUsuario(Usuario usr) {
@@ -120,11 +137,7 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		String consulta ="SELECT p FROM Usuario p";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
 		List<Usuario> resultList = query.getResultList();
-		if (resultList.size()==0) {
-			return 0;
-		}
-		
-	
+
 		return resultList.size();
 	}
 }

@@ -13,7 +13,7 @@ public class UsuarioDao {
 	
 	public UsuarioDao(int id, String name, String password) {
 		super();
-		Id = id;
+		this.Id = id;
 		this.name = name;
 		this.password = password;
 	}

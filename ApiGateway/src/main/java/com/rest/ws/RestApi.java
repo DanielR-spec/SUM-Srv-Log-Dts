@@ -12,6 +12,7 @@ import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -68,6 +69,35 @@ public class RestApi {
 		
 		return new ControladorSrv().addUser(name, lName, usr, pass);
 		
+		
+	}
+	
+	@PUT
+	@Path("{upd}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updUsr(
+			@QueryParam("id") String id,
+			@QueryParam("name") String name,
+			@QueryParam("lName") String lName,
+			@QueryParam("user") String usr,
+			@QueryParam("psswr") String pass,
+			@Context UriInfo uriInfo)
+			throws NamingException{
+		
+		return new ControladorSrv().updUser(id, name, lName, usr, pass);
+		
+		
+	}
+	
+	@GET
+	@Path("{del}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String delUsr(
+			@QueryParam("id") String id, 
+			@Context UriInfo uriInfo) 
+			throws NamingException{
+		
+		return new ControladorSrv().delUser(id);
 		
 	}
 

@@ -99,6 +99,40 @@ public class ControladorSrv {
 
 	}
 
+	public String updUser(String id, String name, String lName, String usr, String pss) {
+
+		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
+		
+		HashMap<String, String> user = new HashMap<String, String>();
+		
+		user.put("id", id);
+		user.put("nombres", name);
+		user.put("apellidos", lName);
+		user.put("usuario", usr);
+		user.put("contrasena", pss);
+		
+		String res = fachadaLog.updUser(user);
+		
+		return res;
+
+	}
+
+	public String delUser(String id) {
+
+		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
+
+		if (fachadaLog.getUserById(id) != null) {
+			String res = fachadaLog.delUsr(fachadaLog.getUserById(id));
+			if (res != null) {
+
+				return res;
+
+			}
+		}
+
+		return "No funciono";
+
+	}
 
 //FUNCIONES AUXILIARES
 	public ServiciosLogicaUsuarioRemote lczFachada() {

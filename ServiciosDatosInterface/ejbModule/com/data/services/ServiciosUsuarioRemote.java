@@ -15,5 +15,6 @@ public interface ServiciosUsuarioRemote {
 	public String delUsuario(Usuario usr);
 	public String updateUsuario(Usuario usr);
 	public int getId();
+	public List<Usuario> findUsuarioById(String id);
 
 }
