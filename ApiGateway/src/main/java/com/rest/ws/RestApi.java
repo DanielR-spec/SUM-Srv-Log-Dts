@@ -44,53 +44,59 @@ public class RestApi {
 
 	
 	@GET
-	@Path("{auth}")
+	@Path("/auth")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario getUsr(
-			@QueryParam("user") String usr,
-			@QueryParam("psswr") String pass, 
+			@QueryParam("correo") String correo,
+			@QueryParam("clave") String clave, 
 			@Context UriInfo uriInfo) 
 			throws NamingException{
 		
-		return new ControladorSrv().validateUser(usr, pass);
+		return new ControladorSrv().validateUser(correo, clave);
 		
 	}
 	
 	@POST
-	@Path("{add}")
+	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addUsr(
-			@QueryParam("name") String name,
-			@QueryParam("lName") String lName,
-			@QueryParam("user") String usr,
-			@QueryParam("psswr") String pass,
+			@QueryParam("nombres") String nombres,
+			@QueryParam("apellidos") String apellidos,
+			@QueryParam("correo") String correo,
+			@QueryParam("clave") String clave,
+			@QueryParam("cell") String cell,
+			@QueryParam("doc") String doc,
+			@QueryParam("direccion") String direccion,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new ControladorSrv().addUser(name, lName, usr, pass);
+		return new ControladorSrv().addUser(nombres, apellidos, correo, clave, cell, doc, direccion);
 		
 		
 	}
 	
 	@PUT
-	@Path("{upd}")
+	@Path("/upd")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String updUsr(
 			@QueryParam("id") String id,
-			@QueryParam("name") String name,
-			@QueryParam("lName") String lName,
-			@QueryParam("user") String usr,
-			@QueryParam("psswr") String pass,
+			@QueryParam("nombres") String nombres,
+			@QueryParam("apellidos") String apellidos,
+			@QueryParam("correo") String correo,
+			@QueryParam("clave") String clave,
+			@QueryParam("cell") String cell,
+			@QueryParam("doc") String doc,
+			@QueryParam("direccion") String direccion,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new ControladorSrv().updUser(id, name, lName, usr, pass);
+		return new ControladorSrv().updUser(id, nombres, apellidos, correo, clave, cell, doc, direccion);
 		
 		
 	}
 	
 	@GET
-	@Path("{del}")
+	@Path("/del")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String delUsr(
 			@QueryParam("id") String id, 

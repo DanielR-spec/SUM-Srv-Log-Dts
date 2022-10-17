@@ -36,11 +36,11 @@ public class GestorSolicitudes {
 	 *FUNCION PARA VALIDAR USUARIO 
 	 */
 	//Funciona
-	public String getUser (String usr, String pss) {
+	public String getUser (String correo, String clave) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURI(1)).queryParam("user", usr).queryParam("psswr", pss);
+		WebTarget target = client.target(getBaseURI(1)).queryParam("correo", correo).queryParam("clave", clave);
 		
 		String response = target.request()
 				.accept(MediaType.APPLICATION_JSON)
@@ -58,16 +58,25 @@ public class GestorSolicitudes {
 	 *FUNCION PARA AGREGAR USUARIO 
 	 */
 	//...
-	public String addUser (String name, String lName, String usr, String pss) {
+	public String addUser (String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(
 				getBaseURI(2)).
-				queryParam("name", name).
-				queryParam("lName", lName).
-				queryParam("user", usr).
-				queryParam("psswr", pss);
+				queryParam("nombres", nombres).
+				queryParam("apellidos", apellidos).
+				queryParam("correo", correo).
+				queryParam("clave", clave).
+				queryParam("cell", cell).
+				queryParam("doc", doc).
+				queryParam("direccion", direccion);
 		
 		Response response = target.request()
 				.accept(MediaType.TEXT_PLAIN)
@@ -81,19 +90,28 @@ public class GestorSolicitudes {
 	 *FUNCION PARA ACTUALIZAR USUARIO 
 	 */
 	//...
-	public String updUser (String id, String name, String lName, String usr, String pss) {
-		
-		UsuarioDao user = new UsuarioDao(Integer.parseInt(id), usr, pss);
-	
+	public String updUser (String id, 
+			String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) {
+			
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(
 				getBaseURI(3)).
 				queryParam("id", id).
-				queryParam("name", name).
-				queryParam("lName", lName).
-				queryParam("user", usr).
-				queryParam("psswr", pss);
+				queryParam("nombres", nombres).
+				queryParam("apellidos", apellidos).
+				queryParam("correo", correo).
+				queryParam("clave", clave).
+				queryParam("cell", cell).
+				queryParam("doc", doc).
+				queryParam("direccion", direccion);
+		
 		Entity<?> empty = Entity.text("");
 		Response response = target.request()
 				.accept(MediaType.TEXT_PLAIN)

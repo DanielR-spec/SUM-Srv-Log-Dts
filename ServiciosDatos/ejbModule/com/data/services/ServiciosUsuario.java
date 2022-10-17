@@ -33,12 +33,12 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
     //BUSCAR USUARIO, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
 	// READ Funciona
 	@Override
-	public List<Usuario> findUsuario(String usrName, String pass) {
+	public List<Usuario> findUsuario(String correo, String clave) {
 		// TODO Auto-generated method stub
-		String consulta = "SELECT e FROM Usuario e WHERE  e.username = :userName AND e.password = :passWord";
+		String consulta = "SELECT e FROM Usuario e WHERE  e.correo = :correo AND e.clave = :clave";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
-		query.setParameter("userName", usrName);
-		query.setParameter("passWord", pass);
+		query.setParameter("correo", correo);
+		query.setParameter("clave", clave);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
 		
@@ -52,11 +52,11 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
     //BUSCAR USUARIO POR ID, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
 	// READ Funciona
 	@Override
-	public List<Usuario> findUsuarioById(String id) {
+	public List<Usuario> findUsuarioById(int id) {
 		// TODO Auto-generated method stub
-		String consulta = "SELECT e FROM Usuario e WHERE  e.id = :ID";
+		String consulta = "SELECT e FROM Usuario e WHERE  e.idUsuario = :idUsuario";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
-		query.setParameter("ID", Integer.parseInt(id));
+		query.setParameter("idUsuario", id);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
 		

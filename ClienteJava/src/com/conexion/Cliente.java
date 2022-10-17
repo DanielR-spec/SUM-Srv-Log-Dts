@@ -26,8 +26,8 @@ public class Cliente {
 		newUsuario.setIdUsuario(9);
 		newUsuario.setNombres("Lelo");
 		newUsuario.setApellidos("Lola");
-		newUsuario.setUsername("king12");
-		newUsuario.setPassword("kong12");
+		newUsuario.setCorreo("king12");
+		newUsuario.setClave("kong12");
 		String res = dt.addUsuario(newUsuario);
 		
 		System.out.println(res);
@@ -48,9 +48,19 @@ public class Cliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("Inicia prueba de agregar usuario");
-		System.out.println(new Cliente().addUsr(fachadaData));
+
+		System.out.println("Inicia prueba de buscar usuario por id");
+		List<Usuario> lista2 = fachadaData.findUsuarioById(2);
+		List<Usuario> lista = fachadaData.findUsuario("luliot","lucas");
+
+		if (lista2 == null) {
+			System.out.println("Usuario no existe");
+		} else {
+			for (Usuario user : lista2) {
+				System.out.print(user.getNombres() + "\n");
+			}
+
+		}
 
 		// Invocar el servicio usando la referencia remota
 		// Buscar usuario READ List Funciona

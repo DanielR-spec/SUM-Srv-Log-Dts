@@ -27,32 +27,58 @@ public class ControladorSrv {
 	 *FUNCION PARA VALIDAR USUARIO 
 	 */
 	//Funciona
-	public String validarUsr(String usuario, String clave) throws NamingException {
+	public String validarUsr(String correo, String clave) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.getUser(usuario,clave);
+		return gestorSolicitudes.getUser(correo, clave);
 		
 	}
 	/**
 	 *FUNCION PARA AGREGAR USUARIO 
 	 */
 	//...
-	public String addUsr(String name, String lName, String usr, String pss) throws NamingException {
+	public String addUsr(String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.addUser(name, lName, usr, pss);
+		return gestorSolicitudes.addUser(nombres, 
+											apellidos, 
+											correo, 
+											clave, 
+											cell, 
+											doc, 
+											direccion);
 	}
 	/**
 	 *FUNCION PARA ACRUALIZAR USUARIO 
 	 */
 	//...
-	public String updUsr(String id, String name, String lName, String usr, String pss) throws NamingException {
+	public String updUsr(String id, 
+			String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.updUser(id, name, lName, usr, pss);
+		return gestorSolicitudes.updUser(id, 
+										nombres, 
+										apellidos, 
+										correo, 
+										clave, 
+										cell, 
+										doc, 
+										direccion);
 	}
 	/**
 	 *FUNCION PARA ACRUALIZAR USUARIO 

@@ -29,11 +29,11 @@ public class ControladorSrv {
 	
 //FUNCIONES PRINCIPALES
 
-	public Usuario validateUser(String usr, String pss) {
+	public Usuario validateUser(String correo, String clave) {
 
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 
-		HashMap<String, String> usuario = fachadaLog.getUser(usr, pss);
+		HashMap<String, String> usuario = fachadaLog.getUser(correo, clave);
 
 		Usuario usrRest = new Usuario();
 
@@ -42,23 +42,32 @@ public class ControladorSrv {
 	
 				switch (entry.getKey()) {
 				case "Id":
-					usrRest.setId(Integer.valueOf(entry.getValue()));
+					usrRest.setId(Integer.parseInt(entry.getValue()));
 					break;
 	
-				case "Nombre":
-					usrRest.setName(entry.getValue());
+				case "Nombres":
+					usrRest.setNombres(entry.getValue());
 					break;
 	
-				case "Apellido":
-					usrRest.setSecondName(entry.getValue());
+				case "Apellidos":
+					usrRest.setApellidos(entry.getValue());
 					break;
 	
-				case "UserName":
-					usrRest.setUserName(entry.getValue());
+				case "Correo":
+					usrRest.setCorreo(entry.getValue());
 					break;
 	
-				case "Password":
-					usrRest.setPassword(entry.getValue());
+				case "Clave":
+					usrRest.setClave(entry.getValue());
+					break;
+				case "Cell":
+					usrRest.setCell(entry.getValue());
+					break;
+				case "Doc":
+					usrRest.setDoc(entry.getValue());
+					break;
+				case "Direccion":
+					usrRest.setDireccion(entry.getValue());
 					break;
 	
 				default:
@@ -73,7 +82,7 @@ public class ControladorSrv {
 		Integer id = usrRest.getId();
 		if (id != null) {
 
-			usrRest.setIsValid(true);
+			usrRest.setValid(true);
 			return usrRest;
 
 		}
@@ -82,16 +91,25 @@ public class ControladorSrv {
 
 	}
 
-	public String addUser(String name, String lName, String usr, String pss) {
+	public String addUser(String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) {
 
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 		
 		HashMap<String, String> user = new HashMap<String, String>();
 		
-		user.put("nombres", name);
-		user.put("apellidos", lName);
-		user.put("usuario", usr);
-		user.put("contrasena", pss);
+		user.put("nombres", nombres);
+		user.put("apellidos", apellidos);
+		user.put("correo", correo);
+		user.put("clave", clave);
+		user.put("cell", cell);
+		user.put("doc", doc);
+		user.put("direccion", direccion);
 		
 		String res = fachadaLog.addUser(user);
 		
@@ -99,17 +117,27 @@ public class ControladorSrv {
 
 	}
 
-	public String updUser(String id, String name, String lName, String usr, String pss) {
+	public String updUser(String id, 
+			String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) {
 
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 		
 		HashMap<String, String> user = new HashMap<String, String>();
 		
 		user.put("id", id);
-		user.put("nombres", name);
-		user.put("apellidos", lName);
-		user.put("usuario", usr);
-		user.put("contrasena", pss);
+		user.put("nombres", nombres);
+		user.put("apellidos", apellidos);
+		user.put("correo", correo);
+		user.put("clave", clave);
+		user.put("cell", cell);
+		user.put("doc", doc);
+		user.put("direccion", direccion);
 		
 		String res = fachadaLog.updUser(user);
 		

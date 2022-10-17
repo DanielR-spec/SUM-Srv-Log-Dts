@@ -15,9 +15,12 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idUsuario;
 	private String apellidos;
+	private String cell;
+	private String clave;
+	private String correo;
+	private String direccion;
+	private String doc;
 	private String nombres;
-	private String password;
-	private String username;
 
 	public Usuario() {
 	}
@@ -43,30 +46,57 @@ public class Usuario implements Serializable {
 	}
 
 
+	public String getCell() {
+		return this.cell;
+	}
+
+	public void setCell(String cell) {
+		this.cell = cell;
+	}
+
+
+	public String getClave() {
+		return this.clave;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+
+
+	public String getCorreo() {
+		return this.correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+
+	public String getDireccion() {
+		return this.direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public String getDoc() {
+		return this.doc;
+	}
+
+	public void setDoc(String doc) {
+		this.doc = doc;
+	}
+
+
 	public String getNombres() {
 		return this.nombres;
 	}
 
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
-	}
-
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 }
