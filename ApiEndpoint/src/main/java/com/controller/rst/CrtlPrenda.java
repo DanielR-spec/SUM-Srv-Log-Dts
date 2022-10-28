@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
-
 import com.conexion.rst.GestorSolicitudes;
 import com.rest.ws.UsuarioDao;
 
@@ -16,60 +15,73 @@ import com.rest.ws.UsuarioDao;
  * @author danie
  *
  */
-public class ControladorSrv {
+public class CrtlPrenda {
 
 	/**
 	 * 
 	 */
-	public ControladorSrv() {
+	public CrtlPrenda() {
 		// TODO Auto-generated constructor stub
 	}
-
 	/**
-	 * FUNCION PARA VALIDAR USUARIO
+	 *FUNCION PARA VALIDAR USUARIO 
 	 */
-	// Funciona
+	//Funciona
 	public String validarUsr(String correo, String clave) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
 		return gestorSolicitudes.getUser(correo, clave);
-
+		
 	}
-
 	/**
-	 * FUNCION PARA AGREGAR USUARIO
+	 *FUNCION PARA AGREGAR USUARIO 
 	 */
-	// ...
-	public String addUsr(String nombres, String apellidos, String correo, String clave, String cell, String doc,
-			String direccion, String tipo) throws NamingException {
+	//...
+	public String addPrnd(String tipo,
+			String genero,
+			String ruta,
+			BitSet imagen) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.addUser(nombres, apellidos, correo, clave, cell, doc, direccion, tipo);
+		return gestorSolicitudes.addPrenda(tipo, genero, ruta, imagen);
 	}
-
 	/**
-	 * FUNCION PARA ACRUALIZAR USUARIO
+	 *FUNCION PARA ACRUALIZAR USUARIO 
 	 */
-	// ...
-	public String updUsr(String id, String nombres, String apellidos, String correo, String clave, String cell,
-			String doc, String direccion) throws NamingException {
+	//...
+	public String updUsr(String id, 
+			String nombres,
+			String apellidos,
+			String correo,
+			String clave,
+			String cell,
+			String doc,
+			String direccion) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.updUser(id, nombres, apellidos, correo, clave, cell, doc, direccion);
+		return gestorSolicitudes.updUser(id, 
+										nombres, 
+										apellidos, 
+										correo, 
+										clave, 
+										cell, 
+										doc, 
+										direccion);
 	}
-
 	/**
-	 * FUNCION PARA ACRUALIZAR USUARIO
+	 *FUNCION PARA ACRUALIZAR USUARIO 
 	 */
-	// ...
+	//...
 	public String delUsr(String id) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
 		return gestorSolicitudes.delUser(id);
-	}
+	}	
+	
+	
 
 }

@@ -61,7 +61,7 @@ public class UserApiMov {
 		
 		
 		//Pasar el String a JSON
-		String respServ = new ControladorSrv().addUsr(nombres, apellidos, correo, clave, cell, doc, direccion);
+		String respServ = new ControladorSrv().addUsr(nombres, apellidos, correo, clave, cell, doc, direccion, "P");
 		
 		return respServ; 
 				

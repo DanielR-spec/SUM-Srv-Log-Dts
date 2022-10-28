@@ -1,0 +1,33 @@
+package com.data.services;
+
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import com.model.ent.CategoriaPrenda;
+import com.model.ent.Prenda;
+import com.model.ent.TipoUsuario;
+import com.model.ent.Usuario;
+
+@Remote
+public interface ServiciosPrendaRemote {
+
+	public String addPrenda(Prenda prnd);
+
+	public List<Prenda> findPrendaById(int id);
+
+	public void addPrendaCategoria(CategoriaPrenda categoria);
+
+	public List<Prenda> getAllPrendas();
+
+	public String delPrenda(Prenda prnd);
+
+	public String delCategoriaPrenda(int id);
+
+	public String updatePrenda(Prenda prnd);
+
+	public int getId();
+	
+	
+
+}

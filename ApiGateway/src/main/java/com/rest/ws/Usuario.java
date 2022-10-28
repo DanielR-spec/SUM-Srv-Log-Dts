@@ -9,9 +9,6 @@ package com.rest.ws;
  */
 public class Usuario {
 	
-	/**
-	 * 
-	 */
 	private int id;
 	private String nombres;
 	private String apellidos;
@@ -166,5 +163,5 @@ public class Usuario {
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
 	}
-	
+
 }

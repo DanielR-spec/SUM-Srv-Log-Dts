@@ -3,15 +3,32 @@
  */
 package com.rest.ws;
 
+import java.awt.image.BufferedImage;
 import java.io.Console;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.naming.NamingException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument.Content;
+import javax.validation.constraints.NotEmpty;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -20,23 +37,32 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.process.internal.RequestScoped;
+
 import jersey.repackaged.org.*;
 
 import com.conexion.rst.GestorSolicitudes;
 import com.controller.rst.ControladorSrv;
+import com.controller.rst.CrtlPrenda;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
 /**
  * @author danie
  *
  */
-@Path("/user")
-public class RestApi {
+@Path("/prenda")
+public class RestApiPrenda {
 
 	/**
 	 * @param uriInfo 
@@ -57,30 +83,67 @@ public class RestApi {
 	}
 	
 	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para
-	//iniciar el proceso de creacion de cuenta 
-	//Entrada: Atributos de creacion de cuenta de usuario
+	//iniciar el proceso de creacion de prenda
+	//Entrada: Atributos de creacion de prenda de usuario
 	//Salida: Str respuesta si se agrego o no
 	@POST
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String addUsr(
-			@QueryParam("nombres") String nombres,
-			@QueryParam("apellidos") String apellidos,
-			@QueryParam("correo") String correo,
-			@QueryParam("clave") String clave,
-			@QueryParam("cell") String cell,
-			@QueryParam("doc") String doc,
-			@QueryParam("direccion") String direccion,
-			@Context UriInfo uriInfo)
+	@Consumes({MediaType.MULTIPART_FORM_DATA})
+	public String addPrnd(@FormDataParam("imagen") InputStream imagen)
 			throws NamingException{
+		String UPLOAD_PATH = "c:/temp/";
+		  try
+		  {
+		    int read = 0;
+		    byte[] bytes = new byte[1024];
+		 
+		    OutputStream out = new FileOutputStream(new File(UPLOAD_PATH + "img"));
+		    while ((read = imagen.read(bytes)) != -1) 
+		    {
+		      out.write(bytes, 0, read);
+		    }
+		    out.flush();
+		    out.close();
+		  } catch (IOException e) 
+		  {
+		    throw new WebApplicationException("Error while uploading file. Please try again !!");
+		  }
+//		   try {
+//				BufferedImage img = ImageIO.read(imagen);
+//				JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(img)));
+//				  
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		  return "Ok";
 		
+				
 		
 		//Pasar el String a JSON
-		String respServ = new ControladorSrv().addUsr(nombres, apellidos, correo, clave, cell, doc, direccion, "E");
+		//String respServ = new CrtlPrenda().addPrnd(tipo, genero, ruta, imagen);
 		
-		return respServ; 
+//		System.out.println("Tipo: " + tipo);
+//	    System.out.println("Genero: " + genero);
+//	    System.out.println("Ruta: " + ruta);
+//	    
+//	    System.out.println("Imagen...");
+//		
+//		 try {
+//			BufferedImage img = ImageIO.read(imagen);
+//			JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(img)));
+//			  
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        
+//        return Response.ok("Cool Tools!").build();
+//		
 				
 	}
+	
 	
 	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para
 	//iniciar el proceso de actualización de cuenta 

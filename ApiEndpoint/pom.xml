@@ -23,6 +23,11 @@
 			<version>2.35</version>
 		</dependency>
 		<dependency>
+    	<groupId>org.glassfish.jersey.media</groupId>
+    		<artifactId>jersey-media-multipart</artifactId>
+    		<version>2.35</version>
+		</dependency>
+		<dependency>
 			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-naming-client</artifactId>
 			<version>1.0.7.Final</version>

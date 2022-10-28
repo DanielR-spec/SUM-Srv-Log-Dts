@@ -12,7 +12,9 @@ import javax.naming.NamingException;
 
 import com.conexion.srv.LocalizadorServicios;
 import com.data.services.ServiciosUsuarioRemote;
-import com.data.user.Usuario;
+import com.model.ent.TipoUsuario;
+import com.model.ent.Usuario;
+
 
 /**
  * Session Bean implementation class ServiciosLogicaUsuario
@@ -99,6 +101,8 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 		ServiciosUsuarioRemote fachadaDat = lczFachada();
 
 		Usuario tstUser = new Usuario();
+		String tipo = "";
+		TipoUsuario userTp = new TipoUsuario();
 
 		// iterating through key/value mappings
 		System.out.print("Entries: ");
@@ -140,6 +144,11 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 				tstUser.setDireccion(entry.getValue());
 				break;
 			}
+			case "tipo": {
+
+				tipo = entry.getValue();
+				break;
+			}
 
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
@@ -150,13 +159,22 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 		tstUser.setIdUsuario(getId());
 
 		try {
-			return fachadaDat.addUsuario(tstUser);
+			String resultado = fachadaDat.addUsuario(tstUser);
+
+			if (resultado.equals("usuario insertado")) {
+				userTp.setIdTipoUsuario(tstUser.getIdUsuario());
+				userTp.setTipoUsuario(tipo);
+				fachadaDat.addUsuarioTipo(userTp);
+
+				return "Usuario registrado existosamente";
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			return "No se pudo agregar al usuario por el error:" + e;
 
 		}
+		return "Error agregando tipo de usuario";
 	}
 
 	// METODO PARA ACTUALIZAR USUARIO, RETORNA MSN DE CONFIRMACION SI SE ACTUALIZO O
@@ -192,7 +210,6 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 
 		// TODO Auto-generated method stub
 		ServiciosUsuarioRemote fachadaDat = lczFachada();
-
 		Usuario tstUser = new Usuario();
 
 		// iterating through key/value mappings
@@ -248,7 +265,11 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 		}
 
 		try {
-			return fachadaDat.delUsuario(tstUser);
+			//COMENTARIO: SE ESTA ELIMINANDO EL HIJO Y EN CASCADA SE ELIMINA EL PADRES 
+			//POR LA REFERENCIA DEL LA LLAVE FORANEA
+			//LA ENTIDAD USUARIO SE ELIMINA AUTOMATICAMENTE
+			String res = fachadaDat.delTipoUsuario(tstUser.getIdUsuario());
+			return res;
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -279,9 +300,7 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 
 		if (auxUser == null) {
 			System.out.println("Usuario no existe");
-		} 
-		else 
-		{
+		} else {
 			for (Usuario usuario : auxUser) {
 				cliente.setNombres(usuario.getNombres());
 				cliente.setApellidos(usuario.getApellidos());

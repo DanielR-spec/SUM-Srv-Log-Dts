@@ -2,7 +2,12 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="Entidades">
 		<jta-data-source>java:/MysqlXADS</jta-data-source>
-		<class>com.data.user.Prenda</class>
-		<class>com.data.user.Usuario</class>
+		<class>com.model.ent.Carrito</class>
+		<class>com.model.ent.CategoriaPrenda</class>
+		<class>com.model.ent.Donacion</class>
+		<class>com.model.ent.Prenda</class>
+		<class>com.model.ent.TipoUsuario</class>
+		<class>com.model.ent.UbicacionUsuario</class>
+		<class>com.model.ent.Usuario</class>
 	</persistence-unit>
 </persistence>

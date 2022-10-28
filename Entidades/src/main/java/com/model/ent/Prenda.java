@@ -1,7 +1,8 @@
-package com.data.user;
+package com.model.ent;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -9,13 +10,12 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="prenda")
 @NamedQuery(name="Prenda.findAll", query="SELECT p FROM Prenda p")
 public class Prenda implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idPrenda;
-	private String rutaImg;
-	private int userId;
+	private int idUsuario;
+	private String imageUrl;
 
 	public Prenda() {
 	}
@@ -32,23 +32,25 @@ public class Prenda implements Serializable {
 	}
 
 
-	@Column(name="ruta_img")
-	public String getRutaImg() {
-		return this.rutaImg;
+	@Column(name="id_usuario")
+	public int getIdUsuario() {
+		return this.idUsuario;
 	}
 
-	public void setRutaImg(String rutaImg) {
-		this.rutaImg = rutaImg;
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 
-	@Column(name="user_id")
-	public int getUserId() {
-		return this.userId;
+	@Column(name="image_url")
+	public String getImageUrl() {
+		return this.imageUrl;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
+
+
 
 }

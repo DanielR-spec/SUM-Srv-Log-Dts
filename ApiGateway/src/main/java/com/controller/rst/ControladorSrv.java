@@ -97,7 +97,8 @@ public class ControladorSrv {
 			String clave,
 			String cell,
 			String doc,
-			String direccion) {
+			String direccion,
+			String tipo) {
 
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 		
@@ -110,6 +111,7 @@ public class ControladorSrv {
 		user.put("cell", cell);
 		user.put("doc", doc);
 		user.put("direccion", direccion);
+		user.put("tipo", tipo);
 		
 		String res = fachadaLog.addUser(user);
 		

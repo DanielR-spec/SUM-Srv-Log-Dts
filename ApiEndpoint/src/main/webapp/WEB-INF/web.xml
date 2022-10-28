@@ -26,7 +26,10 @@
   <filter>
     <filter-name>CORS</filter-name>
     <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
-
+	<init-param>
+    	<param-name>jersey.config.server.provider.classnames</param-name>
+    	<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+	</init-param>
     <init-param>
         <param-name>cors.allowOrigin</param-name>
         <param-value>*</param-value>

@@ -4,6 +4,7 @@
 package com.conexion.rst;
 
 import java.net.URI;
+import java.util.BitSet;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
+import org.xnio.Bits;
 
 import com.rest.ws.UsuarioDao;
 
@@ -64,7 +66,8 @@ public class GestorSolicitudes {
 			String clave,
 			String cell,
 			String doc,
-			String direccion) {
+			String direccion,
+			String tipo) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
@@ -76,7 +79,8 @@ public class GestorSolicitudes {
 				queryParam("clave", clave).
 				queryParam("cell", cell).
 				queryParam("doc", doc).
-				queryParam("direccion", direccion);
+				queryParam("direccion", direccion).
+				queryParam("tipo", tipo);
 		
 		Response response = target.request()
 				.accept(MediaType.TEXT_PLAIN)
@@ -142,14 +146,41 @@ public class GestorSolicitudes {
 		return response;
 		
 	}  
-
+	/**
+	 *FUNCION PARA AGREGAR PRENDA 
+	 */
+	//...
+	public String addPrenda (String tipo,
+			String genero,
+			String ruta,
+			BitSet imagen) {
+	
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(
+				getBaseURI(2)).
+				queryParam("tipo", tipo).
+				queryParam("genero", genero).
+				queryParam("ruta", ruta).
+				queryParam("imagen", imagen);
+		
+		Response response = target.request()
+				.accept(MediaType.TEXT_PLAIN)
+				.post(null);
+				
+			
+		return response.readEntity(String.class);
+		
+	}
+	
+	//FUNCIONES AUXILIARES 
 	private static URI getBaseURI(int option) {
 		
 			switch (option) {
 			case 1:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/auth").build();
 			case 2:
-		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/add").build();
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/add").build();
 			case 3:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/upd").build();
 			case 4:

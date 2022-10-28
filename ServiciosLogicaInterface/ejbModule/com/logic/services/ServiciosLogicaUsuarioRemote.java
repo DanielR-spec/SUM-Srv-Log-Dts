@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import com.data.user.Usuario;
 
 
 @Remote

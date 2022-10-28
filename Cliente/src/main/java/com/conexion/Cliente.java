@@ -5,8 +5,8 @@ import java.util.List;
 import javax.naming.NamingException;
 
 import com.data.services.ServiciosUsuarioRemote;
-import com.data.user.Usuario;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.model.ent.Usuario;
 
 public class Cliente {
 

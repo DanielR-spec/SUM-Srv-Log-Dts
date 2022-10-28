@@ -1,7 +1,8 @@
-package com.data.user;
+package com.model.ent;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -9,7 +10,6 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="usuario")
 @NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -21,6 +21,10 @@ public class Usuario implements Serializable {
 	private String direccion;
 	private String doc;
 	private String nombres;
+	private TipoUsuario tipoUsuario;
+	private List<Carrito> carritos;
+	private UbicacionUsuario ubicacionUsuario;
+	private Donacion donacion;
 
 	public Usuario() {
 	}
@@ -97,6 +101,64 @@ public class Usuario implements Serializable {
 
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
+	}
+
+
+	//bi-directional one-to-one association to TipoUsuario
+	@OneToOne(mappedBy="usuario")
+	public TipoUsuario getTipoUsuario() {
+		return this.tipoUsuario;
+	}
+
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+
+
+	//bi-directional many-to-one association to Carrito
+	@OneToMany(mappedBy="usuario")
+	public List<Carrito> getCarritos() {
+		return this.carritos;
+	}
+
+	public void setCarritos(List<Carrito> carritos) {
+		this.carritos = carritos;
+	}
+
+	public Carrito addCarrito(Carrito carrito) {
+		getCarritos().add(carrito);
+		carrito.setUsuario(this);
+
+		return carrito;
+	}
+
+	public Carrito removeCarrito(Carrito carrito) {
+		getCarritos().remove(carrito);
+		carrito.setUsuario(null);
+
+		return carrito;
+	}
+
+
+	//bi-directional one-to-one association to UbicacionUsuario
+	@OneToOne(mappedBy="usuario")
+	public UbicacionUsuario getUbicacionUsuario() {
+		return this.ubicacionUsuario;
+	}
+
+	public void setUbicacionUsuario(UbicacionUsuario ubicacionUsuario) {
+		this.ubicacionUsuario = ubicacionUsuario;
+	}
+
+
+	//bi-directional one-to-one association to Donacion
+	@OneToOne(mappedBy="usuario")
+	public Donacion getDonacion() {
+		return this.donacion;
+	}
+
+	public void setDonacion(Donacion donacion) {
+		this.donacion = donacion;
 	}
 
 }

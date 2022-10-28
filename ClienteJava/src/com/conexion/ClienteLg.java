@@ -1,29 +1,55 @@
 package com.conexion;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.NamingException;
 
-import com.data.user.Usuario;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.logic.services.ServiciosLogicaPrendaRemote;
 import com.data.services.ServiciosUsuarioRemote;
 
 public class ClienteLg {
 
 	public String addUsr(ServiciosLogicaUsuarioRemote dt) {
 
-		System.out.println("Agregar Usuario usr: miguel, pss: ortiz");
+		System.out.println("Agregar Usuario nombres: miguel, apellidos: ortiz");
 
 		HashMap<String, String> usr = new HashMap<String, String>();
 
-		usr.put("id", "10");
 		usr.put("nombres", "miguel");
 		usr.put("apellidos", "ortiz");
-		usr.put("usuario", "migelor");
-		usr.put("contrasena", "migelon123");
+		usr.put("correo", "migelor");
+		usr.put("clave", "migelon123");
+		usr.put("cell", "10");
+		usr.put("doc", "miguel");
+		usr.put("direccion", "ortiz");
+		usr.put("tipo", "P");
 
 		String res = dt.addUser(usr);
+
+		return res;
+
+	}
+	
+	public String delUsr(ServiciosLogicaUsuarioRemote dt) {
+
+		System.out.println("Eliminar Usuario nombres: miguel, apellidos: ortiz");
+
+		HashMap<String, String> usr = new HashMap<String, String>();
+
+		usr.put("id","1");
+		usr.put("nombres", "miguel");
+		usr.put("nombres", "miguel");
+		usr.put("apellidos", "ortiz");
+		usr.put("correo", "migelor");
+		usr.put("clave", "migelon123");
+		usr.put("cell", "10");
+		usr.put("doc", "miguel");
+		usr.put("direccion", "ortiz");
+
+		String res = dt.delUsr(usr);
 
 		return res;
 
@@ -47,6 +73,17 @@ public class ClienteLg {
 
 	}
 
+	public boolean getPrenda(ServiciosLogicaPrendaRemote dt) {
+
+		System.out.println("Traer Prenda");
+
+		boolean res = dt.tst();
+
+		return res;
+
+	}
+	
+	
 	/**
 	 * 
 	 */
@@ -56,23 +93,48 @@ public class ClienteLg {
 	}
 
 	public static void main(String[] args) throws NamingException {
-
-		// Buscar la fachada de datos
-		Lcz localizadorServicios = new Lcz();
-
-		ServiciosLogicaUsuarioRemote fachadaLog = null;
+		
+		System.out.println("Inicia prueba de traer prenda");
+		FireBase base = new FireBase();
+		boolean key = false;
 		try {
-			fachadaLog = localizadorServicios.getRemoteFachadaLogica();
-		} catch (NamingException e) {
+			key = base.getConexion();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(key) {
+			//boolean key2 = base.readFireBase();
+			if(true) {
+				System.out.println("yaaaaaaas");
+			}
+			else
+				System.out.println("nooo");
+		}else
+			System.out.println("noooooooo :(");
 
-		//System.out.println("Inicia prueba de agregar usuario");
-		//System.out.println(new ClienteLg().addUsr(fachadaLog));
+		// Buscar la fachada de datos
+//		LczPrenda localizadorServicios = new LczPrenda();
+//
+//		ServiciosLogicaPrendaRemote fachadaLog = null;
+//		try {
+//			fachadaLog = localizadorServicios.getRemoteFachadaLogica();
+//		} catch (NamingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+
+//		System.out.println("Inicia prueba de agregar usuario");
+//		System.out.println(new ClienteLg().addUsr(fachadaLog));
 		
-		System.out.println("Inicia prueba de actualizar usuario");
-		System.out.println(new ClienteLg().updUsr(fachadaLog));
+		// Eliminar usuario DELETE User Funciona
+//		System.out.println("Inicia prueba de eliminar usuario");
+//		System.out.println(new ClienteLg().delUsr(fachadaLog));
+
+		
+//		System.out.println("Inicia prueba de actualizar usuario");
+//		System.out.println(new ClienteLg().updUsr(fachadaLog));
 
 		// Invocar el servicio usando la referencia remota
 		// Buscar usuario READ List Funciona

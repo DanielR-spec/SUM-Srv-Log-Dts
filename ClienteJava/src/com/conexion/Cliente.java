@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
-import com.data.user.Usuario;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.model.ent.Prenda;
+import com.model.ent.Usuario;
+import com.data.services.ServiciosPrendaRemote;
 import com.data.services.ServiciosUsuarioRemote;
 
 public class Cliente {
@@ -19,11 +21,11 @@ public class Cliente {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String addUsr(ServiciosUsuarioRemote dt) {
+	public static String addUsuario(ServiciosUsuarioRemote dt) {
 		
-		System.out.println("Agregar Usuario usr: ping, pss: pong");
+		System.out.println("Agregar Usuario usr: king12, pss: kong12");
 		Usuario newUsuario = new Usuario();
-		newUsuario.setIdUsuario(9);
+		newUsuario.setIdUsuario(7);
 		newUsuario.setNombres("Lelo");
 		newUsuario.setApellidos("Lola");
 		newUsuario.setCorreo("king12");
@@ -35,9 +37,9 @@ public class Cliente {
 		return res;
 		
 	}
-
-	public static void main(String[] args) throws NamingException {
-
+	
+	public static ServiciosUsuarioRemote lczUsr() {
+		
 		// Buscar la fachada de datos
 		LczDt localizadorServicios = new LczDt();
 
@@ -48,19 +50,34 @@ public class Cliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return fachadaData;
+		
+	}
+	
 
-		System.out.println("Inicia prueba de buscar usuario por id");
-		List<Usuario> lista2 = fachadaData.findUsuarioById(2);
-		List<Usuario> lista = fachadaData.findUsuario("luliot","lucas");
+	public static void main(String[] args) throws NamingException {
+		
+	
+		
+		ServiciosUsuarioRemote usuarioRemote = lczUsr();
+		addUsuario(usuarioRemote);
+	
 
-		if (lista2 == null) {
-			System.out.println("Usuario no existe");
-		} else {
-			for (Usuario user : lista2) {
-				System.out.print(user.getNombres() + "\n");
-			}
 
-		}
+
+//		System.out.println("Inicia prueba de buscar usuario por id");
+//		List<Usuario> lista2 = fachadaData.findUsuarioById(2);
+//		List<Usuario> lista = fachadaData.findUsuario("luliot","lucas");
+//
+//		if (lista2 == null) {
+//			System.out.println("Usuario no existe");
+//		} else {
+//			for (Usuario user : lista2) {
+//				System.out.print(user.getNombres() + "\n");
+//			}
+//
+//		}
 
 		// Invocar el servicio usando la referencia remota
 		// Buscar usuario READ List Funciona
@@ -114,16 +131,16 @@ public class Cliente {
 //		System.out.println("End Function 3 "+ "\n");
 		
 		// Eliminar usuario DELETE User Funciona
-		/*
-		System.out.println("Eliminar usuario usr: hola, pss: hola");
-		Usuario newUsuario2 = new Usuario();
-		newUsuario2.setIdUsuario(4);
-		String res2 = fachadaData.delUsuario(newUsuario2);
 		
-		System.out.println(res2);
-		
-	
-		System.out.println("End Function 4"+ "\n");*/
+//		System.out.println("Eliminar usuario usr: hola, pss: hola");
+//		Usuario newUsuario2 = new Usuario();
+//		newUsuario2.setIdUsuario(2);
+//		String res2 = fachadaData.delUsuario(newUsuario2);
+//		
+//		System.out.println(res2);
+//		
+//	
+//		System.out.println("End Function 4"+ "\n");
 		
 		// Actualizar usuario UPDATE User
 

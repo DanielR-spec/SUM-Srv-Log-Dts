@@ -11,7 +11,9 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.data.user.Usuario;
+import com.model.ent.TipoUsuario;
+import com.model.ent.Usuario;
+
 
 /**
  * Session Bean implementation class ServiciosUsuario
@@ -19,18 +21,18 @@ import com.data.user.Usuario;
 @Stateless
 @LocalBean
 public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuarioLocal {
-	
+
 	@PersistenceContext(unitName = "Entidades", type = PersistenceContextType.TRANSACTION)
 	private EntityManager entityManager;
 
-    /**
-     * Default constructor. 
-     */
-    public ServiciosUsuario() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public ServiciosUsuario() {
+		// TODO Auto-generated constructor stub
+	}
 
-    //BUSCAR USUARIO, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
+	// BUSCAR USUARIO, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
 	// READ Funciona
 	@Override
 	public List<Usuario> findUsuario(String correo, String clave) {
@@ -41,15 +43,15 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		query.setParameter("clave", clave);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
-		
-		if (resultList.size()==0) {
+
+		if (resultList.size() == 0) {
 			return null;
 		}
 		return resultList;
 
 	}
-	
-    //BUSCAR USUARIO POR ID, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
+
+	// BUSCAR USUARIO POR ID, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
 	// READ Funciona
 	@Override
 	public List<Usuario> findUsuarioById(int id) {
@@ -59,59 +61,93 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		query.setParameter("idUsuario", id);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
-		
-		if (resultList.size()==0) {
+
+		if (resultList.size() == 0) {
 			return null;
 		}
 		return resultList;
 
 	}
-	
-    //AGREGAR USUARIO, AGREGA UN USARIO NUEVO RETORNA LA LISTA DE USUARIOS ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
+
+	// AGREGAR USUARIO, AGREGA UN USARIO NUEVO RETORNA LA LISTA DE USUARIOS
+	// ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
 	// CREATE Funciona
 	@Override
 	public String addUsuario(Usuario usr) {
 		// TODO Auto-generated method stub
 		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
 		if (user == null) {
-		entityManager.persist(usr);
-		return "usuario insertado";
+			entityManager.persist(usr);
+			return "usuario insertado";
 		} else
-		return "usuario existe";
+			return "usuario existe";
 
 	}
 
-    //TRAER USUARIOS, RETORNA LA LISTA DE TODOS LOS USUARIOS ENCONTRADOS
-	//READ Funciona
+	// AGREGAR TIPO DE USUARIO, AGREGA UN NUEVO TIPO DE USUARIO RETORNA LA LISTA DE
+	// USUARIOS ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
+	// CREATE Funciona
+	@Override
+	public void addUsuarioTipo(TipoUsuario tipo) {
+		// TODO Auto-generated method stub
+		TipoUsuario userTp = entityManager.find(TipoUsuario.class, tipo.getIdTipoUsuario());
+		if (userTp == null) {
+			entityManager.persist(tipo);
+			entityManager.flush();
+		}
+
+	}
+
+	// TRAER USUARIOS, RETORNA LA LISTA DE TODOS LOS USUARIOS ENCONTRADOS
+	// READ Funciona
 	@Override
 	public List<Usuario> getAllUsuarios() {
 		// TODO Auto-generated method stub
-		String consulta ="SELECT p FROM Usuario p";
+		String consulta = "SELECT p FROM Usuario p";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
 		List<Usuario> resultList = query.getResultList();
-		if (resultList.size()==0) {
+		if (resultList.size() == 0) {
 			return null;
 		}
 		return resultList;
 	}
-	
-    //ELIMINAR USUARIOS, ELIMINA EL USUARIO, PENSAR EN LA LOGICA DE ID
+
+	// ELIMINAR USUARIOS, ELIMINA EL USUARIO, PENSAR EN LA LOGICA DE ID
 	// DELETE Funciona
 	@Override
 	public String delUsuario(Usuario usr) {
 		// TODO Auto-generated method stub
 
 		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
-		if (user.equals(null)) {
+
+		if (user == null) {
 			return "No existe";
 		} else {
-			entityManager.remove(user);
-			return "existe y se elimino";
+			entityManager.remove(usr);
+			return "Usuario eliminado correctamente";
 		}
 
 	}
-	
-    //ACTUALIZAR USUARIOS, ACTUALIZA LA INFORMACION DE LOS USUARIOS
+
+
+
+	// ELIMINAR TIPO DE USUARIO, ELIMINA EL TIPO DE USUARIO
+	// DELETE Funciona
+	@Override
+	public String delTipoUsuario(int id) {
+		// TODO Auto-generated method stub
+
+		TipoUsuario user = entityManager.find(TipoUsuario.class, id);
+		if (user.equals(null)) {
+			return "Usuario no existe";
+		} else {
+			entityManager.remove(user);
+			return "Usuario eliminado correctamente";
+		}
+
+	}
+
+	// ACTUALIZAR USUARIOS, ACTUALIZA LA INFORMACION DE LOS USUARIOS
 	// UPDATE Funciona
 	@Override
 	public String updateUsuario(Usuario usr) {
@@ -128,13 +164,12 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 
 	}
 
-
-    //TRAER ID, RETORNA EL ULTIMO ID DE LA BD
-	//READ Funciona
+	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
+	// READ Funciona
 	@Override
 	public int getId() {
 		// TODO Auto-generated method stub
-		String consulta ="SELECT p FROM Usuario p";
+		String consulta = "SELECT p FROM Usuario p";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
 		List<Usuario> resultList = query.getResultList();
 
