@@ -32,7 +32,8 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		// TODO Auto-generated constructor stub
 	}
 
-	// METODO PARA TRAER PRENDA POR ID, RETORNA LA INFORMACION DE LA PRENDA SI EXISTE
+	// METODO PARA TRAER PRENDA POR ID, RETORNA LA INFORMACION DE LA PRENDA SI
+	// EXISTE
 	// FUNCIONA
 	@Override
 	public HashMap<String, String> getPrendaById(String id) {
@@ -50,6 +51,7 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 				prendaRst.put("idPrenda", String.valueOf(prenda.getIdPrenda()));
 				prendaRst.put("idUsuario", String.valueOf(prenda.getIdUsuario()));
 				prendaRst.put("imgUrl", prenda.getImageUrl());
+				prendaRst.put("id_fire", prenda.getIdFire());
 
 			}
 			return prendaRst;
@@ -69,61 +71,24 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		Prenda tstPrenda = new Prenda();
 		CategoriaPrenda catPrenda = new CategoriaPrenda();
 
-		tstPrenda.setIdPrenda(getId());
-		
-		for (Entry<String, String> entry : prenda.entrySet()) {
-			switch (entry.getKey()) {
-			case "idUsuario": {
-				if (entry.getValue() != "") {
-					tstPrenda.setIdUsuario(Integer.parseInt(entry.getValue()));
-					break;
-
-				}
-				break;
-
-			}
-			case "imgUri": {
-				if (entry.getValue() != "") {
-					tstPrenda.setImageUrl(entry.getValue());
-					break;
-				}
-				break;
-
-			}
-			case "genero": {
-				if (entry.getValue() != "") {
-					catPrenda.setGenero(entry.getValue());
-					break;
-
-				}
-				break;
-
-			}
-			case "tipo": {
-				if (entry.getValue() != "") {
-					catPrenda.setTipo(entry.getValue());
-					break;
-				}
-				break;
-
-			}
-
-
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
-			}
-
-		}
-
-
+		tstPrenda = formatPrendaAdd(prenda);
+	
 		try {
 			String resultado = fachadaDat.addPrenda(tstPrenda);
 
 			if (resultado.equals("Prenda insertada")) {
-				catPrenda.setIdCategoriaPrenda(tstPrenda.getIdPrenda());
-				fachadaDat.addPrendaCategoria(catPrenda);
+				
+				catPrenda = formatCategoria(prenda,tstPrenda.getIdPrenda());
 
-				return "Prenda registrada existosamente";
+				String resCat = fachadaDat.addPrendaCategoria(catPrenda);
+
+				if(resCat.equals("Exito")) {
+					return String.valueOf(tstPrenda.getIdPrenda());
+
+				}
+				else {
+					return "Fallo el cargue de la categoria";
+				}
 			}
 
 		} catch (Exception e) {
@@ -134,8 +99,7 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		return "Error agregando tipo de prenda";
 	}
 
-	// METODO PARA ACTUALIZAR PRENDA, RETORNA MSN DE CONFIRMACION SI SE ACTUALIZO O
-	// NO
+	// METODO PARA ACTUALIZAR PRENDA, RETORNA MSN DE CONFIRMACION SI SE ACTUALIZO O NO
 	// FUNCIONA
 	@Override
 	public String updPrenda(HashMap<String, String> prenda) {
@@ -144,20 +108,25 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		ServiciosPrendaRemote fachadaDat = lczFachada();
 
 		Prenda tstPrenda = new Prenda();
+		CategoriaPrenda catPrenda = new CategoriaPrenda();
+		String res = "empty";
 
 		tstPrenda = formatPrenda(prenda);
-
-		// iterating through key/value mappings
-		System.out.print("Entries: ");
+		catPrenda = formatCategoria(prenda, tstPrenda.getIdPrenda());
 
 		try {
-			return fachadaDat.updatePrenda(tstPrenda);
-
+			res = fachadaDat.updateCatPrenda(catPrenda);
+			
+			if (res.equals("categoria actualizada")) {
+				res = fachadaDat.updatePrenda(tstPrenda);
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
-			return "No se pudo actualizar al usuario por el error:" + e.getMessage();
+			return "No se pudo actualizar la prenda por el error:" + e.getMessage();
 
 		}
+		return res;
 	}
 
 	// METODO PARA ELIMINAR PRENDA, RETORNA MSN DE CONFIRMACION SI SE ELIMINO O NO
@@ -187,8 +156,8 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 
 		}
 	}
-	
-	// METODO PARA ELIMINAR PRENDA, RETORNA MSN DE CONFIRMACION SI SE ELIMINO O NO
+
+	// METODO PARA ELIMINAR PRENDA POR ID, RETORNA MSN DE CONFIRMACION SI SE ELIMINO O NO
 	// FUNCIONA
 	@Override
 	public String delPrendaById(String id) {
@@ -213,7 +182,7 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 			return "No se pudo eliminar al usuario por el error:" + e.getMessage();
 
 		}
-		
+
 		return res;
 	}
 
@@ -225,17 +194,20 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		return id;
 
 	}
+	
+	public int getIdCat() {
+		ServiciosPrendaRemote fachadaDat = lczFachada();
+		int id = fachadaDat.getIdCat();
+
+		return id;
+
+	}
 
 	public Prenda formatPrenda(HashMap<String, String> prnd) {
 
-		ServiciosPrendaRemote fachadaDat = lczFachada();
-
 		Prenda prendaDm = new Prenda();
-		List<Prenda> auxPrenda = new ArrayList<Prenda>();
 
 		prendaDm.setIdPrenda(getIdPrenda(prnd));
-
-		auxPrenda = fachadaDat.findPrendaById(prendaDm.getIdPrenda());
 
 		for (Entry<String, String> entry : prnd.entrySet()) {
 			switch (entry.getKey()) {
@@ -262,7 +234,16 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 				break;
 
 			}
+			case "genero": {
 
+				break;
+
+			}
+			case "tipo": {
+
+				break;
+
+			}
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
 			}
@@ -272,7 +253,107 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		return prendaDm;
 
 	}
+	
+	public Prenda formatPrendaAdd(HashMap<String, String> prnd) {
 
+		Prenda prendaDm = new Prenda();
+		prendaDm.setIdPrenda(getId());
+
+		for (Entry<String, String> entry : prnd.entrySet()) {
+			switch (entry.getKey()) {
+			case "idUsuario": {
+				if (entry.getValue() != "") {
+					prendaDm.setIdUsuario(Integer.parseInt(entry.getValue()));
+					break;
+				}
+				break;
+
+			}
+			case "imgUrl": {
+
+				if (entry.getValue() != "") {
+					prendaDm.setImageUrl(entry.getValue());
+					break;
+
+				}
+				break;
+
+			}
+			case "genero": {
+
+				break;
+
+			}
+			case "tipo": {
+
+				break;
+
+			}
+			case "idFire": {
+				if (entry.getValue() != "") {
+					prendaDm.setIdFire(entry.getValue());
+					break;
+				}
+				break;
+
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+			}
+
+		}
+
+		return prendaDm;
+
+	}	
+
+	public CategoriaPrenda formatCategoria(HashMap<String, String> prnd, int id) {
+
+		CategoriaPrenda categoriaPrenda = new CategoriaPrenda();
+		categoriaPrenda.setIdCategoriaPrenda(id);
+
+		for (Entry<String, String> entry : prnd.entrySet()) {
+			switch (entry.getKey()) {
+			case "idUsuario": {
+				break;
+
+			}
+			case "imgUrl": {
+				break;
+
+			}
+			case "genero": {
+				if (entry.getValue() != "") {
+					categoriaPrenda.setGenero(entry.getValue());
+					break;
+				}
+				break;
+
+			}
+			case "tipo": {
+				if (entry.getValue() != "") {
+					categoriaPrenda.setTipo(entry.getValue());
+					break;
+				}
+				break;
+
+			}
+
+			case "idFire": {
+
+				break;
+
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+			}
+
+		}
+
+		return categoriaPrenda;
+
+	}
+	
 	public int getIdPrenda(HashMap<String, String> prenda) {
 
 		int id = 0;

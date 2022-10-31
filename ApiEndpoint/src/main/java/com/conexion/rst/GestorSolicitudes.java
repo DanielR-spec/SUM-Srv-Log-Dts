@@ -39,10 +39,28 @@ public class GestorSolicitudes {
 	 */
 	//Funciona
 	public String getUser (String correo, String clave) {
-	
+		
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(getBaseURI(1)).queryParam("correo", correo).queryParam("clave", clave);
+		
+		String response = target.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*")
+				.get(String.class);
+		
+		if(response==null) {
+			return "Usuario no existe";
+		}
+			
+		return response;
+		
+	}      
+	public String getPrenda (String idPrenda) {
+	
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURIPrenda(1)).queryParam("idPrenda", idPrenda);
 		
 		String response = target.request()
 				.accept(MediaType.APPLICATION_JSON)
@@ -150,19 +168,20 @@ public class GestorSolicitudes {
 	 *FUNCION PARA AGREGAR PRENDA 
 	 */
 	//...
-	public String addPrenda (String tipo,
+	public String addPrenda (String idFire, String idUsuario,
+			String imgUrl,
 			String genero,
-			String ruta,
-			BitSet imagen) {
+			String tipo) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(
 				getBaseURI(2)).
-				queryParam("tipo", tipo).
+				queryParam("idFire", idFire).
+				queryParam("idUsuario", idUsuario).
+				queryParam("imgUrl", imgUrl).
 				queryParam("genero", genero).
-				queryParam("ruta", ruta).
-				queryParam("imagen", imagen);
+				queryParam("tipo", tipo);
 		
 		Response response = target.request()
 				.accept(MediaType.TEXT_PLAIN)
@@ -180,7 +199,7 @@ public class GestorSolicitudes {
 			case 1:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/auth").build();
 			case 2:
-		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/add").build();
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/add").build();
 			case 3:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/upd").build();
 			case 4:
@@ -191,6 +210,24 @@ public class GestorSolicitudes {
 			return null;
 		
 	    }
+	
+	private static URI getBaseURIPrenda(int option) {
+		
+		switch (option) {
+		case 1:
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/get").build();
+		case 2:
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/add").build();
+		case 3:
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/upd").build();
+		case 4:
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/del").build();
+		default:
+			break;
+		}
+		return null;
+	
+    }
 	
 	
 	private void txt() {
@@ -215,5 +252,6 @@ public class GestorSolicitudes {
        // System.out.println(xmlAnswer);
        // System.out.println(htmlAnswer);
 	}
+
 
 }

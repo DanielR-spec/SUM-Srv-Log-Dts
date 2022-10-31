@@ -2,7 +2,6 @@ package com.model.ent;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -14,6 +13,7 @@ import java.util.List;
 public class Prenda implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idPrenda;
+	private String idFire;
 	private int idUsuario;
 	private String imageUrl;
 
@@ -29,6 +29,16 @@ public class Prenda implements Serializable {
 
 	public void setIdPrenda(int idPrenda) {
 		this.idPrenda = idPrenda;
+	}
+
+
+	@Column(name="id_fire")
+	public String getIdFire() {
+		return this.idFire;
+	}
+
+	public void setIdFire(String idFire) {
+		this.idFire = idFire;
 	}
 
 
@@ -50,7 +60,5 @@ public class Prenda implements Serializable {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-
-
 
 }

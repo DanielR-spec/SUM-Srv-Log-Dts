@@ -6,30 +6,32 @@ import java.util.Map.Entry;
 
 import javax.naming.NamingException;
 
+import com.logic.services.ServiciosLogicaDonacionRemote;
 import com.logic.services.ServiciosLogicaPrendaRemote;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
 import com.model.ent.Prenda;
 import com.model.ent.Usuario;
+import com.data.services.ServiciosDonacionRemote;
 import com.data.services.ServiciosPrendaRemote;
 import com.data.services.ServiciosUsuarioRemote;
 
-public class PrendaCRUDLg {
+public class DonacionLg {
 	
 	
 	/**
 	 * 
 	 */
-	public PrendaCRUDLg() {
+	public DonacionLg() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public static ServiciosLogicaPrendaRemote lczPrnd() {
+	public static ServiciosLogicaDonacionRemote lczDonacion() {
 		
 		// Buscar la fachada de datos
-		LczPrendaLg localizadorServicios = new LczPrendaLg();
+		LczDonacionLg localizadorServicios = new LczDonacionLg();
 
-		ServiciosLogicaPrendaRemote fachadaLog = null;
+		ServiciosLogicaDonacionRemote fachadaLog = null;
 		try {
 			fachadaLog = localizadorServicios.getRemoteFachadaLogica();
 			return fachadaLog;
@@ -42,21 +44,25 @@ public class PrendaCRUDLg {
 		
 	}
 
-	public static void addPrenda(ServiciosLogicaPrendaRemote dt) {
+	public static void addDonacion(ServiciosLogicaDonacionRemote dt) {
 		
 		//Agregar Prenda
 		
-		System.out.println("Agregar Prenda id:1 , idUsr: 2, Url:https://www.google.com/search?q=triger+mysql&oq=triger+mysql&aqs=chrome..69i57j0i10i512l9.3347j1j7&sourceid=chrome&ie=UTF-8");
+		System.out.println("Metodo agregar donacion");
 
-		HashMap<String, String> prenda = new HashMap<String, String>();
+		HashMap<String, String> donacion = new HashMap<String, String>();
 
-		prenda.put("idUsuario", "1");
-		prenda.put("imgUrl", "http://forUs.com");
-		prenda.put("genero","F");
-		prenda.put("tipo", "camiseta");
-		prenda.put("idFire", "1_2_3");
+		//donacion.put("idDonacion", "1");
+		donacion.put("idFundacion", "1");
+		donacion.put("nombreDon","dan");
+		donacion.put("telefonoDon", "123");
+		donacion.put("direccionDon", "calle");
+		donacion.put("fechaDon", "2022/02/03");
+		donacion.put("idUsuario","1");
+		donacion.put("estado", "confirmada");
+		donacion.put("idFire", "1_2_3");
 		
-		String res = dt.addPrenda(prenda);
+		String res = dt.addDonacion(donacion);
 		System.out.println(res);
 		
 	}
@@ -155,10 +161,10 @@ public class PrendaCRUDLg {
 		
 	
 		//Get EJB conexion
-		ServiciosLogicaPrendaRemote prendaRemote = lczPrnd();
+		ServiciosLogicaDonacionRemote donacionRemote =  lczDonacion();
 		
 		//Test create/add prenda
-		addPrenda(prendaRemote);
+		//addDonacion(donacionRemote);
 		
 		//Test read/get prenda
 		//getPrenda(prendaRemote);

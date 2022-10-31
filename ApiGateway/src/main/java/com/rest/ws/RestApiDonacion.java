@@ -30,6 +30,7 @@ import javax.ws.rs.core.UriInfo;
 import org.glassfish.jersey.client.ClientConfig;
 
 import com.controller.rst.ControladorSrv;
+import com.controller.rst.CrtlDonacion;
 import com.controller.rst.CrtlPrenda;
 
 /*
@@ -42,17 +43,17 @@ import com.logic.services.ServiciosLogicaUsuarioRemote;
  * @author danie
  *
  */
-@Path("/prenda")
-public class RestApiPrenda {
+@Path("/donacion")
+public class RestApiDonacion {
 
 	
 	@GET
 	@Path("/get")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getPrend(@QueryParam("id") String id, @Context UriInfo uriInfo) throws NamingException{
+	public String getDonacion(@QueryParam("id") String idDonacion, @Context UriInfo uriInfo) throws NamingException{
 		
 		
-		return new CrtlPrenda().getPrenda(id);
+		return new CrtlDonacion().getDonacion(idDonacion);
 
 		
 	}
@@ -60,46 +61,22 @@ public class RestApiPrenda {
 	@POST
 	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addPrend(@QueryParam("idFire") String idFire, 
+	public String addDonacion(@QueryParam("idFundacion") String idFundacion,
+			@QueryParam("nombreDon") String nombreDon, 
+			@QueryParam("telefonoDon") String telefonoDon, 
+			@QueryParam("direccionDon") String direccionDon, 
+			@QueryParam("fechaDon") String fechaDon, 
 			@QueryParam("idUsuario") String idUsuario,
-			@QueryParam("imgUrl") String imgUri,
-			@QueryParam("genero") String genero,
-			@QueryParam("tipo") String ruta,
+			@QueryParam("estado") String estado,
+			@QueryParam("idFire") String idFire,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new CrtlPrenda().addPrenda(idFire, idUsuario, imgUri, genero, ruta);
+		return new CrtlDonacion().addDonacion(idFundacion,nombreDon,telefonoDon,direccionDon,fechaDon,idUsuario,estado,idFire);
 		
 		
 	}
 	
-	@PUT
-	@Path("/upd")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String updUsr(
-			@QueryParam("idPrenda") String id,
-			@QueryParam("idUsuario") String idUsuario,
-			@QueryParam("imgUri") String imgUri,
-			@QueryParam("genero") String genero,
-			@QueryParam("tipo") String tipo,
-			@Context UriInfo uriInfo)
-			throws NamingException{
-		
-		return new CrtlPrenda().updatePrenda(id, idUsuario, imgUri, genero, tipo);
-		
-		
-	}
-	
-	@GET
-	@Path("/del")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String delUsr(
-			@QueryParam("id") String id, 
-			@Context UriInfo uriInfo) 
-			throws NamingException{
-		
-		return new CrtlPrenda().deletePrenda(id);
-		
-	}
+
 
 }

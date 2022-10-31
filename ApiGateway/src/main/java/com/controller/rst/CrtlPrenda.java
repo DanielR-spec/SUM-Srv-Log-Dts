@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
+import com.logic.services.ServiciosLogicaPrendaRemote;
 //import com.data.user.Usuario;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
 import com.conexion.rst.FireBase;
 import com.conexion.rst.LocalizadorServicios;
+import com.conexion.rst.LocalizadorServiciosPrenda;
 import com.google.firebase.FirebaseApp;
 import com.rest.ws.PrendaRs;
 import com.rest.ws.Usuario;
@@ -42,197 +44,66 @@ public class CrtlPrenda {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String authPrnd() throws IOException {
-		System.out.println("===Invocando al metodo authPrnd() en CrtlPrenda===");
-
+	// ...
+	public String getPrenda(String id) {
 		// TODO Auto-generated method stub
-		String STATUS_CODE = ":(";
-		FireBase base = new FireBase();
-		String keySaved = null;
-		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
-
-		try {
-			System.out.println("Iniciando proceso de conexion...");
-			keySaved = base.getUriKeys();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (keySaved != null) {
-			// Declarar hashmao y llamar la funcion
-			uriKeys = uriFormat();
-			//Logica 
-			System.out.println("Prenda existosamente guardada :)");
-
-			return uriKeys.toString();
-
-		}
-
-		return uriKeys.toString();
-	}
-
-	// FUNCIONES AUXILIARES
-	public HashMap<Integer, PrendaRs> uriFormat() {
-
-		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
-
-		// File path is passed as parameter
-		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeys.txt");
-
-		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
-
-		uriKeys = saveMap(file);
+		System.out.println("===Invocando al metodo getPrenda() en CrtlPrenda===");
 		
-		 for (Map.Entry<Integer, PrendaRs> set :
-			 uriKeys.entrySet()) {
- 
-            // Printing all elements of a Map
-            System.out.println("Key: " + set.getKey());
-            System.out.println("Value: ");
-            System.out.println("  Nombre: " + set.getValue().getNombre());
-            System.out.println("  Uri: " + set.getValue().getUri());
+		ServiciosLogicaPrendaRemote fachadaLogica = lczFachada();
 
-
-        }
-
-		// Note: Double backquote is to avoid compiler
-		// interpret words
-		// like \test as \t (ie. as a escape sequence)
-
-		return uriKeys;
+		return String.valueOf(fachadaLogica.getPrendaById(id));
 
 	}
 
-	public HashMap<Integer, PrendaRs> saveMap(File file) {
-
-		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
-
-		// Declaring a string variable
-
-		String str = "";
-		String lineKey = "in";
-		int cont = 0;
-		int length = 0;
-
-
-		// Creating an object of BufferedReader class
-		BufferedReader br = null;
-
-		try {
-			System.out.println("Leyendo archivo...");
-			br = new BufferedReader(new FileReader(file));
-
-			// Condition holds true till
-			// there is character in a string
-
-			try {
-				System.out.println("Cargando archivo...");
-				int mapIndex = 0;
-				while ((str = br.readLine()) != null) {// Print the string
-					PrendaRs prendaRs = new PrendaRs();
-					String nombre = "";
-					String uri = "";
-
-					// Creating array of string length
-					// using length() method
-					char[] chNames = new char[str.length()];
-					char[] chKeys = new char[str.length()];
-					
-					length = str.length();
-					
-					String flag = "chNm";
-					
-
-
-					// System.out.println(str);
-
-					// Copying character by character into array
-					// using for each loop
-
-					for (int i = 0; i < length; i++) {
-						lineKey = Character.toString(str.charAt(i));
-
-						if (flag.equals("chNm")) {
-							chNames[i] = str.charAt(i);
-
-							if (lineKey.equals("@")) {
-								nombre = String.valueOf(chNames);
-								prendaRs.setNombre(nombre);
-								flag = "chUri";
-
-							}
-
-						}
-
-						else if (flag.equals("chUri") && !lineKey.equals("@")) {
-
-							chKeys[cont] = str.charAt(i);
-
-							if (i == (length - 1)) {
-								uri = String.valueOf(chKeys);
-								prendaRs.setUri(uri);
-								cont = 0;
-
-							}
-							cont += 1;
-						}
-
-					}
-					
-					uriKeys.put(mapIndex, prendaRs);
-					mapIndex += 1;
-
-				}
-				return uriKeys;
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return uriKeys;
-
-	}
-
-	/**
-	 * FUNCION PARA ELIMINAR EL ULTIMO CARACTER DEL ARREGLO
-	 */
-	// Funciona
-	private String removeLastChar(String str) {
-		// returns the string after removing the last character
-		return (str == null) ? null : str.replaceAll(".$", "");  	}
-
-	/**
-	 * FUNCION PARA VALIDAR USUARIO
-	 */
-	// Funciona
-	public String addPrenda(String tipo, String genero, String ruta, BitSet imagen) {
-
-		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
+	// ...
+	public String addPrenda(String idFire, String idUsuario, String imgUrl, String genero, String tipo) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
 
 		HashMap<String, String> prenda = new HashMap<String, String>();
 
-		prenda.put("tipo", tipo);
+		prenda.put("idFire", idFire);
+		prenda.put("idUsuario", idUsuario);
+		prenda.put("imgUrl", imgUrl);
 		prenda.put("genero", genero);
-		prenda.put("ruta", ruta);
-		// prenda.put("imagen", imagen);
+		prenda.put("tipo", tipo);
 
-		// String res = fachadaLog.addUser(user);
-
-		return "End of implementation";
+		return fachadaLog.addPrenda(prenda);
 
 	}
 
-	// FUNCIONES AUXILIARES
-	public ServiciosLogicaUsuarioRemote lczFachada() {
+	// ...
+	public String updatePrenda(String id, String idUsuario, String imgUrl, String genero, String tipo) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
 
-		LocalizadorServicios Lcz = new LocalizadorServicios();
-		ServiciosLogicaUsuarioRemote fachadaLogica = null;
+		HashMap<String, String> prenda = new HashMap<String, String>();
+
+		prenda.put("idPrenda", id);
+		prenda.put("idUsuario", idUsuario);
+		prenda.put("imgUrl", imgUrl);
+		prenda.put("genero", genero);
+		prenda.put("tipo", tipo);
+
+		return fachadaLog.updPrenda(prenda);
+	}
+
+	// ...
+	public String deletePrenda(String id) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
+
+		return fachadaLog.delPrendaById(id);
+	}
+	
+	
+	
+	// FUNCIONES AUXILIARES
+	// Localizador de servicios logica de prenda
+	public ServiciosLogicaPrendaRemote lczFachada() {
+		// TODO Auto-generated method stub
+		LocalizadorServiciosPrenda Lcz = new LocalizadorServiciosPrenda();
+		ServiciosLogicaPrendaRemote fachadaLogica = null;
 
 		try {
 			fachadaLogica = Lcz.getRemoteFachadaLogica();
@@ -244,5 +115,7 @@ public class CrtlPrenda {
 		return fachadaLogica;
 
 	}
+
+
 
 }

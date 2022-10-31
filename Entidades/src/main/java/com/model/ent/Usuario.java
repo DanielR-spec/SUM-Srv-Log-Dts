@@ -22,9 +22,7 @@ public class Usuario implements Serializable {
 	private String doc;
 	private String nombres;
 	private TipoUsuario tipoUsuario;
-	private List<Carrito> carritos;
 	private UbicacionUsuario ubicacionUsuario;
-	private Donacion donacion;
 
 	public Usuario() {
 	}
@@ -115,30 +113,6 @@ public class Usuario implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Carrito
-	@OneToMany(mappedBy="usuario")
-	public List<Carrito> getCarritos() {
-		return this.carritos;
-	}
-
-	public void setCarritos(List<Carrito> carritos) {
-		this.carritos = carritos;
-	}
-
-	public Carrito addCarrito(Carrito carrito) {
-		getCarritos().add(carrito);
-		carrito.setUsuario(this);
-
-		return carrito;
-	}
-
-	public Carrito removeCarrito(Carrito carrito) {
-		getCarritos().remove(carrito);
-		carrito.setUsuario(null);
-
-		return carrito;
-	}
-
 
 	//bi-directional one-to-one association to UbicacionUsuario
 	@OneToOne(mappedBy="usuario")
@@ -151,14 +125,5 @@ public class Usuario implements Serializable {
 	}
 
 
-	//bi-directional one-to-one association to Donacion
-	@OneToOne(mappedBy="usuario")
-	public Donacion getDonacion() {
-		return this.donacion;
-	}
-
-	public void setDonacion(Donacion donacion) {
-		this.donacion = donacion;
-	}
 
 }

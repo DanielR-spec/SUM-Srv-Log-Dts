@@ -14,11 +14,13 @@ public class Donacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idDonacion;
 	private String direccionDon;
+	private String estado;
 	private String fechaDon;
+	private int fundacionId;
+	private String idDonaFire;
 	private String nombreDon;
 	private String telDon;
-	private Usuario fundacion;
-	private Usuario usuario;
+	private int usuarioId;
 
 	public Donacion() {
 	}
@@ -45,6 +47,15 @@ public class Donacion implements Serializable {
 	}
 
 
+	public String getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
 	@Column(name="fecha_don")
 	public String getFechaDon() {
 		return this.fechaDon;
@@ -52,6 +63,26 @@ public class Donacion implements Serializable {
 
 	public void setFechaDon(String fechaDon) {
 		this.fechaDon = fechaDon;
+	}
+
+
+	@Column(name="fundacion_id")
+	public int getFundacionId() {
+		return this.fundacionId;
+	}
+
+	public void setFundacionId(int fundacionId) {
+		this.fundacionId = fundacionId;
+	}
+
+
+	@Column(name="id_dona_fire")
+	public String getIdDonaFire() {
+		return this.idDonaFire;
+	}
+
+	public void setIdDonaFire(String idDonaFire) {
+		this.idDonaFire = idDonaFire;
 	}
 
 
@@ -75,26 +106,13 @@ public class Donacion implements Serializable {
 	}
 
 
-	//bi-directional one-to-one association to Usuario
-	@OneToOne
-	@JoinColumn(name="fundacion_id")
-	public Usuario getFundacion() {
-		return this.fundacion;
+	@Column(name="usuario_id")
+	public int getUsuarioId() {
+		return this.usuarioId;
 	}
 
-	public void setFundacion(Usuario fundacionPar) {
-		this.fundacion = fundacionPar;
-	}
-	
-	//bi-directional one-to-one association to Usuario
-	@OneToOne
-	@JoinColumn(name="usuario_id")
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuarioId(int usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 }

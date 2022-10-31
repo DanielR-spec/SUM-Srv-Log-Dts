@@ -46,6 +46,7 @@ public class PrendaCRUD {
 		prenda.setIdPrenda(1);
 		prenda.setIdUsuario(2);
 		prenda.setImageUrl("https://www.google.com/search?q=triger+mysql&oq=triger+mysql&aqs=chrome..69i57j0i10i512l9.3347j1j7&sourceid=chrome&ie=UTF-8");
+		prenda.setIdFire("1_2_2");
 		String res = dt.addPrenda(prenda);
 		
 		System.out.println(res);
@@ -116,7 +117,7 @@ public class PrendaCRUD {
 		ServiciosPrendaRemote prendaRemote = lczPrnd();
 		
 		//Test create/add prenda
-		//addPrenda(prendaRemote);
+		addPrenda(prendaRemote);
 		
 		//Test read/get prenda
 		//getPrenda(prendaRemote);

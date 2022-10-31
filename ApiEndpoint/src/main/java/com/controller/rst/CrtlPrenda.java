@@ -27,25 +27,26 @@ public class CrtlPrenda {
 	 *FUNCION PARA VALIDAR USUARIO 
 	 */
 	//Funciona
-	public String validarUsr(String correo, String clave) throws NamingException {
+	public String getPrenda(String idPrenda) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.getUser(correo, clave);
+		return gestorSolicitudes.getPrenda(idPrenda);
 		
 	}
 	/**
-	 *FUNCION PARA AGREGAR USUARIO 
+	 *FUNCION PARA AGREGAR PRENDA 
 	 */
 	//...
-	public String addPrnd(String tipo,
+	public String addPrnd(String idFire,
+			String idUsuario,
+			String imgUrl,
 			String genero,
-			String ruta,
-			BitSet imagen) throws NamingException {
+			String tipo) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.addPrenda(tipo, genero, ruta, imagen);
+		return gestorSolicitudes.addPrenda(idFire, idUsuario, imgUrl, genero, tipo);
 	}
 	/**
 	 *FUNCION PARA ACRUALIZAR USUARIO 
@@ -80,7 +81,7 @@ public class CrtlPrenda {
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
 		return gestorSolicitudes.delUser(id);
-	}	
+	}
 	
 	
 

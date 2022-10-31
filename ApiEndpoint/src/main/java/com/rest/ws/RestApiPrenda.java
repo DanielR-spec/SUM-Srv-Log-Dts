@@ -72,14 +72,13 @@ public class RestApiPrenda {
 	
 	//Funciona
 	@GET
-	@Path("/auth")
+	@Path("/get")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getUsr(
-			@QueryParam("correo") String correo,
-			@QueryParam("clave") String clave, 
+			@QueryParam("idPrenda") String id,
 			@Context UriInfo uriInfo) throws NamingException {
 		    		
-		return new ControladorSrv().validarUsr(correo, clave);
+		return new CrtlPrenda().getPrenda(id);
 	}
 	
 	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para
@@ -88,36 +87,20 @@ public class RestApiPrenda {
 	//Salida: Str respuesta si se agrego o no
 	@POST
 	@Path("/add")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes({MediaType.MULTIPART_FORM_DATA})
-	public String addPrnd(@FormDataParam("imagen") InputStream imagen)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addPrend(
+			@QueryParam("idFire") String idFire,
+			@QueryParam("idUsuario") String idUsuario,
+			@QueryParam("imgUrl") String imgUri,
+			@QueryParam("genero") String genero,
+			@QueryParam("tipo") String ruta,
+			@Context UriInfo uriInfo)
 			throws NamingException{
-		String UPLOAD_PATH = "c:/temp/";
-		  try
-		  {
-		    int read = 0;
-		    byte[] bytes = new byte[1024];
-		 
-		    OutputStream out = new FileOutputStream(new File(UPLOAD_PATH + "img"));
-		    while ((read = imagen.read(bytes)) != -1) 
-		    {
-		      out.write(bytes, 0, read);
-		    }
-		    out.flush();
-		    out.close();
-		  } catch (IOException e) 
-		  {
-		    throw new WebApplicationException("Error while uploading file. Please try again !!");
-		  }
-//		   try {
-//				BufferedImage img = ImageIO.read(imagen);
-//				JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(img)));
-//				  
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-		  return "Ok";
+		
+		return new CrtlPrenda().addPrnd(idFire, idUsuario, imgUri, genero, ruta);
+		
+		
+	}
 		
 				
 		
@@ -142,7 +125,7 @@ public class RestApiPrenda {
 //        return Response.ok("Cool Tools!").build();
 //		
 				
-	}
+	
 	
 	
 	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para

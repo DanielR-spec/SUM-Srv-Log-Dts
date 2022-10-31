@@ -13,7 +13,9 @@ import javax.persistence.*;
 public class Carrito implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idCarrito;
-	private Usuario usuario;
+	private String idCarrFire;
+	private String idPrenda;
+	private int idUsuario;
 
 	public Carrito() {
 	}
@@ -30,15 +32,33 @@ public class Carrito implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne
-	@JoinColumn(name="id_usuario")
-	public Usuario getUsuario() {
-		return this.usuario;
+	@Column(name="id_carr_fire")
+	public String getIdCarrFire() {
+		return this.idCarrFire;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setIdCarrFire(String idCarrFire) {
+		this.idCarrFire = idCarrFire;
+	}
+
+
+	@Column(name="id_prenda")
+	public String getIdPrenda() {
+		return this.idPrenda;
+	}
+
+	public void setIdPrenda(String idPrenda) {
+		this.idPrenda = idPrenda;
+	}
+
+
+	@Column(name="id_usuario")
+	public int getIdUsuario() {
+		return this.idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 }

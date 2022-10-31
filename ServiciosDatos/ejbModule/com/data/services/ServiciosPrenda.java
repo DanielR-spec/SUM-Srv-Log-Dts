@@ -69,13 +69,16 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
  	// NO RETORNA VOID SOLO PRESISTE
  	// CREATE Funciona
  	@Override
- 	public void addPrendaCategoria(CategoriaPrenda categoria) {
+ 	public String addPrendaCategoria(CategoriaPrenda categoria) {
  		// TODO Auto-generated method stub
  		CategoriaPrenda categoriaPrenda = entityManager.find(CategoriaPrenda.class, categoria.getIdCategoriaPrenda());
  		if (categoriaPrenda == null) {
  			entityManager.persist(categoria);
  			entityManager.flush();
+ 			return "Exito";
  		}
+ 		
+ 		return "Fallo";
 
  	}
 
@@ -135,11 +138,28 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
  		Prenda prenda = null;
  		prenda = entityManager.find(Prenda.class, prnd.getIdPrenda());
  		if (prenda == null) {
- 			return "No existe";
+ 			return "No existe prenda";
  		} else {
  			entityManager.merge(prnd);
  			entityManager.flush();
- 			return "existe y se actualizo";
+ 			return "prenda actualizada";
+ 		}
+
+ 	}
+ 	
+ 	// ACTUALIZAR CATEGORIA PRENDAS, ACTUALIZA LA INFORMACION DE LOS PRENDAS
+ 	// UPDATE Funciona
+ 	@Override
+ 	public String updateCatPrenda(CategoriaPrenda catPrnd) {
+ 		// TODO Auto-generated method stub
+ 		CategoriaPrenda prenda = null;
+ 		prenda = entityManager.find(CategoriaPrenda.class, catPrnd.getIdCategoriaPrenda());
+ 		if (prenda == null) {
+ 			return "No existe categoria";
+ 		} else {
+ 			entityManager.merge(catPrnd);
+ 			entityManager.flush();
+ 			return "categoria actualizada";
  		}
 
  	}
@@ -152,6 +172,18 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
  		String consulta = "SELECT p FROM Prenda p";
  		TypedQuery<Prenda> query = entityManager.createQuery(consulta, Prenda.class);
  		List<Prenda> resultList = query.getResultList();
+
+ 		return resultList.size();
+ 	}
+ 	
+ 	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
+ 	// READ Funciona
+ 	@Override
+ 	public int getIdCat() {
+ 		// TODO Auto-generated method stub
+ 		String consulta = "SELECT p FROM CategoriaPrenda p";
+ 		TypedQuery<CategoriaPrenda> query = entityManager.createQuery(consulta, CategoriaPrenda.class);
+ 		List<CategoriaPrenda> resultList = query.getResultList();
 
  		return resultList.size();
  	}

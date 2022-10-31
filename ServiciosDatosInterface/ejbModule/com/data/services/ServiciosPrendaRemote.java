@@ -16,7 +16,7 @@ public interface ServiciosPrendaRemote {
 
 	public List<Prenda> findPrendaById(int id);
 
-	public void addPrendaCategoria(CategoriaPrenda categoria);
+	public String addPrendaCategoria(CategoriaPrenda categoria);
 
 	public List<Prenda> getAllPrendas();
 
@@ -27,6 +27,10 @@ public interface ServiciosPrendaRemote {
 	public String updatePrenda(Prenda prnd);
 
 	public int getId();
+
+	public String updateCatPrenda(CategoriaPrenda catPrnd);
+
+	public int getIdCat();
 	
 	
 
