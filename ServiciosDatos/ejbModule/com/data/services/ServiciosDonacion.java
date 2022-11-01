@@ -62,7 +62,7 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 
  	}
  	
- 	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
+ 	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD DE LA DONACION 
  	// READ Funciona
  	@Override
  	public int getId() {
