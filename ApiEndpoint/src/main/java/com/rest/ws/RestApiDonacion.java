@@ -3,45 +3,63 @@
  */
 package com.rest.ws;
 
+import java.awt.image.BufferedImage;
+import java.io.Console;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.naming.NamingException;
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.annotation.MultipartConfig;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument.Content;
+import javax.validation.constraints.NotEmpty;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.glassfish.jersey.client.ClientConfig;
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.process.internal.RequestScoped;
 import org.json.JSONObject;
 
+import jersey.repackaged.org.*;
+
+import com.conexion.rst.GestorSolicitudes;
 import com.controller.rst.ControladorSrv;
-import com.controller.rst.CrtlCartFireBase;
-import com.controller.rst.CrtlDonaFireBase;
+import com.controller.rst.CrtlCart;
 import com.controller.rst.CrtlDonacion;
 import com.controller.rst.CrtlPrenda;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
-/*
-import com.conexion.rst.LocalizadorServicios;
-import com.controller.rst.ControladorSrv;
-import com.data.user.Usuario;
-import com.logic.services.ServiciosLogicaUsuarioRemote;
-*/
 /**
  * @author danie
  *
@@ -49,18 +67,11 @@ import com.logic.services.ServiciosLogicaUsuarioRemote;
 @Path("/donacion")
 public class RestApiDonacion {
 
-	
-	@GET
-	@Path("/get")
-	@Produces(MediaType.TEXT_PLAIN	)
-	public String getDonacion(@QueryParam("id") String idDonacion, @Context UriInfo uriInfo) throws NamingException{
-		
-		
-		return new CrtlDonacion().getDonacion(idDonacion);
-
-		
-	}
-	
+	/**
+	 * @param uriInfo 
+	 * @throws NamingException 
+	 * 
+	 */	
 	@GET
 	@Path("/getFun")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -78,35 +89,9 @@ public class RestApiDonacion {
 	public String getPrendasDonacion(@QueryParam("idUsuario") String idUsuario, @QueryParam("idDonaFire") String idDonaFire, @Context UriInfo uriInfo) throws NamingException{
 		
 		
-		try {
-			return new CrtlDonaFireBase().getPrendasDonaFireBase(idUsuario, idDonaFire);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return idDonaFire;
+		return new CrtlDonacion().getPrendasDonacion(idUsuario, idDonaFire);
 
 		
-	}
-	
-	//iniciar el proceso de actualización de cuenta 
-	//Entrada: Atributos de actualización de cuenta de usuario
-	//Salida: Str respuesta si se actualiza o no
-	@PUT
-	@Path("/upd")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String updDona(
-			@QueryParam("idDonaFire") String id,
-			@QueryParam("estado") String estado,
-			@Context UriInfo uriInfo)
-			throws NamingException{
-		
-		
-		//Pasar el String a JSON
-		String respServ = new CrtlDonacion().updateDonacion(id, estado);
-		
-		return respServ; 
-				
 	}
 	
 	@POST
@@ -118,7 +103,7 @@ public class RestApiDonacion {
 			@QueryParam("direccionDon") String direccionDon,
 			@QueryParam("fechaDon") String fechaDon,
 			@QueryParam("idUsuario") String idUsuario,
-			@QueryParam("idFire") String idFire,
+			@QueryParam("idDonaFire") String idFire,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
@@ -126,5 +111,25 @@ public class RestApiDonacion {
 		
 		
 	}
+	
+	@PUT
+	@Path("/upd")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updDona(
+			@QueryParam("idDonaFire") String id,
+			@QueryParam("estado") String estado,
+			@Context UriInfo uriInfo)
+			throws NamingException{
+		
+		
+		//Pasar el String a JSON
+		String respServ = new CrtlDonacion().updateDonacion(id,estado);
+		
+		return respServ; 
+				
+	}
+	
 
 }
+
+

@@ -50,11 +50,13 @@ public class PrendaCRUDLg {
 
 		HashMap<String, String> prenda = new HashMap<String, String>();
 
-		prenda.put("idUsuario", "1");
+		prenda.put("idUsuario", "2");
 		prenda.put("imgUrl", "http://forUs.com");
+		prenda.put("idFire", "1_2_3");
+		prenda.put("fecha", "123");
 		prenda.put("genero","F");
 		prenda.put("tipo", "camiseta");
-		prenda.put("idFire", "1_2_3");
+		
 		
 		String res = dt.addPrenda(prenda);
 		System.out.println(res);

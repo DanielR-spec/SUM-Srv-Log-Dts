@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import com.conexion.srv.LocalizadorServicios;
 import com.data.services.ServiciosUsuarioRemote;
 import com.model.ent.TipoUsuario;
+import com.model.ent.UbicacionUsuario;
 import com.model.ent.Usuario;
 
 
@@ -101,8 +102,12 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 		ServiciosUsuarioRemote fachadaDat = lczFachada();
 
 		Usuario tstUser = new Usuario();
-		String tipo = "";
+		
 		TipoUsuario userTp = new TipoUsuario();
+		String tipo = "";
+		
+		UbicacionUsuario userUb = new UbicacionUsuario();
+		String ciudad = "";
 
 		// iterating through key/value mappings
 		System.out.print("Entries: ");
@@ -145,8 +150,13 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 				break;
 			}
 			case "tipo": {
-
+				
 				tipo = entry.getValue();
+				break;
+			}
+			case "ciudad": {
+				
+				ciudad = entry.getValue();
 				break;
 			}
 
@@ -162,8 +172,15 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 			String resultado = fachadaDat.addUsuario(tstUser);
 
 			if (resultado.equals("usuario insertado")) {
+				
+				userUb.setIdUbicacionUsuario(tstUser.getIdUsuario());
+				userUb.setCiudad(ciudad);
+				
+				fachadaDat.addUsuarioUb(userUb);
+				
 				userTp.setIdTipoUsuario(tstUser.getIdUsuario());
 				userTp.setTipoUsuario(tipo);
+				
 				fachadaDat.addUsuarioTipo(userTp);
 
 				return "Usuario registrado existosamente";
@@ -206,69 +223,21 @@ public class ServiciosLogicaUsuario implements ServiciosLogicaUsuarioRemote, Ser
 	// METODO PARA ELIMINAR USUARIO, RETORNA MSN DE CONFIRMACION SI SE ELIMINO O NO
 	// FUNCIONA
 	@Override
-	public String delUsr(HashMap<String, String> user) {
+	public String delUsr(String id) {
 
 		// TODO Auto-generated method stub
 		ServiciosUsuarioRemote fachadaDat = lczFachada();
-		Usuario tstUser = new Usuario();
 
-		// iterating through key/value mappings
-		System.out.print("Entries: ");
-
-		for (Entry<String, String> entry : user.entrySet()) {
-			switch (entry.getKey()) {
-			case "id": {
-				int id = Integer.parseInt(entry.getValue());
-				tstUser.setIdUsuario(id);
-				break;
-			}
-			case "nombres": {
-
-				tstUser.setNombres(entry.getValue());
-				break;
-			}
-			case "apellidos": {
-
-				tstUser.setApellidos(entry.getValue());
-				break;
-			}
-			case "correo": {
-
-				tstUser.setCorreo(entry.getValue());
-				break;
-			}
-			case "clave": {
-
-				tstUser.setClave(entry.getValue());
-				break;
-			}
-			case "cell": {
-
-				tstUser.setCell(entry.getValue());
-				break;
-			}
-			case "doc": {
-
-				tstUser.setDoc(entry.getValue());
-				break;
-			}
-			case "direccion": {
-
-				tstUser.setDireccion(entry.getValue());
-				break;
-			}
-
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
-			}
-
-		}
 
 		try {
 			//COMENTARIO: SE ESTA ELIMINANDO EL HIJO Y EN CASCADA SE ELIMINA EL PADRES 
 			//POR LA REFERENCIA DEL LA LLAVE FORANEA
 			//LA ENTIDAD USUARIO SE ELIMINA AUTOMATICAMENTE
-			String res = fachadaDat.delTipoUsuario(tstUser.getIdUsuario());
+			String res = fachadaDat.delTipoUsuario(Integer.parseInt(id));
+			if (res.equals("Usuario eliminado correctamente")) {
+				res = fachadaDat.delUsuario(Integer.parseInt(id));
+				
+			}
 			return res;
 
 		} catch (Exception e) {

@@ -81,6 +81,17 @@ public class RestApiPrenda {
 		return new CrtlPrenda().getPrenda(id);
 	}
 	
+	//Funciona
+	@GET
+	@Path("/getId")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getPrendaId(
+			@QueryParam("idFire") String id,
+			@Context UriInfo uriInfo) throws NamingException {
+		    		
+		return new CrtlPrenda().getPrendaId(id);
+	}
+	
 	//Definición: Metodo ubicado a nivel de servicios actua como puente de acceso para
 	//iniciar el proceso de creacion de prenda
 	//Entrada: Atributos de creacion de prenda de usuario
@@ -89,41 +100,32 @@ public class RestApiPrenda {
 	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String addPrend(
-			@QueryParam("idFire") String idFire,
 			@QueryParam("idUsuario") String idUsuario,
 			@QueryParam("imgUrl") String imgUri,
+			@QueryParam("idFire") String idFire,
+			@QueryParam("fecha") String fecha,
 			@QueryParam("genero") String genero,
 			@QueryParam("tipo") String ruta,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new CrtlPrenda().addPrnd(idFire, idUsuario, imgUri, genero, ruta);
+		return new CrtlPrenda().addPrnd(idUsuario, imgUri, idFire, fecha, genero, ruta);
 		
 		
 	}
 		
-				
+	@GET
+	@Path("/del")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String delPren(@QueryParam("id") String id,
+			@Context UriInfo uriInfo) throws NamingException {
 		
-		//Pasar el String a JSON
-		//String respServ = new CrtlPrenda().addPrnd(tipo, genero, ruta, imagen);
 		
-//		System.out.println("Tipo: " + tipo);
-//	    System.out.println("Genero: " + genero);
-//	    System.out.println("Ruta: " + ruta);
-//	    
-//	    System.out.println("Imagen...");
-//		
-//		 try {
-//			BufferedImage img = ImageIO.read(imagen);
-//			JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(img)));
-//			  
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        
-//        return Response.ok("Cool Tools!").build();
-//		
+		String respServ = new CrtlPrenda().delPrenda(id);
+		
+		return respServ; 
+
+	}
 				
 	
 	
@@ -155,17 +157,7 @@ public class RestApiPrenda {
 				
 	}
 	
-	@GET
-	@Path("/del")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String delUsr(@QueryParam("id") String id, @Context UriInfo uriInfo) throws NamingException {
-		
-		
-		String respServ = new ControladorSrv().delUsr(id);
-		
-		return respServ; 
 
-	}
 
 }
 

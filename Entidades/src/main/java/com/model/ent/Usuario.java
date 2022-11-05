@@ -113,17 +113,4 @@ public class Usuario implements Serializable {
 	}
 
 
-
-	//bi-directional one-to-one association to UbicacionUsuario
-	@OneToOne(mappedBy="usuario")
-	public UbicacionUsuario getUbicacionUsuario() {
-		return this.ubicacionUsuario;
-	}
-
-	public void setUbicacionUsuario(UbicacionUsuario ubicacionUsuario) {
-		this.ubicacionUsuario = ubicacionUsuario;
-	}
-
-
-
 }

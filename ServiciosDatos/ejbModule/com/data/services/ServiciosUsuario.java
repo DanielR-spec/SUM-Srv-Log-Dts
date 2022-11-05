@@ -5,13 +5,12 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.model.ent.TipoUsuario;
+import com.model.ent.UbicacionUsuario;
 import com.model.ent.Usuario;
 
 
@@ -56,9 +55,9 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 	@Override
 	public List<Usuario> findUsuarioById(int id) {
 		// TODO Auto-generated method stub
-		String consulta = "SELECT e FROM Usuario e WHERE  e.idUsuario = :idUsuario";
+		String consulta = "SELECT e FROM Usuario e WHERE  e.idUsuario = :idUser";
 		TypedQuery<Usuario> query = entityManager.createQuery(consulta, Usuario.class);
-		query.setParameter("idUsuario", id);
+		query.setParameter("idUser", id);
 		query.setMaxResults(1);
 		List<Usuario> resultList = query.getResultList();
 
@@ -97,6 +96,17 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 		}
 
 	}
+	
+	@Override
+	public void addUsuarioUb(UbicacionUsuario userUb) {
+		// TODO Auto-generated method stub
+		UbicacionUsuario userUbi = entityManager.find(UbicacionUsuario.class, userUb.getIdUbicacionUsuario());
+		if (userUbi == null) {
+			entityManager.persist(userUb);
+			entityManager.flush();
+		}
+		
+	}
 
 	// TRAER USUARIOS, RETORNA LA LISTA DE TODOS LOS USUARIOS ENCONTRADOS
 	// READ Funciona
@@ -115,21 +125,19 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 	// ELIMINAR USUARIOS, ELIMINA EL USUARIO, PENSAR EN LA LOGICA DE ID
 	// DELETE Funciona
 	@Override
-	public String delUsuario(Usuario usr) {
+	public String delUsuario(int id) {
 		// TODO Auto-generated method stub
 
-		Usuario user = entityManager.find(Usuario.class, usr.getIdUsuario());
+		Usuario user = entityManager.find(Usuario.class,id);
 
 		if (user == null) {
 			return "No existe";
 		} else {
-			entityManager.remove(usr);
+			entityManager.remove(user);
 			return "Usuario eliminado correctamente";
 		}
 
 	}
-
-
 
 	// ELIMINAR TIPO DE USUARIO, ELIMINA EL TIPO DE USUARIO
 	// DELETE Funciona
@@ -175,4 +183,24 @@ public class ServiciosUsuario implements ServiciosUsuarioRemote, ServiciosUsuari
 
 		return resultList.size();
 	}
+	
+	// BUSCAR USUARIO, RETORNA LA LISTA DE USUARIOS ENCONTRADOS
+	// READ Funciona
+	@Override
+	public List<TipoUsuario> findTipoUsuarioEmp() {
+		// TODO Auto-generated method stub
+		String consulta = "SELECT e FROM TipoUsuario e WHERE  e.tipoUsuario = :tipoUsuario";
+		TypedQuery<TipoUsuario> query = entityManager.createQuery(consulta, TipoUsuario.class);
+		query.setParameter("tipoUsuario", "E");
+		query.setMaxResults(1);
+		List<TipoUsuario> resultList = query.getResultList();
+
+		if (resultList.size() == 0) {
+			return null;
+		}
+		return resultList;
+
+	}
+
+
 }

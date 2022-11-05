@@ -35,18 +35,18 @@ import com.rest.ws.Usuario;
  * @author danie
  *
  */
-public class CrtlPrendaFireBase {
+public class CrtlCartFireBase {
 
 	/**
 	 * 
 	 */
-	public CrtlPrendaFireBase() {
+	public CrtlCartFireBase() {
 		// TODO Auto-generated constructor stub
 	}
 
 	// FUNCIONES DE FIREBASE
-	public String getPrendaFireBase() throws IOException {
-		System.out.println("===Invocando al metodo getPrendaFireBase() en CrtlPrenda===");
+	public String getPrendaFireBase(String idUsuario, String idDonacion) throws IOException {
+		System.out.println("===Invocando al metodo authPrnd() en CrtlPrenda===");
 
 		// TODO Auto-generated method stub
 		String STATUS_CODE = ":(";
@@ -56,7 +56,7 @@ public class CrtlPrendaFireBase {
 
 		try {
 			System.out.println("Iniciando proceso de conexion...");
-			keySaved = base.getUriKeys();
+			keySaved = base.getUriKeysCart(idUsuario,idDonacion);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

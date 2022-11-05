@@ -30,6 +30,7 @@ import javax.ws.rs.core.UriInfo;
 import org.glassfish.jersey.client.ClientConfig;
 
 import com.controller.rst.ControladorSrv;
+import com.controller.rst.CrtlCart;
 import com.controller.rst.CrtlPrenda;
 
 /*
@@ -42,8 +43,8 @@ import com.logic.services.ServiciosLogicaUsuarioRemote;
  * @author danie
  *
  */
-@Path("/prenda")
-public class RestApiPrenda {
+@Path("/cart")
+public class RestApiCart {
 
 	
 	@GET
@@ -60,51 +61,30 @@ public class RestApiPrenda {
 	@GET
 	@Path("/getId")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getPrendaId(
-			@QueryParam("idFire") String id,
+	public String getCartId(
+			@QueryParam("idCart") String idCart,
 			@Context UriInfo uriInfo) throws NamingException {
 		    		
-		return new CrtlPrenda().getPrendaId(id);
+		return new CrtlCart().getCartId(idCart);
 	}
 	
 	@POST
 	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String addPrend(@QueryParam("idUsuario") String idUsuario,
-			@QueryParam("imgUrl") String imgUri,
-			@QueryParam("idFire") String idFire,
-			@QueryParam("fecha") String fecha,
-			@QueryParam("genero") String genero,
-			@QueryParam("tipo") String tipo,
+	public String addCart(@QueryParam("idUsuario") String idUsuario,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new CrtlPrenda().addPrenda(idUsuario, imgUri, idFire, fecha, genero, tipo);
+		return new CrtlCart().addCart(idUsuario);
 		
 		
 	}
 	
-	@PUT
-	@Path("/upd")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String updUsr(
-			@QueryParam("idPrenda") String id,
-			@QueryParam("idUsuario") String idUsuario,
-			@QueryParam("imgUri") String imgUri,
-			@QueryParam("genero") String genero,
-			@QueryParam("tipo") String tipo,
-			@Context UriInfo uriInfo)
-			throws NamingException{
-		
-		return new CrtlPrenda().updatePrenda(id, idUsuario, imgUri, genero, tipo);
-		
-		
-	}
 	
 	@GET
 	@Path("/del")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String delPren(@QueryParam("id") String id,
+	public String delCart(@QueryParam("id") String id,
 			@Context UriInfo uriInfo) throws NamingException {
 		
 		

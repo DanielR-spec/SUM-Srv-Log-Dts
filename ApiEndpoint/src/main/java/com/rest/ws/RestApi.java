@@ -71,12 +71,13 @@ public class RestApi {
 			@QueryParam("cell") String cell,
 			@QueryParam("doc") String doc,
 			@QueryParam("direccion") String direccion,
+			@QueryParam("ciudad") String ciudad,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
 		
 		//Pasar el String a JSON
-		String respServ = new ControladorSrv().addUsr(nombres, apellidos, correo, clave, cell, doc, direccion, "E");
+		String respServ = new ControladorSrv().addUsr(nombres, apellidos, correo, clave, cell, doc, direccion, "E", ciudad);
 		
 		return respServ; 
 				

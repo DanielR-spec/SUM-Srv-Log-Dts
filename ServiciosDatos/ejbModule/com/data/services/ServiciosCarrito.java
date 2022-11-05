@@ -10,8 +10,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import com.model.ent.Carrito;
-import com.model.ent.Donacion;
-import com.model.ent.Prenda;
+
 
 /**
  * Session Bean implementation class ServicionCarrito
@@ -30,7 +29,7 @@ public class ServiciosCarrito implements ServiciosCarritoRemote, ServiciosCarrit
         // TODO Auto-generated constructor stub
     }
     
- 	// BUSCAR PRENDA POR ID, RETORNA LA LISTA DE PRENDAS ENCONTRADOS
+ 	// BUSCAR CARRITO POR ID, RETORNA LA LISTA DE CARRITOS ENCONTRADOS
  	// READ Funciona
  	@Override
  	public List<Carrito> findCarrtioById(int id) {

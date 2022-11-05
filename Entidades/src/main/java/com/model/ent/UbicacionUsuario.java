@@ -15,8 +15,6 @@ public class UbicacionUsuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idUbicacionUsuario;
 	private String ciudad;
-	private String pais;
-	private Usuario usuario;
 
 	public UbicacionUsuario() {
 	}
@@ -39,27 +37,6 @@ public class UbicacionUsuario implements Serializable {
 
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
-	}
-
-
-	public String getPais() {
-		return this.pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
-
-
-	//bi-directional one-to-one association to Usuario
-	@OneToOne
-	@JoinColumn(name="id_ubicacion_usuario")
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 }

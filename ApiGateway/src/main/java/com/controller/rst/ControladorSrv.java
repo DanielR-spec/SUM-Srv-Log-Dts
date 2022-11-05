@@ -98,7 +98,8 @@ public class ControladorSrv {
 			String cell,
 			String doc,
 			String direccion,
-			String tipo) {
+			String tipo,
+			String ciudad) {
 
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 		
@@ -112,6 +113,7 @@ public class ControladorSrv {
 		user.put("doc", doc);
 		user.put("direccion", direccion);
 		user.put("tipo", tipo);
+		user.put("ciudad", ciudad);
 		
 		String res = fachadaLog.addUser(user);
 		
@@ -152,7 +154,7 @@ public class ControladorSrv {
 		ServiciosLogicaUsuarioRemote fachadaLog = lczFachada();
 
 		if (fachadaLog.getUserById(id) != null) {
-			String res = fachadaLog.delUsr(fachadaLog.getUserById(id));
+			String res = fachadaLog.delUsr(id);
 			if (res != null) {
 
 				return res;

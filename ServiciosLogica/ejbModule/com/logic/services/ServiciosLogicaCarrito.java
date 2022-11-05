@@ -47,7 +47,7 @@ public class ServiciosLogicaCarrito implements ServiciosLogicaCarritoRemote, Ser
 
  				carritoRst.put("idCarrito", String.valueOf(carr.getIdCarrito()));
  				carritoRst.put("idUsuario", String.valueOf(carr.getIdUsuario()));
- 				carritoRst.put("idPrenda", carr.getIdPrenda());
+ 				//carritoRst.put("idPrenda", carr.getIdPrenda());
 
  			}
  			return carritoRst;
@@ -60,6 +60,7 @@ public class ServiciosLogicaCarrito implements ServiciosLogicaCarritoRemote, Ser
  	// FUNCIONA
  	@Override
  	public String addCarrito(HashMap<String, String> carrito) {
+		System.out.println("Entro al metodo agregar carrito");
 
  		// TODO Auto-generated method stub
  		ServiciosCarritoRemote fachadaDat = lczFachada();
@@ -95,26 +96,6 @@ public class ServiciosLogicaCarrito implements ServiciosLogicaCarritoRemote, Ser
 			case "idUsuario": {
 				if (entry.getValue() != "") {
 					carrito.setIdUsuario(Integer.parseInt(entry.getValue()));
-					break;
-				}
-				break;
-
-			}
-			case "idPrenda": {
-
-				if (entry.getValue() != "") {
-					carrito.setIdPrenda(entry.getValue());
-
-					break;
-
-				}
-				break;
-
-			}
-			case "idCarrFire": {
-				if (entry.getValue() != "") {
-					carrito.setIdCarrFire(entry.getValue());
-
 					break;
 				}
 				break;

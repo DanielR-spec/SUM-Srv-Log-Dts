@@ -1,7 +1,12 @@
 package com.conexion;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.naming.NamingException;
@@ -9,6 +14,7 @@ import javax.naming.NamingException;
 import com.logic.services.ServiciosLogicaDonacionRemote;
 import com.logic.services.ServiciosLogicaPrendaRemote;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.model.ent.Donacion;
 import com.model.ent.Prenda;
 import com.model.ent.Usuario;
 import com.data.services.ServiciosDonacionRemote;
@@ -16,6 +22,8 @@ import com.data.services.ServiciosPrendaRemote;
 import com.data.services.ServiciosUsuarioRemote;
 
 public class DonacionLg {
+	private final static String outputFilePathCart = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysCart.txt";
+
 	
 	
 	/**
@@ -53,17 +61,40 @@ public class DonacionLg {
 		HashMap<String, String> donacion = new HashMap<String, String>();
 
 		//donacion.put("idDonacion", "1");
-		donacion.put("idFundacion", "1");
-		donacion.put("nombreDon","dan");
+		//donacion.put("idFundacion", "1");
+		donacion.put("nombreDon","Daniel");
 		donacion.put("telefonoDon", "123");
 		donacion.put("direccionDon", "calle");
 		donacion.put("fechaDon", "2022/02/03");
-		donacion.put("idUsuario","1");
-		donacion.put("estado", "confirmada");
-		donacion.put("idFire", "1_2_3");
+		donacion.put("idUsuario","2");
+		//donacion.put("estado", "confirmada");
+		donacion.put("idFire", "1_30_10_2022_19_15_59_1559");
 		
 		String res = dt.addDonacion(donacion);
 		System.out.println(res);
+		
+	}
+	
+	public static void getDonacionesFundacion(ServiciosLogicaDonacionRemote dt) {
+		
+		//Agregar Prenda
+		
+		System.out.println("Metodo traer donacion");
+
+		HashMap<String, List<List<String>>> donaciones = new HashMap<String, List<List<String>>>();
+
+		
+		donaciones = dt.getDonacionByFundacionId("1");
+		
+		for (Entry<String, List<List<String>>> set :
+			donaciones.entrySet()) {
+
+           // Printing all elements of a Map
+           System.out.println(set.getKey() + " = "
+                              + set.getValue());
+       }
+
+		
 		
 	}
 
@@ -157,14 +188,85 @@ public class DonacionLg {
 						
 	}
 
+	public static HashMap<String, String> readFile(){
+		
+		File file = new File(outputFilePathCart);
+		
+		BufferedReader bf = null;
+		
+		HashMap<String, String> readFile = new HashMap<String, String>();
+		int index = 0;
+    	int indexFire = 0;
+		 try {
+			  
+	            // create new BufferedWriter for the output file
+	            bf = new BufferedReader(new FileReader(file));
+	            String st;
+	            int aux = 2000;
+	            
+	            while ((st = bf.readLine()) != null) {
+	        		System.out.println("Entro al metodo");
+	        		String auxStr = "";
+		            String auxStrNam = "";
+	        		for (int i = 0; i < st.length(); i++) {
+	        			
+	        			 
+	                    // Print current character
+	                    if(String.valueOf(st.charAt(i)).equals("@")) {
+	                    	aux = i;
+	                    	
+	                    }
+	                    
+	                    if (aux < i) {
+	                    	auxStr += String.valueOf(st.charAt(i));
+	                    }
+	                    if (aux > i) {
+	                    	auxStrNam += String.valueOf(st.charAt(i));
+	                    }
+	                }
+	        		
+	        		readFile.put(auxStrNam, auxStr);
+	        		
+	            }
+            
+	            return readFile;
+	            
+	  
+	        }
+	        catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        finally {
+	  
+	            try {
+	  
+	                // always close the writer
+	                bf.close();
+	            }
+	            catch (Exception e) {
+	            }
+	        }
+		 return readFile;
+	}
+	
 	public static void main(String[] args) throws NamingException {
 		
 	
 		//Get EJB conexion
 		ServiciosLogicaDonacionRemote donacionRemote =  lczDonacion();
+//		HashMap<String, String> donacion = new HashMap<String, String>();
+//		donacion = readFile();
+//		
+//		for (Map.Entry<String, String> set :
+//			donacion.entrySet()) {
+//
+//           // Printing all elements of a Map
+//           System.out.println(set.getKey() + " = "
+//                              + set.getValue());
+//       }
 		
 		//Test create/add prenda
-		//addDonacion(donacionRemote);
+		//getDonacionesFundacion(donacionRemote);
 		
 		//Test read/get prenda
 		//getPrenda(prendaRemote);
@@ -174,6 +276,8 @@ public class DonacionLg {
 		
 		//Test delete prenda
 		//updatePrenda(prendaRemote);
+		
+		addDonacion(donacionRemote);
 		
 	
 

@@ -59,11 +59,40 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 
 		return null;
 	}
+	
+	@Override
+	public String getIdPrenda(String idFire) {
+		// TODO Auto-generated method stub
+		ServiciosPrendaRemote fachadaDat = lczFachada();
+		
+		HashMap<String, String> prendaRst = new HashMap<String, String>();
+
+		List<Prenda> prendaDt = fachadaDat.getPrendaByIdFire(idFire);
+		String id = "";
+
+		//Nota el hash map no sirve para nada unicamente para iterar el metodo retorna el id
+		if (prendaDt.size() > 0) {
+			for (Prenda prenda : prendaDt) {
+
+				prendaRst.put("idPrenda", String.valueOf(prenda.getIdPrenda()));
+				prendaRst.put("idUsuario", String.valueOf(prenda.getIdUsuario()));
+				prendaRst.put("imgUrl", prenda.getImageUrl());
+				prendaRst.put("id_fire", prenda.getIdFire());
+				id = String.valueOf(prenda.getIdPrenda());
+				
+
+			}
+		}
+
+
+		return id;
+	}
 
 	// METODO PARA AGREGAR PRENDA, RETORNA MSN DE CONFIRMACION SI SE AGREGO O NO
 	// FUNCIONA
 	@Override
 	public String addPrenda(HashMap<String, String> prenda) {
+		System.out.println("Entro al metodo agregar prenda");
 
 		// TODO Auto-generated method stub
 		ServiciosPrendaRemote fachadaDat = lczFachada();
@@ -78,7 +107,8 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 
 			if (resultado.equals("Prenda insertada")) {
 				
-				catPrenda = formatCategoria(prenda,tstPrenda.getIdPrenda());
+				//En el metodo se formatea el id del la prenda que se pasa por parametro
+				catPrenda = formatCategoria(prenda, tstPrenda.getIdPrenda());
 
 				String resCat = fachadaDat.addPrendaCategoria(catPrenda);
 
@@ -279,6 +309,22 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 				break;
 
 			}
+			case "idFire": {
+				if (entry.getValue() != "") {
+					prendaDm.setIdFire(entry.getValue());
+					break;
+				}
+				break;
+
+			}
+			case "fecha": {
+				if (entry.getValue() != "") {
+					prendaDm.setFechaAgregacion(entry.getValue());
+					break;
+				}
+				break;
+
+			}
 			case "genero": {
 
 				break;
@@ -289,14 +335,7 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 				break;
 
 			}
-			case "idFire": {
-				if (entry.getValue() != "") {
-					prendaDm.setIdFire(entry.getValue());
-					break;
-				}
-				break;
 
-			}
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
 			}
@@ -322,6 +361,14 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 				break;
 
 			}
+			case "idFire": {
+				break;
+
+			}
+			case "fecha": {
+				break;
+
+			}
 			case "genero": {
 				if (entry.getValue() != "") {
 					categoriaPrenda.setGenero(entry.getValue());
@@ -339,11 +386,6 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 
 			}
 
-			case "idFire": {
-
-				break;
-
-			}
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
 			}
@@ -389,5 +431,7 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+
 
 }

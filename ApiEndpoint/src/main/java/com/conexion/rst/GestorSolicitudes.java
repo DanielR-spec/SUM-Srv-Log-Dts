@@ -56,6 +56,7 @@ public class GestorSolicitudes {
 		return response;
 		
 	}      
+	
 	public String getPrenda (String idPrenda) {
 	
 		ClientConfig config = new ClientConfig();
@@ -85,7 +86,8 @@ public class GestorSolicitudes {
 			String cell,
 			String doc,
 			String direccion,
-			String tipo) {
+			String tipo,
+			String ciudad) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
@@ -98,7 +100,8 @@ public class GestorSolicitudes {
 				queryParam("cell", cell).
 				queryParam("doc", doc).
 				queryParam("direccion", direccion).
-				queryParam("tipo", tipo);
+				queryParam("tipo", tipo).
+				queryParam("ciudad", ciudad);
 		
 		Response response = target.request()
 				.accept(MediaType.TEXT_PLAIN)
@@ -168,18 +171,21 @@ public class GestorSolicitudes {
 	 *FUNCION PARA AGREGAR PRENDA 
 	 */
 	//...
-	public String addPrenda (String idFire, String idUsuario,
+	public String addPrenda (String idUsuario,
 			String imgUrl,
+			String idFire,
+			String fecha,
 			String genero,
 			String tipo) {
 	
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target(
-				getBaseURI(2)).
-				queryParam("idFire", idFire).
+				getBaseURIPrenda(2)).
 				queryParam("idUsuario", idUsuario).
 				queryParam("imgUrl", imgUrl).
+				queryParam("idFire", idFire).
+				queryParam("fecha", idFire).
 				queryParam("genero", genero).
 				queryParam("tipo", tipo);
 		
@@ -191,6 +197,43 @@ public class GestorSolicitudes {
 		return response.readEntity(String.class);
 		
 	}
+	
+	public String getIdPrenda(String idFire) {
+		// TODO Auto-generated method stub
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURIPrenda(5)).queryParam("idFire", idFire);
+		
+		String response = target.request()
+				.accept(MediaType.TEXT_PLAIN)
+				.header("Access-Control-Allow-Origin", "*")
+				.get(String.class);
+		
+		if(response==null) {
+			return "Prenda no existe";
+		}
+			
+		return response;
+	}
+	
+	public String delPrendaById(String id) {
+		// TODO Auto-generated method stub
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURIPrenda(4)).queryParam("id", id);
+		
+		String response = target.request()
+				.accept(MediaType.TEXT_PLAIN)
+				.header("Access-Control-Allow-Origin", "*")
+				.get(String.class);
+		
+		if(response==null) {
+			return "Prenda no existe";
+		}
+			
+		return response;
+	}
+
 	
 	//FUNCIONES AUXILIARES 
 	private static URI getBaseURI(int option) {
@@ -219,9 +262,11 @@ public class GestorSolicitudes {
 		case 2:
 	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/add").build();
 		case 3:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/upd").build();
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/upd").build();
 		case 4:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/user/del").build();
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/del").build();
+		case 5:
+	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/getId").build();
 		default:
 			break;
 		}
@@ -252,6 +297,7 @@ public class GestorSolicitudes {
        // System.out.println(xmlAnswer);
        // System.out.println(htmlAnswer);
 	}
+
 
 
 }

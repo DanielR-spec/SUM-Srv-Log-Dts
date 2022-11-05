@@ -18,6 +18,8 @@ public interface ServiciosLogicaPrendaRemote {
 	public HashMap<String, String> getPrendaById(String id);
 
 	public String delPrendaById(String i);
+
+	public String getIdPrenda(String id);
 	
 
 }

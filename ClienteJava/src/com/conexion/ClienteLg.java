@@ -49,9 +49,9 @@ public class ClienteLg {
 		usr.put("doc", "miguel");
 		usr.put("direccion", "ortiz");
 
-		String res = dt.delUsr(usr);
+		//String res = dt.delUsr(usr);
 
-		return res;
+		return "res";
 
 	}
 
@@ -94,24 +94,24 @@ public class ClienteLg {
 
 	public static void main(String[] args) throws NamingException {
 		
-		System.out.println("Inicia prueba de traer prenda");
-		FireBase base = new FireBase();
-		boolean key = false;
-		try {
-			key = base.getConexion();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(key) {
-			//boolean key2 = base.readFireBase();
-			if(true) {
-				System.out.println("yaaaaaaas");
-			}
-			else
-				System.out.println("nooo");
-		}else
-			System.out.println("noooooooo :(");
+//		System.out.println("Inicia prueba de traer prenda");
+//		FireBase base = new FireBase();
+//		boolean key = false;
+//		try {
+//			key = base.getConexion();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		if(key) {
+//			//boolean key2 = base.readFireBase();
+//			if(true) {
+//				System.out.println("yaaaaaaas");
+//			}
+//			else
+//				System.out.println("nooo");
+//		}else
+//			System.out.println("noooooooo :(");
 
 		// Buscar la fachada de datos
 //		LczPrenda localizadorServicios = new LczPrenda();
@@ -124,9 +124,11 @@ public class ClienteLg {
 //			e.printStackTrace();
 //		}
 //		
-
-//		System.out.println("Inicia prueba de agregar usuario");
-//		System.out.println(new ClienteLg().addUsr(fachadaLog));
+		Lcz localizadorServicios = new Lcz();
+		ServiciosLogicaUsuarioRemote fachadaLog = null;
+		fachadaLog = localizadorServicios.getRemoteFachadaLogica();
+		System.out.println("Inicia prueba de agregar usuario");
+		System.out.println(new ClienteLg().addUsr(fachadaLog));
 		
 		// Eliminar usuario DELETE User Funciona
 //		System.out.println("Inicia prueba de eliminar usuario");

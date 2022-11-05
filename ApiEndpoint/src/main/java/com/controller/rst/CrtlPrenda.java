@@ -38,15 +38,16 @@ public class CrtlPrenda {
 	 *FUNCION PARA AGREGAR PRENDA 
 	 */
 	//...
-	public String addPrnd(String idFire,
-			String idUsuario,
+	public String addPrnd(String idUsuario,
 			String imgUrl,
+			String idFire,
+			String fecha,
 			String genero,
 			String tipo) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.addPrenda(idFire, idUsuario, imgUrl, genero, tipo);
+		return gestorSolicitudes.addPrenda(idUsuario, imgUrl, idFire, fecha, genero, tipo);
 	}
 	/**
 	 *FUNCION PARA ACRUALIZAR USUARIO 
@@ -81,6 +82,17 @@ public class CrtlPrenda {
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
 		return gestorSolicitudes.delUser(id);
+	}
+	public String getPrendaId(String idFire) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		return gestorSolicitudes.getIdPrenda(idFire);
+	}
+	public String delPrenda(String id) {
+		// TODO Auto-generated method stub
+		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		return gestorSolicitudes.delPrendaById(id);
 	}
 	
 	

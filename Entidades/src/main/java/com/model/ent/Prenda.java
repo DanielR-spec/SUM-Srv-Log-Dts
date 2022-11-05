@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class Prenda implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idPrenda;
+	private String fechaAgregacion;
 	private String idFire;
 	private int idUsuario;
 	private String imageUrl;
@@ -29,6 +30,16 @@ public class Prenda implements Serializable {
 
 	public void setIdPrenda(int idPrenda) {
 		this.idPrenda = idPrenda;
+	}
+
+
+	@Column(name="fecha_agregacion")
+	public String getFechaAgregacion() {
+		return this.fechaAgregacion;
+	}
+
+	public void setFechaAgregacion(String fechaAgregacion) {
+		this.fechaAgregacion = fechaAgregacion;
 	}
 
 

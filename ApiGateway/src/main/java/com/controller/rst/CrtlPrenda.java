@@ -56,15 +56,22 @@ public class CrtlPrenda {
 	}
 
 	// ...
-	public String addPrenda(String idFire, String idUsuario, String imgUrl, String genero, String tipo) {
+	public String addPrenda(String idUsuario,
+			String imgUrl,
+			String idFire,
+			String fecha,
+			String genero,
+			String tipo) {
 		// TODO Auto-generated method stub
 		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
 
 		HashMap<String, String> prenda = new HashMap<String, String>();
 
-		prenda.put("idFire", idFire);
+		
 		prenda.put("idUsuario", idUsuario);
 		prenda.put("imgUrl", imgUrl);
+		prenda.put("idFire", idFire);
+		prenda.put("fecha", idFire);
 		prenda.put("genero", genero);
 		prenda.put("tipo", tipo);
 
@@ -114,6 +121,25 @@ public class CrtlPrenda {
 
 		return fachadaLogica;
 
+	}
+
+	public String getPrendaId(String id) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
+
+		return fachadaLog.getIdPrenda(id);
+	}
+
+	public String delPrenda(String id) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
+
+		return fachadaLog.delPrendaById(id);
+	}
+
+	public String addCart(String idUsuario, String idCarFire) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

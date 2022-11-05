@@ -42,11 +42,11 @@ public class ControladorSrv {
 	 */
 	// ...
 	public String addUsr(String nombres, String apellidos, String correo, String clave, String cell, String doc,
-			String direccion, String tipo) throws NamingException {
+			String direccion, String tipo, String ciudad) throws NamingException {
 
 		// TODO Auto-generated method stub
 		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.addUser(nombres, apellidos, correo, clave, cell, doc, direccion, tipo);
+		return gestorSolicitudes.addUser(nombres, apellidos, correo, clave, cell, doc, direccion, tipo, ciudad);
 	}
 
 	/**

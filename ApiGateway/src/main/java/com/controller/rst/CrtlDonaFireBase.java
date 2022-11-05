@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
@@ -35,44 +36,46 @@ import com.rest.ws.Usuario;
  * @author danie
  *
  */
-public class CrtlPrendaFireBase {
+public class CrtlDonaFireBase {
 
 	/**
 	 * 
 	 */
-	public CrtlPrendaFireBase() {
+	public CrtlDonaFireBase() {
 		// TODO Auto-generated constructor stub
 	}
 
 	// FUNCIONES DE FIREBASE
-	public String getPrendaFireBase() throws IOException {
-		System.out.println("===Invocando al metodo getPrendaFireBase() en CrtlPrenda===");
+	public String getPrendasDonaFireBase(String idUsuario, String idDonaFire) throws IOException {
+		System.out.println("===Invocando al metodo authPrnd() en CrtlPrenda===");
 
 		// TODO Auto-generated method stub
 		String STATUS_CODE = ":(";
 		FireBase base = new FireBase();
-		String keySaved = null;
-		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
+		String keySaved = "Not Added";
+		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
 
 		try {
 			System.out.println("Iniciando proceso de conexion...");
-			keySaved = base.getUriKeys();
+			keySaved = base.getUriKeysPrendas(idUsuario, idDonaFire);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		if (keySaved != null) {
+		if (keySaved.equals("Files Added")) {
 			// Declarar hashmap y llamar la funcion
-			uriKeys = uriFormat();
-			// Logica
-			System.out.println("Prenda existosamente guardada :)");
+			uriKeys = uriFormatTemp();
+			STATUS_CODE = ":)";
+			System.out.println("Prenda existosamente guardada" + STATUS_CODE);
 
 			return uriKeys.toString();
 
 		}
-
 		return uriKeys.toString();
+
+		//return uriKeys.toString();
+
 	}
 
 	public HashMap<Integer, PrendaRs> uriFormat() {
@@ -80,7 +83,7 @@ public class CrtlPrendaFireBase {
 		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
 
 		// File path is passed as parameter
-		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeys.txt");
+		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrend.txt");
 
 		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
 
@@ -99,6 +102,21 @@ public class CrtlPrendaFireBase {
 		// Note: Double backquote is to avoid compiler
 		// interpret words
 		// like \test as \t (ie. as a escape sequence)
+
+		return uriKeys;
+
+	}
+	
+	public HashMap<String, ArrayList<URL>> uriFormatTemp() {
+
+		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
+
+		// File path is passed as parameter
+		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrend.txt");
+
+		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
+
+		uriKeys = saveMapTemp(file);
 
 		return uriKeys;
 
@@ -180,6 +198,112 @@ public class CrtlPrendaFireBase {
 					uriKeys.put(mapIndex, prendaRs);
 					mapIndex += 1;
 
+				}
+				try {
+					br.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				return uriKeys;
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return uriKeys;
+
+	}
+	
+	public HashMap<String, ArrayList<URL>> saveMapTemp(File file) {
+
+		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
+
+		// Declaring a string variable
+
+		String str = "";
+		String lineKey = "in";
+		int cont = 0;
+		int length = 0;
+
+		// Creating an object of BufferedReader class
+		BufferedReader br = null;
+
+		try {
+			System.out.println("Leyendo archivo...");
+			br = new BufferedReader(new FileReader(file));
+
+			// Condition holds true till
+			// there is character in a string
+
+			try {
+				System.out.println("Cargando archivo...");
+				int mapIndex = 0;
+				while ((str = br.readLine()) != null) {// Print the string
+					ArrayList<URL>links = new ArrayList<URL>();
+					PrendaRs prendaRs = new PrendaRs();
+					String nombre = "";
+					URL uri;
+
+					// Creating array of string length
+					// using length() method
+					char[] chNames = new char[str.length()];
+					char[] chKeys = new char[str.length()];
+
+					length = str.length();
+
+					String flag = "chNm";
+
+					// System.out.println(str);
+
+					// Copying character by character into array
+					// using for each loop
+
+					for (int i = 0; i < length; i++) {
+						lineKey = Character.toString(str.charAt(i));
+
+						if (flag.equals("chNm")) {
+							chNames[i] = str.charAt(i);
+
+							if (lineKey.equals("@")) {
+								nombre = String.valueOf(chNames);
+								prendaRs.setNombre(nombre);
+								flag = "chUri";
+
+							}
+
+						}
+
+						else if (flag.equals("chUri") && !lineKey.equals("@")) {
+
+							chKeys[cont] = str.charAt(i);
+
+							if (i == (length - 1)) {
+								uri = new URL(chKeys.toString());
+								links.add(uri);
+								cont = 0;
+
+							}
+							cont += 1;
+						}
+
+					}
+
+					uriKeys.put("rows", links);
+					mapIndex += 1;
+
+				}
+				
+				try {
+					br.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				return uriKeys;
 

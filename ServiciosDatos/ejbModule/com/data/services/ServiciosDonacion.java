@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import com.model.ent.Donacion;
-import com.model.ent.Prenda;
+
 
 /**
  * Session Bean implementation class ServicionDonacion
@@ -46,6 +46,23 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
  		return resultList;
 
  	}
+ 	
+ 	// BUSCAR PRENDA POR ID, RETORNA LA LISTA DE PRENDAS ENCONTRADOS
+ 	// READ Funciona
+ 	@Override
+ 	public List<Donacion> findDonacionByFundacionId(int id) {
+ 		// TODO Auto-generated method stub
+ 		String consulta = "SELECT e FROM Donacion e WHERE  e.fundacionId = :fundacionId";
+ 		TypedQuery<Donacion> query = entityManager.createQuery(consulta, Donacion.class);
+ 		query.setParameter("fundacionId", id);
+ 		List<Donacion> resultList = query.getResultList();
+
+ 		if (resultList.size() == 0) {
+ 			return null;
+ 		}
+ 		return resultList;
+
+ 	}
 
  	// AGREGAR PRENDA, AGREGA UN PRENDA NUEVO RETORNA LA LISTA DE PRENDAS
  	// ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
@@ -62,6 +79,19 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 
  	}
  	
+	@Override
+	public String updDonacion(Donacion tstDona) {
+		// TODO Auto-generated method stub
+		Donacion dona = entityManager.find(Donacion.class, tstDona.getIdDonacion());
+		if (dona.equals(null)) {
+			return "No existe";
+		} else {
+			entityManager.merge(tstDona);
+			entityManager.flush();
+			return "Donacion actualizada";
+		}
+	}
+ 	
  	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
  	// READ Funciona
  	@Override
@@ -73,6 +103,8 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 
  		return resultList.size();
  	}
+
+
  	
 
 }

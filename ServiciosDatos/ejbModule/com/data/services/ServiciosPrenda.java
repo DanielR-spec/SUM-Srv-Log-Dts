@@ -11,8 +11,7 @@ import javax.persistence.TypedQuery;
 
 import com.model.ent.CategoriaPrenda;
 import com.model.ent.Prenda;
-import com.model.ent.TipoUsuario;
-import com.model.ent.Usuario;
+
 
 /**
  * Session Bean implementation class ServiciosPrenda
@@ -49,6 +48,21 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
  		return resultList;
 
  	}
+ 	
+	@Override
+	public List<Prenda> getPrendaByIdFire(String idFire) {
+		// TODO Auto-generated method stub
+ 		String consulta = "SELECT e FROM Prenda e WHERE  e.idFire = :idFire";
+ 		TypedQuery<Prenda> query = entityManager.createQuery(consulta, Prenda.class);
+ 		query.setParameter("idFire", idFire);
+ 		query.setMaxResults(1);
+ 		List<Prenda> resultList = query.getResultList();
+
+ 		if (resultList.size() == 0) {
+ 			return null;
+ 		}
+ 		return resultList;
+	}
 
  	// AGREGAR PRENDA, AGREGA UN PRENDA NUEVO RETORNA LA LISTA DE PRENDAS
  	// ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA
@@ -187,5 +201,8 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
 
  		return resultList.size();
  	}
+
+
+
 
 }

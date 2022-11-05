@@ -68,10 +68,11 @@ public class RestApi {
 			@QueryParam("doc") String doc,
 			@QueryParam("direccion") String direccion,
 			@QueryParam("tipo") String tipo,
+			@QueryParam("ciudad") String ciudad,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new ControladorSrv().addUser(nombres, apellidos, correo, clave, cell, doc, direccion, tipo);
+		return new ControladorSrv().addUser(nombres, apellidos, correo, clave, cell, doc, direccion, tipo, ciudad);
 		
 		
 	}
