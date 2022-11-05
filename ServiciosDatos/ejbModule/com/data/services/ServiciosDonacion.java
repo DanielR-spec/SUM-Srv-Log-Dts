@@ -79,6 +79,7 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 
  	}
  	
+<<<<<<< HEAD
 	@Override
 	public String updDonacion(Donacion tstDona) {
 		// TODO Auto-generated method stub
@@ -93,6 +94,9 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 	}
  	
  	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
+=======
+ 	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD DE LA DONACION 
+>>>>>>> 98a8d40ae0f41dcbdd3497385f0498ba2cd3ac8f
  	// READ Funciona
  	@Override
  	public int getId() {
