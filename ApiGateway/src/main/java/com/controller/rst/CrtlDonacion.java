@@ -57,7 +57,7 @@ public class CrtlDonacion {
 	// ...
 	public String getDonacion(String idDonacion) {
 		// TODO Auto-generated method stub
-		System.out.println("===Invocando al metodo getPrenda() en CrtlPrenda===");
+		System.out.println("===Invocando al metodo getDonacion() en CrtlDonacion===");
 		
 		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
 
@@ -68,7 +68,7 @@ public class CrtlDonacion {
 	// ...
 	public String getDonacionByFundacionId(String idFundacion) {
 		// TODO Auto-generated method stub
-		System.out.println("===Invocando al metodo getPrenda() en CrtlPrenda===");
+		System.out.println("===Invocando al metodo getDonacionByFundacionId() en CrtlDonacion===");
 		
 		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
 		
@@ -76,9 +76,43 @@ public class CrtlDonacion {
 		
 		String st = res.toString();
 		
+		st.trim();
+		
 		String new_st = st.replace("=", ":");
 
 		return new_st;
+
+	}
+	
+	// ...
+	public String getIdDonUsr(String idDonaBack) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getIdDonUsr() en CrtlDonacion===");
+		
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		
+		HashMap<String,String> res = fachadaLogica.getDonacionById(idDonaBack);
+
+		return res.toString();
+	}
+	
+	// ...
+	public String getPrendasByDonaId(String idUsuario, String idDonaFire) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getPrenda() en CrtlPrenda===");
+		
+		String res = "";
+		String formated = "";
+		try {
+			res = new CrtlDonaFireBase().getPrendasDonaFireBase(idUsuario, idDonaFire);
+			formated = res.replaceFirst("=", ":");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return formated;
 
 	}
 
@@ -164,7 +198,25 @@ public class CrtlDonacion {
 		return null;
 	}
 	
-	
+	public String addDona(String nombreDon, String telefonoDon, String direccionDon, String fechaDon, String idUsuario,
+			String idFire) {
+		System.out.println("===Invocando al metodo addDona() en CrtlDonacion===");
+		
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		
+		HashMap<String, String> donacion = new HashMap<String, String>();
+
+		//donacion.put("idDonacion", "1");
+		//donacion.put("idFundacion", "1");
+		donacion.put("nombreDon",nombreDon);
+		donacion.put("telefonoDon", telefonoDon);
+		donacion.put("direccionDon", direccionDon);
+		donacion.put("fechaDon", fechaDon);
+		donacion.put("idUsuario",idUsuario);
+		donacion.put("idFire", idFire);
+
+		return fachadaLogica.addDonacion(donacion);
+	}
 	
 	// FUNCIONES AUXILIARES
 	// Localizador de servicios logica de prenda
@@ -259,24 +311,5 @@ public class CrtlDonacion {
 		 return readFile;
 	}
 
-	public String addDona(String nombreDon, String telefonoDon, String direccionDon, String fechaDon, String idUsuario,
-			String idFire) {
-		System.out.println("===Invocando al metodo addDona() en CrtlDonacion===");
-		
-		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
-		
-		HashMap<String, String> donacion = new HashMap<String, String>();
-
-		//donacion.put("idDonacion", "1");
-		//donacion.put("idFundacion", "1");
-		donacion.put("nombreDon",nombreDon);
-		donacion.put("telefonoDon", telefonoDon);
-		donacion.put("direccionDon", direccionDon);
-		donacion.put("fechaDon", fechaDon);
-		donacion.put("idUsuario",idUsuario);
-		donacion.put("idFire", idFire);
-
-		return fachadaLogica.addDonacion(donacion);
-	}
 
 }

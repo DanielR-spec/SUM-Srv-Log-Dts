@@ -72,19 +72,25 @@ public class RestApiDonacion {
 		
 	}
 	
+	//Es posible enviar toda la info con el metodo previo sin necesidad de acceder a este end Point 
+	//TENER PRESENTE
+	@GET
+	@Path("/getIdDonUsr")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getIdFireDonaUsr(@QueryParam("idDonaBack") String idDonaBack, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getIdDonUsr(idDonaBack);
+		
+	}
+	
 	@GET
 	@Path("/getPrendDonFun")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getPrendasDonacion(@QueryParam("idUsuario") String idUsuario, @QueryParam("idDonaFire") String idDonaFire, @Context UriInfo uriInfo) throws NamingException{
 		
 		
-		try {
-			return new CrtlDonaFireBase().getPrendasDonaFireBase(idUsuario, idDonaFire);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return idDonaFire;
+		return new CrtlDonacion().getPrendasByDonaId(idUsuario, idDonaFire);
 
 		
 	}

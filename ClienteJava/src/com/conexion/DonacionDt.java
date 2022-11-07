@@ -72,6 +72,25 @@ public class DonacionDt {
 		
 	}
 	
+	public static void getDonacionById(ServiciosDonacionRemote dt) {
+		
+		//Agregar Prenda
+		
+		System.out.println("Metodo traer donacion con id Back");
+		List<Donacion> donaciones = new ArrayList<Donacion>();
+		donaciones = dt.findDonacionById(0);
+		
+		for (Donacion donacion : donaciones) {
+			System.out.println(donacion.getIdDonaFire());
+		}
+		
+		HashMap<String, List<Donacion>> mapDonacion = new HashMap<>();
+		
+		mapDonacion.put("rows", donaciones);
+
+		
+	}
+	
 	public static void main(String[] args) throws NamingException {
 		
 	
@@ -91,7 +110,11 @@ public class DonacionDt {
 		//Test delete prenda
 		//updatePrenda(prendaRemote);
 		
-		getDonacion(donacionRemote);
+		//Test get donacion by id Fundacion
+		//getDonacion(donacionRemote);
+		
+		//Test get donacion by id Fundacion
+		getDonacionById(donacionRemote);
 
 
 	}

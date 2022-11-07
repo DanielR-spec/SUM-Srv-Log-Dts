@@ -83,6 +83,17 @@ public class RestApiDonacion {
 		
 	}
 	
+	//Creo que no es necesario hacerlo en dos tiempos
+	@GET
+	@Path("/getIdDonUsr")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getIdFireDonaUsr(@QueryParam("idDonaBack") String idDonaBack, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getIdFireDonaUsr(idDonaBack);
+		
+	}
+	
 	@GET
 	@Path("/getPrendDonFun")
 	@Produces(MediaType.APPLICATION_JSON)

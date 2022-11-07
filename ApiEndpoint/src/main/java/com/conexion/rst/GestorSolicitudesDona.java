@@ -57,6 +57,26 @@ public class GestorSolicitudesDona {
 		return response;
 		
 	}
+	
+	//FUNCION PARA TRAER EL ID DEL USUARIO Y DE LA DONACION CON EL FIN 
+	//DE TENER LA REFERENCIA PARA TRAER LAS IMAGENES
+	public String getIdDonaUsr(String idDonaBack) {
+		// TODO Auto-generated method stub
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI(5)).queryParam("idDonaBack", idDonaBack);
+		
+		String response = target.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*")
+				.get(String.class);
+		
+		if(response==null) {
+			return "Infofrmacion no encontrada";
+		}
+			
+		return response;	}	
+	
 	/**
 	 *FUNCION PARA TRAER LAS PRENDAS DE UNA DONACION ESPESIFICA
 	 */  
@@ -81,6 +101,7 @@ public class GestorSolicitudesDona {
 		return response;
 		
 	}
+	
 	public String updateDonacion(String id, String estado) {
 		// TODO Auto-generated method stub
 		ClientConfig config = new ClientConfig();
@@ -138,12 +159,15 @@ public class GestorSolicitudesDona {
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/upd").build();
 			case 4:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/add").build();
+			case 5:
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/getIdDonUsr").build();
 			default:
 				break;
 			}
 			return null;
 		
-	    }	
+	    }
+
 	
 
 

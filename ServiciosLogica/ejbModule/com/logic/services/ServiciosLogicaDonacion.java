@@ -46,10 +46,10 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		if (donacion.size() > 0) {
  			for (Donacion dona : donacion) {
 
- 				donacionRst.put("idDonacion", String.valueOf(dona.getIdDonacion()));
+ 				//donacionRst.put("idDonacion", String.valueOf(dona.getIdDonacion()));
  				donacionRst.put("idUsuario", String.valueOf(dona.getUsuarioId()));
- 				donacionRst.put("nomre", dona.getNombreDon());
- 				donacionRst.put("direccion", dona.getDireccionDon());
+ 				donacionRst.put("idDonaFire", dona.getIdDonaFire());
+ 				//donacionRst.put("direccion", dona.getDireccionDon());
 
  			}
  			return donacionRst;
@@ -69,12 +69,15 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  	 		List<Donacion> donaciones = fachadaDat.findDonacionByFundacionId(Integer.parseInt(id));
  	 		
  	 		List<List<String>> externalValues = new ArrayList<List<String>>();
- 	 		
+ 	 		List<List<String>> externaHeatherlValues = new ArrayList<List<String>>();
+
  	 		//List<String> internalValues = new ArrayList<String>();
 
  	 		
  	 		for (Donacion donacion : donaciones) {
  	 	 		List<String> internalValues = new ArrayList<String>();
+ 	 	 		List<String> internalHeatherValues = new ArrayList<String>();
+
  	 			
  	 			if (donacion.getFundacionId() == Integer.parseInt(id)) {
  	 				
@@ -83,9 +86,27 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  	 	 			internalValues.add(donacion.getTelDon());
  	 	 			internalValues.add('"' + donacion.getEstado() + '"');
  	 	 			internalValues.add('"' +""+'"');
- 	 	 				 			
+ 	 	 			
+ 	 	 			String keyidUsr = "{" + '"' + "idUsr"  + '"' + ":";
+ 	 	 			String keyidDonaFire = '"' + "idDonaFire" + '"' + ":";
+ 	 	 			String keyidDonaBack = '"' + "idDonaBack" + '"' + ":";
+// 	 	 			
+ 	 	 			//String keyidUsr = "idUsr"+":";
+ 	 	 			//String keyidDonaFire = "idDonaFire"+":"; 
+ 	 	 			
+ 	 	 			String valueidUsr = '"' + String.valueOf(donacion.getUsuarioId()) + '"';
+ 	 	 			String valueidDonaFire = '"' +  String.valueOf(donacion.getIdDonaFire()) + '"';
+ 	 	 			String valueidDonaBack = '"' +  String.valueOf(donacion.getIdDonacion()) + '"';
+
+
+ 	 	 			
+ 	 	 			internalHeatherValues.add(keyidUsr+"["+valueidUsr+"]");
+ 	 	 			internalHeatherValues.add(keyidDonaFire+"["+valueidDonaFire+"]");
+ 	 	 			internalHeatherValues.add(keyidDonaBack+"["+valueidDonaBack+"]" + "}");
+
  	 	 			
  	 	 			externalValues.add(internalValues);
+ 	 	 			externaHeatherlValues.add(internalHeatherValues);
  	 	 								
 				}
  	 			
@@ -96,6 +117,7 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  	 		HashMap<String, List<List<String>>> mapDonacion = new HashMap<>();
  			
  			mapDonacion.put('"' +"rows"+'"' , externalValues);
+ 			mapDonacion.put('"' +"headers"+'"' , externaHeatherlValues);
  			
  	 		return mapDonacion;
  	 	}
@@ -135,13 +157,26 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		// TODO Auto-generated method stub
  		ServiciosDonacionRemote fachadaDat = lczFachada();
 
- 		Donacion tstDona = new Donacion();
+ 		List<Donacion> tstDona = new ArrayList<Donacion>();
+ 		Donacion donaAct = new Donacion();
  		
- 		tstDona.setIdDonacion(Integer.parseInt(id));
- 		tstDona.setEstado(estado);
  	
  		try {
- 			String resultado = fachadaDat.updDonacion(tstDona);
+ 			tstDona = fachadaDat.findDonacionById(Integer.parseInt(id));
+ 			
+ 			for (Donacion donacion : tstDona) {
+				donaAct.setDireccionDon(donacion.getDireccionDon());
+				donaAct.setEstado(estado);
+				donaAct.setFechaDon(donacion.getFechaDon());
+				donaAct.setFundacionId(donacion.getFundacionId());
+				donaAct.setIdDonacion(donacion.getIdDonacion());
+				donaAct.setIdDonaFire(donacion.getIdDonaFire());
+				donaAct.setNombreDon(donacion.getNombreDon());
+				donaAct.setTelDon(donacion.getTelDon());
+				donaAct.setUsuarioId(donacion.getUsuarioId());
+				
+			}
+ 			String resultado = fachadaDat.updDonacion(donaAct);
 
  			if (resultado.equals("Donacion actualizada")) {
  				

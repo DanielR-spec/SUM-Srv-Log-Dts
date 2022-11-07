@@ -29,14 +29,14 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
         // TODO Auto-generated constructor stub
     }
     
- 	// BUSCAR PRENDA POR ID, RETORNA LA LISTA DE PRENDAS ENCONTRADOS
+ 	// BUSCAR DONACION POR ID, RETORNA LA LISTA DE PRENDAS ENCONTRADOS
  	// READ Funciona
  	@Override
  	public List<Donacion> findDonacionById(int id) {
  		// TODO Auto-generated method stub
  		String consulta = "SELECT e FROM Donacion e WHERE  e.idDonacion = :idDonacion";
  		TypedQuery<Donacion> query = entityManager.createQuery(consulta, Donacion.class);
- 		query.setParameter("idPrenda", id);
+ 		query.setParameter("idDonacion", id);
  		query.setMaxResults(1);
  		List<Donacion> resultList = query.getResultList();
 
@@ -79,7 +79,6 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 
  	}
  	
-<<<<<<< HEAD
 	@Override
 	public String updDonacion(Donacion tstDona) {
 		// TODO Auto-generated method stub
@@ -93,10 +92,7 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
 		}
 	}
  	
- 	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD
-=======
  	// TRAER ID, RETORNA EL ULTIMO ID DE LA BD DE LA DONACION 
->>>>>>> 98a8d40ae0f41dcbdd3497385f0498ba2cd3ac8f
  	// READ Funciona
  	@Override
  	public int getId() {

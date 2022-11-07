@@ -53,7 +53,7 @@ public class CrtlDonaFireBase {
 		String STATUS_CODE = ":(";
 		FireBase base = new FireBase();
 		String keySaved = "Not Added";
-		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
+		HashMap<String,  List<List<String>>> uriKeys = new HashMap<String,   List<List<String>>>();
 
 		try {
 			System.out.println("Iniciando proceso de conexion...");
@@ -107,14 +107,14 @@ public class CrtlDonaFireBase {
 
 	}
 	
-	public HashMap<String, ArrayList<URL>> uriFormatTemp() {
+	public HashMap<String,  List<List<String>>> uriFormatTemp() {
 
 		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
 
 		// File path is passed as parameter
 		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrend.txt");
 
-		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
+		HashMap<String,  List<List<String>>> uriKeys = new HashMap<String,   List<List<String>>>();
 
 		uriKeys = saveMapTemp(file);
 
@@ -220,9 +220,9 @@ public class CrtlDonaFireBase {
 
 	}
 	
-	public HashMap<String, ArrayList<URL>> saveMapTemp(File file) {
+	public HashMap<String,  List<List<String>>> saveMapTemp(File file) {
 
-		HashMap<String, ArrayList<URL>> uriKeys = new HashMap<String,  ArrayList<URL>>();
+		HashMap<String,  List<List<String>>> uriKeys = new HashMap<String,   List<List<String>>>();
 
 		// Declaring a string variable
 
@@ -230,6 +230,8 @@ public class CrtlDonaFireBase {
 		String lineKey = "in";
 		int cont = 0;
 		int length = 0;
+		
+		List< List<String>> externalValues = new ArrayList<List<String>>();
 
 		// Creating an object of BufferedReader class
 		BufferedReader br = null;
@@ -245,10 +247,10 @@ public class CrtlDonaFireBase {
 				System.out.println("Cargando archivo...");
 				int mapIndex = 0;
 				while ((str = br.readLine()) != null) {// Print the string
-					ArrayList<URL>links = new ArrayList<URL>();
+					List<String>links = new ArrayList<String>();
 					PrendaRs prendaRs = new PrendaRs();
 					String nombre = "";
-					URL uri;
+					String uri;
 
 					// Creating array of string length
 					// using length() method
@@ -284,8 +286,10 @@ public class CrtlDonaFireBase {
 							chKeys[cont] = str.charAt(i);
 
 							if (i == (length - 1)) {
-								uri = new URL(chKeys.toString());
-								links.add(uri);
+								uri = '"' +String.valueOf(chKeys).trim()+'"';
+								prendaRs.setUri(uri);
+								links.add(prendaRs.getUri());
+								externalValues.add(links);
 								cont = 0;
 
 							}
@@ -293,8 +297,8 @@ public class CrtlDonaFireBase {
 						}
 
 					}
-
-					uriKeys.put("rows", links);
+					
+					uriKeys.put('"' +"rows"+'"', externalValues);
 					mapIndex += 1;
 
 				}
