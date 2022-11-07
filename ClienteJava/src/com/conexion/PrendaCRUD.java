@@ -5,6 +5,7 @@ import java.util.List;
 import javax.naming.NamingException;
 
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.model.ent.CategoriaPrenda;
 import com.model.ent.Prenda;
 import com.model.ent.Usuario;
 import com.data.services.ServiciosPrendaRemote;
@@ -75,6 +76,25 @@ public class PrendaCRUD {
 				
 	}
 	
+	public static void getPrendaCat(ServiciosPrendaRemote dt) {
+		
+		System.out.println("Inicia prueba de buscar categoria prenda por id: 1");
+		List<CategoriaPrenda> lista = dt.getCategoriaPrenda(1);
+
+		if (lista == null) {
+			System.out.println("Prenda no existe");
+		} else {
+			for (CategoriaPrenda prnd : lista) {
+				System.out.println("Informacion: ");
+
+				System.out.print("Tipo: " + prnd.getTipo() + "\n");
+				System.out.print("Genero: " + prnd.getGenero() + "\n");
+			}
+
+		}
+				
+	}
+	
 	public static void deletPrenda(ServiciosPrendaRemote dt) {
 		
  		//Eliminar usuario DELETE User Funciona
@@ -117,7 +137,7 @@ public class PrendaCRUD {
 		ServiciosPrendaRemote prendaRemote = lczPrnd();
 		
 		//Test create/add prenda
-		addPrenda(prendaRemote);
+		//addPrenda(prendaRemote);
 		
 		//Test read/get prenda
 		//getPrenda(prendaRemote);
@@ -127,6 +147,9 @@ public class PrendaCRUD {
 		
 		//Test delete prenda
 		//updatePrenda(prendaRemote);
+		
+		//Test get Cat
+		getPrendaCat(prendaRemote);
 		
 	
 

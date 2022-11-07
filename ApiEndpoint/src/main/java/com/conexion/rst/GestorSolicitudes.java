@@ -57,24 +57,6 @@ public class GestorSolicitudes {
 		
 	}      
 	
-	public String getPrenda (String idPrenda) {
-	
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURIPrenda(1)).queryParam("idPrenda", idPrenda);
-		
-		String response = target.request()
-				.accept(MediaType.APPLICATION_JSON)
-				.header("Access-Control-Allow-Origin", "*")
-				.get(String.class);
-		
-		if(response==null) {
-			return "Usuario no existe";
-		}
-			
-		return response;
-		
-	}      
 	/**
 	 *FUNCION PARA AGREGAR USUARIO 
 	 */
@@ -167,73 +149,6 @@ public class GestorSolicitudes {
 		return response;
 		
 	}  
-	/**
-	 *FUNCION PARA AGREGAR PRENDA 
-	 */
-	//...
-	public String addPrenda (String idUsuario,
-			String imgUrl,
-			String idFire,
-			String fecha,
-			String genero,
-			String tipo) {
-	
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(
-				getBaseURIPrenda(2)).
-				queryParam("idUsuario", idUsuario).
-				queryParam("imgUrl", imgUrl).
-				queryParam("idFire", idFire).
-				queryParam("fecha", idFire).
-				queryParam("genero", genero).
-				queryParam("tipo", tipo);
-		
-		Response response = target.request()
-				.accept(MediaType.TEXT_PLAIN)
-				.post(null);
-				
-			
-		return response.readEntity(String.class);
-		
-	}
-	
-	public String getIdPrenda(String idFire) {
-		// TODO Auto-generated method stub
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURIPrenda(5)).queryParam("idFire", idFire);
-		
-		String response = target.request()
-				.accept(MediaType.TEXT_PLAIN)
-				.header("Access-Control-Allow-Origin", "*")
-				.get(String.class);
-		
-		if(response==null) {
-			return "Prenda no existe";
-		}
-			
-		return response;
-	}
-	
-	public String delPrendaById(String id) {
-		// TODO Auto-generated method stub
-		ClientConfig config = new ClientConfig();
-		Client client = ClientBuilder.newClient(config);
-		WebTarget target = client.target(getBaseURIPrenda(4)).queryParam("id", id);
-		
-		String response = target.request()
-				.accept(MediaType.TEXT_PLAIN)
-				.header("Access-Control-Allow-Origin", "*")
-				.get(String.class);
-		
-		if(response==null) {
-			return "Prenda no existe";
-		}
-			
-		return response;
-	}
-
 	
 	//FUNCIONES AUXILIARES 
 	private static URI getBaseURI(int option) {
@@ -254,50 +169,4 @@ public class GestorSolicitudes {
 		
 	    }
 	
-	private static URI getBaseURIPrenda(int option) {
-		
-		switch (option) {
-		case 1:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/get").build();
-		case 2:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/add").build();
-		case 3:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/upd").build();
-		case 4:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/del").build();
-		case 5:
-	        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/prenda/getId").build();
-		default:
-			break;
-		}
-		return null;
-	
-    }
-	
-	
-	private void txt() {
-		/*
-		Client client2 = ClientBuilder.newClient(config);
-		WebTarget target2 = client.target(getBaseURI()).queryParam("user", usr).queryParam("psswr", pss);
-		
-		String response2 = target2.request().accept(MediaType.APPLICATION_JSON).get(String.class);*/
-		
-		//WebTarget target = null;
-		
-        //String response = target.path("hola").path("mundo").request().acceptLanguage(MediaType.TEXT_PLAIN).get(Response.class).toString();
-        
-        //System.out.println(response);
-
-		
-       // String plainAnswer =target.path("rest").path("hello").request().acceptLanguage(MediaType.TEXT_PLAIN).get(String.class);
-       // String xmlAnswer =target.path("rest").path("hello").request().acceptLanguage(MediaType.TEXT_XML).get(String.class);
-       // String htmlAnswer=target.path("rest").path("hello").request().acceptLanguage(MediaType.TEXT_HTML).get(String.class);
-
-       // System.out.println(plainAnswer);
-       // System.out.println(xmlAnswer);
-       // System.out.println(htmlAnswer);
-	}
-
-
-
 }

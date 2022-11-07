@@ -136,12 +136,28 @@ public class CrtlPrenda {
 
 		return fachadaLog.delPrendaById(id);
 	}
+	
+	public String getCatById(String idPrend) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		ServiciosLogicaPrendaRemote fachadaLog = lczFachada();
+		
+		HashMap<String,String> res = fachadaLog.getCatPrendaById(idPrend);
+		
+		String st = res.toString();
+		
+		st.trim();
+		
+		String new_st = st.replace("=", ":");
+
+		return new_st;
+	}
+
 
 	public String addCart(String idUsuario, String idCarFire) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 
 }

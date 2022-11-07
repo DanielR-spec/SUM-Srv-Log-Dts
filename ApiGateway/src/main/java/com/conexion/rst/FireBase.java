@@ -30,6 +30,7 @@ public class FireBase {
 	private final static String outputFilePathCart = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysCart.txt";
 	private final static String outputFilePathPrend = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrend.txt";
 
+
 	public FireBase() {
 		// TODO Auto-generated constructor stub
 	}
@@ -186,6 +187,7 @@ public class FireBase {
 		System.out.println("Metodo getKeys " + ref.getKey());
 
 		HashMap<String, String> uriKeys = new HashMap<String, String>();
+
 
 		// LEER DATOS DE BD FIREBASE
 		if (ref != null) {

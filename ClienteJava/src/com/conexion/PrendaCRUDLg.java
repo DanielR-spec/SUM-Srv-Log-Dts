@@ -8,6 +8,7 @@ import javax.naming.NamingException;
 
 import com.logic.services.ServiciosLogicaPrendaRemote;
 import com.logic.services.ServiciosLogicaUsuarioRemote;
+import com.model.ent.CategoriaPrenda;
 import com.model.ent.Prenda;
 import com.model.ent.Usuario;
 import com.data.services.ServiciosPrendaRemote;
@@ -116,6 +117,48 @@ public class PrendaCRUDLg {
 				
 	}
 	
+	public static void getCatPrenda(ServiciosLogicaPrendaRemote dt) {
+		
+		//Traer Prenda
+		System.out.println("inicia prueba de traer catgoria prnda");
+		String id = "1";
+		HashMap<String, String> categoria = new HashMap<String, String>();
+		CategoriaPrenda prenda = new CategoriaPrenda();
+
+		categoria = dt.getCatPrendaById(id);
+				
+		for (Entry<String, String> entry : categoria.entrySet()) {
+			switch (entry.getKey()) {
+			case "tipo": {
+				if (entry.getValue() != "") {
+					prenda.setTipo(entry.getValue());
+					break;
+
+				}
+				break;
+
+			}
+			case "genero": {
+				if (entry.getValue() != "") {
+					prenda.setGenero(entry.getValue());
+					break;
+				}
+				break;
+
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
+			}
+
+		}
+		
+		System.out.println("Respuesta get prenda id: 1");
+		System.out.println("tipo: " + prenda.getTipo());
+		System.out.println("genero: " + prenda.getGenero());
+
+				
+	}
+	
 	public static void deletPrenda(ServiciosLogicaPrendaRemote dt) {
 		
  		//Eliminar prenda DELETE prenda Funciona
@@ -160,7 +203,7 @@ public class PrendaCRUDLg {
 		ServiciosLogicaPrendaRemote prendaRemote = lczPrnd();
 		
 		//Test create/add prenda
-		addPrenda(prendaRemote);
+		//addPrenda(prendaRemote);
 		
 		//Test read/get prenda
 		//getPrenda(prendaRemote);
@@ -170,6 +213,9 @@ public class PrendaCRUDLg {
 		
 		//Test delete prenda
 		//updatePrenda(prendaRemote);
+		
+		//Test get categoria
+		getCatPrenda(prendaRemote);
 		
 	
 

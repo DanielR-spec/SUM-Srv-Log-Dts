@@ -20,6 +20,10 @@ public interface ServiciosLogicaPrendaRemote {
 	public String delPrendaById(String i);
 
 	public String getIdPrenda(String id);
+
+	public HashMap<String, String> getCatPrendaById(String id);
+
+	public HashMap<String, String> getPrendaByIdFire(String idFire);
 	
 
 }

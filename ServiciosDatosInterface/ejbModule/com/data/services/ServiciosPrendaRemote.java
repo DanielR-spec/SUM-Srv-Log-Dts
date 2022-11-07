@@ -33,6 +33,8 @@ public interface ServiciosPrendaRemote {
 	public int getIdCat();
 
 	public List<Prenda> getPrendaByIdFire(String idFire);
+
+	public List<CategoriaPrenda> getCategoriaPrenda(int idPrenda);
 	
 	
 

@@ -67,6 +67,17 @@ public class RestApiPrenda {
 		return new CrtlPrenda().getPrendaId(id);
 	}
 	
+	//Funciona
+	@GET
+	@Path("/getCat")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getPrendaCatId(
+			@QueryParam("idPrend") String idPrend,
+			@Context UriInfo uriInfo) throws NamingException {
+		    		
+		return new CrtlPrenda().getCatById(idPrend);
+	}
+	
 	@POST
 	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)

@@ -32,6 +32,8 @@ import com.google.firebase.FirebaseApp;
 import com.rest.ws.PrendaRs;
 import com.rest.ws.Usuario;
 
+import org.apache.commons.lang3.StringUtils;  
+
 /**
  * @author danie
  *
@@ -148,7 +150,7 @@ public class CrtlDonaFireBase {
 				int mapIndex = 0;
 				while ((str = br.readLine()) != null) {// Print the string
 					PrendaRs prendaRs = new PrendaRs();
-					String nombre = "";
+					String idDonaFire = "";
 					String uri = "";
 
 					// Creating array of string length
@@ -172,8 +174,8 @@ public class CrtlDonaFireBase {
 							chNames[i] = str.charAt(i);
 
 							if (lineKey.equals("@")) {
-								nombre = String.valueOf(chNames);
-								prendaRs.setNombre(nombre);
+								idDonaFire = String.valueOf(chNames);
+								prendaRs.setNombre(idDonaFire);
 								flag = "chUri";
 
 							}
@@ -249,7 +251,7 @@ public class CrtlDonaFireBase {
 				while ((str = br.readLine()) != null) {// Print the string
 					List<String>links = new ArrayList<String>();
 					PrendaRs prendaRs = new PrendaRs();
-					String nombre = "";
+					String idPrendFire = "";
 					String uri;
 
 					// Creating array of string length
@@ -273,8 +275,12 @@ public class CrtlDonaFireBase {
 							chNames[i] = str.charAt(i);
 
 							if (lineKey.equals("@")) {
-								nombre = String.valueOf(chNames);
-								prendaRs.setNombre(nombre);
+								idPrendFire = String.valueOf(chNames).trim();
+								idPrendFire = StringUtils.chop(idPrendFire); 
+								idPrendFire = '"' + idPrendFire + '"';
+
+								prendaRs.setNombre(idPrendFire);
+								links.add(prendaRs.getNombre());
 								flag = "chUri";
 
 							}
@@ -286,7 +292,7 @@ public class CrtlDonaFireBase {
 							chKeys[cont] = str.charAt(i);
 
 							if (i == (length - 1)) {
-								uri = '"' +String.valueOf(chKeys).trim()+'"';
+								uri = '"'+String.valueOf(chKeys).trim()+'"';
 								prendaRs.setUri(uri);
 								links.add(prendaRs.getUri());
 								externalValues.add(links);

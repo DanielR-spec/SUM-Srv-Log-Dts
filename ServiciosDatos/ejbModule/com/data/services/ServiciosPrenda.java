@@ -63,6 +63,21 @@ public class ServiciosPrenda implements ServiciosPrendaRemote, ServiciosPrendaLo
  		}
  		return resultList;
 	}
+	
+	@Override
+	public List<CategoriaPrenda> getCategoriaPrenda(int idPrenda) {
+		// TODO Auto-generated method stub
+ 		String consulta = "SELECT e FROM CategoriaPrenda e WHERE  e.idCategoriaPrenda = :idCategoriaPrenda";
+ 		TypedQuery<CategoriaPrenda> query = entityManager.createQuery(consulta, CategoriaPrenda.class);
+ 		query.setParameter("idCategoriaPrenda", idPrenda);
+ 		query.setMaxResults(1);
+ 		List<CategoriaPrenda> resultList = query.getResultList();
+
+ 		if (resultList.size() == 0) {
+ 			return null;
+ 		}
+ 		return resultList;
+	}
 
  	// AGREGAR PRENDA, AGREGA UN PRENDA NUEVO RETORNA LA LISTA DE PRENDAS
  	// ENCONTRADOS, LA LOGICA DEL id SE HACE EN LA LOGICA

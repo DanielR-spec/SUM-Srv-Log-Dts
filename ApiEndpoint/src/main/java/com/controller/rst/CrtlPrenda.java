@@ -9,6 +9,7 @@ import java.util.List;
 import javax.naming.NamingException;
 
 import com.conexion.rst.GestorSolicitudes;
+import com.conexion.rst.GestorSolicitudesPrenda;
 import com.rest.ws.UsuarioDao;
 
 /**
@@ -30,7 +31,7 @@ public class CrtlPrenda {
 	public String getPrenda(String idPrenda) throws NamingException {
 
 		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		GestorSolicitudesPrenda gestorSolicitudes = new GestorSolicitudesPrenda();
 		return gestorSolicitudes.getPrenda(idPrenda);
 		
 	}
@@ -46,53 +47,25 @@ public class CrtlPrenda {
 			String tipo) throws NamingException {
 
 		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		GestorSolicitudesPrenda gestorSolicitudes = new GestorSolicitudesPrenda();
 		return gestorSolicitudes.addPrenda(idUsuario, imgUrl, idFire, fecha, genero, tipo);
 	}
-	/**
-	 *FUNCION PARA ACRUALIZAR USUARIO 
-	 */
-	//...
-	public String updUsr(String id, 
-			String nombres,
-			String apellidos,
-			String correo,
-			String clave,
-			String cell,
-			String doc,
-			String direccion) throws NamingException {
 
-		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.updUser(id, 
-										nombres, 
-										apellidos, 
-										correo, 
-										clave, 
-										cell, 
-										doc, 
-										direccion);
-	}
-	/**
-	 *FUNCION PARA ACRUALIZAR USUARIO 
-	 */
-	//...
-	public String delUsr(String id) throws NamingException {
-
-		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
-		return gestorSolicitudes.delUser(id);
-	}
 	public String getPrendaId(String idFire) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		GestorSolicitudesPrenda gestorSolicitudes = new GestorSolicitudesPrenda();
 		return gestorSolicitudes.getIdPrenda(idFire);
 	}
 	public String delPrenda(String id) {
 		// TODO Auto-generated method stub
-		GestorSolicitudes gestorSolicitudes = new GestorSolicitudes();
+		GestorSolicitudesPrenda gestorSolicitudes = new GestorSolicitudesPrenda();
 		return gestorSolicitudes.delPrendaById(id);
+	}
+	public String getCatById(String idPrend) {
+		// TODO Auto-generated method stub
+		GestorSolicitudesPrenda gestorSolicitudes = new GestorSolicitudesPrenda();
+		return gestorSolicitudes.getCategoriaPrenda(idPrend);
 	}
 	
 	
