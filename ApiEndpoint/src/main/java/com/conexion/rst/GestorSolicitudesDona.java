@@ -145,6 +145,24 @@ public class GestorSolicitudesDona {
 			
 		return response.readEntity(String.class);
 	}
+	
+	public String getDonacionesUsr(String idUsuario) {
+		// TODO Auto-generated method stub
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target(getBaseURI(6)).queryParam("idUsuario", idUsuario);
+		
+		String response = target.request()
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*")
+				.get(String.class);
+		
+		if(response==null) {
+			return "Donacion no encontrada";
+		}
+			
+		return response;
+	}
 
 	
 	//FUNCIONES AUXILIARES 
@@ -161,12 +179,15 @@ public class GestorSolicitudesDona {
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/add").build();
 			case 5:
 		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/getIdDonUsr").build();
+			case 6:
+		        return UriBuilder.fromUri("http://localhost:9085/ApiGateway/rest/donacion/getDonUsr").build();
 			default:
 				break;
 			}
 			return null;
 		
 	    }
+
 
 	
 

@@ -77,10 +77,22 @@ public class RestApiDonacion {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getDonacionByFundacionId(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
 		
-		
 		return new CrtlDonacion().getDonacionByFundacionId(idFundacion);
 
+	}
+	
+	/**
+	 * @param uriInfo 
+	 * @throws NamingException 
+	 * 
+	 */	
+	@GET
+	@Path("/getDonUsr")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDonacionByUserId(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
 		
+		return new CrtlDonacion().getDonacionByUserId(idUsuario);
+
 	}
 	
 	//Creo que no es necesario hacerlo en dos tiempos

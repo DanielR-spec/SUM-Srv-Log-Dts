@@ -98,6 +98,27 @@ public class DonacionLg {
 		
 	}
 	
+	public static void getDonacionByUsrId(ServiciosLogicaDonacionRemote dt) {
+		
+		//Agregar Prenda
+		
+		System.out.println("Metodo traer donacion por Id");
+
+		HashMap<String, String> infDonacion = new HashMap<String, String>();
+
+		
+		infDonacion = dt.getDonacionByIdUsr("1");
+		
+		for (Entry<String, String> set :
+			infDonacion.entrySet()) {
+
+           // Printing all elements of a Map
+           System.out.println(set.getKey() + " = "
+                              + set.getValue());
+       }	
+		
+	}
+	
 	public static void getDonacionesFundacion(ServiciosLogicaDonacionRemote dt) {
 		
 		//Agregar Prenda
@@ -305,6 +326,9 @@ public class DonacionLg {
 		
 		//Test get donacion by id
 		//getDonacionById(donacionRemote);
+		
+		//Test get donacion by user id
+		//getDonacionByUsrId(donacionRemote);
 		
 	}
 

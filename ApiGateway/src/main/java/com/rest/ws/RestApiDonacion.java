@@ -95,6 +95,17 @@ public class RestApiDonacion {
 		
 	}
 	
+	@GET
+	@Path("/getDonUsr")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDonacionUsr(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getDonacionUsr(idUsuario);
+
+		
+	}
+	
 	//iniciar el proceso de actualización de cuenta 
 	//Entrada: Atributos de actualización de cuenta de usuario
 	//Salida: Str respuesta si se actualiza o no

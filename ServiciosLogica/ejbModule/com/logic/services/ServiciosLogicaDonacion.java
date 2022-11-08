@@ -13,6 +13,7 @@ import com.conexion.srv.LocalizadorServicios;
 import com.conexion.srv.LocalizadorServiciosDonacion;
 import com.model.ent.Donacion;
 import com.model.ent.TipoUsuario;
+import com.model.ent.Usuario;
 import com.data.services.ServiciosDonacionRemote;
 import com.data.services.ServiciosUsuarioRemote;
 
@@ -58,10 +59,10 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		return null;
  	}
  	
- 	  // METODO PARA TRAER DONACIONES POR ID DE LA FUNDACION, RETORNA LA INFORMACION DE LA DONACION SI
- 	 // EXISTE
- 	 // FUNCIONA
- 	 public HashMap<String,List<List<String>>> getDonacionByFundacionId(String id) {
+ 	// METODO PARA TRAER DONACIONES POR ID DE LA FUNDACION, RETORNA LA INFORMACION DE LA DONACION SI
+ 	// EXISTE
+ 	// FUNCIONA
+ 	public HashMap<String,List<List<String>>> getDonacionByFundacionId(String id) {
 
  	 		// TODO Auto-generated method stub
  	 		ServiciosDonacionRemote fachadaDat = lczFachada();
@@ -121,6 +122,54 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  			
  	 		return mapDonacion;
  	 	}
+ 	 
+ 	@Override
+ 	public HashMap<String, String> getDonacionByIdUsr(String idUsuario) {
+ 		// TODO Auto-generated method stub
+	 	ServiciosDonacionRemote fachadaDat = lczFachada();
+	 	ServiciosUsuarioRemote fachadaDatUsr = lczFachadaUsr();
+
+	 	
+		HashMap<String, String> donacionRst = new HashMap<String, String>();
+
+		List<Donacion> donacionDt = fachadaDat.findDonacionByUsrId(Integer.parseInt(idUsuario));
+
+
+		if (donacionDt.size() > 0) {
+			for (Donacion donacion : donacionDt) {
+
+				donacionRst.put('"' +"nombre"+'"', '"' +donacion.getNombreDon()+'"');
+				donacionRst.put('"' +"direccion"+'"', '"' +donacion.getDireccionDon()+'"');
+				donacionRst.put('"' +"fecha"+'"', '"' +donacion.getFechaDon()+'"');
+				donacionRst.put('"' +"telefono"+'"', '"' +donacion.getTelDon()+'"');
+				donacionRst.put('"' +"estado"+'"', '"' +donacion.getEstado()+'"');
+				
+//				donacionRst.put("nombre",donacion.getNombreDon());
+//				donacionRst.put("direccion",donacion.getDireccionDon());
+//				donacionRst.put("fecha",donacion.getFechaDon());
+//				donacionRst.put("telefono",donacion.getTelDon());
+//				donacionRst.put("estado",donacion.getEstado());
+				
+				List<Usuario> empresaDt = fachadaDatUsr.findUsuarioById(donacion.getFundacionId());
+				
+				for (Usuario empresa : empresaDt) {
+					donacionRst.put('"' +"nombreEmp"+'"', '"' +empresa.getNombres()+'"');
+					donacionRst.put('"' +"telefonoEmp"+'"', '"' +empresa.getCell()+'"');
+					donacionRst.put('"' +"direccionEmp"+'"', '"' +empresa.getDireccion()+'"');
+					donacionRst.put('"' +"correoEmp"+'"', '"' +empresa.getCorreo()+'"');
+					
+//					donacionRst.put("nombreEmp",empresa.getNombres());
+//					donacionRst.put("telefonoEmp",empresa.getCell());
+//					donacionRst.put("direccionEmp",empresa.getDireccion());
+//					donacionRst.put("correoEmp",empresa.getCorreo());
+				}
+
+			}
+			return donacionRst;
+		}
+
+		return null;
+ 	}
 
  	// METODO PARA AGREGAR DONACION, RETORNA MSN DE CONFIRMACION SI SE AGREGO O NO
  	// FUNCIONA
@@ -330,5 +379,6 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
 		return fachadaDato;
 
 	}
+
 
 }

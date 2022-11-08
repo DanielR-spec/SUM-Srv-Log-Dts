@@ -19,4 +19,6 @@ public interface ServiciosDonacionRemote {
 
 	public String updDonacion(Donacion tstDona);
 
+	public List<Donacion> findDonacionByUsrId(int id);
+
 }

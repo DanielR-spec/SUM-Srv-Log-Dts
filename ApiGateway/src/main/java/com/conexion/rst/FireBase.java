@@ -172,11 +172,13 @@ public class FireBase {
 		System.out.println("===Invocacion al metodo getUriKeysPrendas() en la objeto FireBase===");
 
 		System.out.println("Creando conexion con base de datos...");
+		System.out.println("Files not added...");
+
 		//firebaseDatabase = this.getConexion();
 		getConexion();
 
 		firebaseDatabase = FirebaseDatabase.getInstance(fireApp);
-		firebaseDatabase.goOnline();
+		//firebaseDatabase.goOnline();
 
 		String keySaved = "Files not added";
 
@@ -217,7 +219,7 @@ public class FireBase {
 				public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
 					// TODO Auto-generated method stub
 					CartFB prenda = snapshot.getValue(CartFB.class);
-
+					
 					//Importante el mapa solo puede tener una linea para que no se sobre escriba
 					uriKeys.put(prenda.getIdFire(), prenda.getImgUrl());
 
@@ -265,7 +267,7 @@ public class FireBase {
 			keySaved = "Files Added";
 
 		}
-		firebaseDatabase.goOffline();
+		//firebaseDatabase.goOffline();
 		return keySaved;
 	}
 

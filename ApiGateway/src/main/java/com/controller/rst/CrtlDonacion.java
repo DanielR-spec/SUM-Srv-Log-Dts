@@ -218,6 +218,22 @@ public class CrtlDonacion {
 		return fachadaLogica.addDonacion(donacion);
 	}
 	
+	public String getDonacionUsr(String idUsuario) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getDonacionUsr() en CrtlDonacion===");
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+
+		HashMap<String,String> res = fachadaLogica.getDonacionByIdUsr(idUsuario);
+		
+		String st = res.toString();
+		
+		st.trim();
+		
+		String new_st = st.replace("=", ":");
+
+		return new_st;
+	}
+	
 	// FUNCIONES AUXILIARES
 	// Localizador de servicios logica de prenda
 	public ServiciosLogicaDonacionRemote lczFachada() {

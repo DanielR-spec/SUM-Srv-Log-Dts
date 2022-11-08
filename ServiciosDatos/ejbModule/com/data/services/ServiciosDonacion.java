@@ -104,6 +104,21 @@ public class ServiciosDonacion implements ServiciosDonacionRemote, ServiciosDona
  		return resultList.size();
  	}
 
+	@Override
+	public List<Donacion> findDonacionByUsrId(int id) {
+		// TODO Auto-generated method stub
+ 		// TODO Auto-generated method stub
+ 		String consulta = "SELECT e FROM Donacion e WHERE  e.usuarioId = :usuarioId";
+ 		TypedQuery<Donacion> query = entityManager.createQuery(consulta, Donacion.class);
+ 		query.setParameter("usuarioId", id);
+ 		List<Donacion> resultList = query.getResultList();
+
+ 		if (resultList.size() == 0) {
+ 			return null;
+ 		}
+ 		return resultList;
+	}
+
 
  	
 

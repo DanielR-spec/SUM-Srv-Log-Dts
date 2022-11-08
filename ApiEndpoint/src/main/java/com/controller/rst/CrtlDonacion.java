@@ -70,6 +70,13 @@ public class CrtlDonacion {
 			return gestorSolicitudes.addDonacion(nombreDon, telefonoDon, direccionDon, fechaDon,
 					idUsuario, idFire); 
 		}
+		public String getDonacionByUserId(String idUsuario) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getDonacionByUserId() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getDonacionesUsr(idUsuario);
+		}
 		
 
 }

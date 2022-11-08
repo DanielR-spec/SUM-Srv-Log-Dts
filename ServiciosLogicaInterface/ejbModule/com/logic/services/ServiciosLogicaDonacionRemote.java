@@ -18,5 +18,7 @@ public interface ServiciosLogicaDonacionRemote {
 
 	public String updDonacion(String id, String estado);
 
+	public HashMap<String, String> getDonacionByIdUsr(String idUsuario);
+
 
 }
