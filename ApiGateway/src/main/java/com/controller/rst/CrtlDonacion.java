@@ -198,8 +198,9 @@ public class CrtlDonacion {
 		return null;
 	}
 	
+	// ...
 	public String addDona(String nombreDon, String telefonoDon, String direccionDon, String fechaDon, String idUsuario,
-			String idFire) {
+			String idFire, String latitud, String longitud, String sector) {
 		System.out.println("===Invocando al metodo addDona() en CrtlDonacion===");
 		
 		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
@@ -214,10 +215,14 @@ public class CrtlDonacion {
 		donacion.put("fechaDon", fechaDon);
 		donacion.put("idUsuario",idUsuario);
 		donacion.put("idFire", idFire);
+		donacion.put("lat", latitud);
+		donacion.put("long", longitud);
+		donacion.put("sector", sector);
 
 		return fachadaLogica.addDonacion(donacion);
 	}
 	
+	// ...
 	public String getDonacionUsr(String idUsuario) {
 		// TODO Auto-generated method stub
 		System.out.println("===Invocando al metodo getDonacionUsr() en CrtlDonacion===");
@@ -233,6 +238,166 @@ public class CrtlDonacion {
 
 		return new_st;
 	}
+	
+	public String getDonacionUsrStat(String idUsuario) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getDonacionUsrStat() en CrtlDonacion===");
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+
+		HashMap<String,String> res = fachadaLogica.getDonacionByIdUsrSat(idUsuario);
+		
+		String st = res.toString();
+		
+		st.trim();
+		
+		String new_st = st.replace("=", ":");
+
+		return new_st;
+	}
+
+	
+	// ...
+	public String getStats(String idFundacion) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getStats() en CrtlPrenda===");
+		
+		String res = "";
+		String formated = "";
+		String total = "";
+		String idDonaFire = "";
+		String idUsr = "";
+		int totalCam = 0;
+		int totalPan = 0;
+		int totalZap = 0;
+		int totalCha = 0;
+		int totalAcc = 0;
+		String infoTotal = "";
+		String infoTotalCam = "";
+		String infoTotalPan = "";
+		String infoTotalZap = "";
+		String infoTotalCha = "";
+		String infoTotalAcc = "";
+
+		
+		//Trayendo el id usuario y el id donacion
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		ServiciosLogicaPrendaRemote fachadaLogicaPrend = lczFachadaPrend();
+		
+		HashMap<String,List<String>> finalStatInfo = new HashMap<String, List<String>>();
+		List<String>infoCat = new ArrayList<String>();
+		List<String>infoTot = new ArrayList<String>();
+
+
+
+		HashMap<String,String> resId = fachadaLogica.getCatTonFun(idFundacion);
+		
+		for (Map.Entry<String, String> set : resId.entrySet()) {
+
+			if (set.getKey().equals("total")) {
+				total = set.getValue();
+			}
+			else if (set.getKey().equals("idFire")) {
+				idDonaFire = set.getValue();
+			}
+			else if (set.getKey().equals("idUser")) {
+				idUsr = set.getValue();
+			}
+
+		}
+		infoTotal ="{"+'"' + "Total" + '"' +":"+ '"' + String.valueOf(total) + '"'+"}";
+
+		infoTot.add(infoTotal);
+		
+		HashMap<String,List<String>> statsInf = new CrtlDonaFireBase().getTotalIdPrendasDonaFireBase(idDonaFire,idUsr);
+		for (Map.Entry<String, List<String>> set : statsInf.entrySet()) {
+			List<String> ids = set.getValue();
+			
+			for (String infoIds : ids) {
+				String idBackPrend = fachadaLogicaPrend.getIdPrendaByIdFire(infoIds);
+				HashMap<String, String> categoriaRst = fachadaLogicaPrend.getCatPrendaByIdStats(idBackPrend);
+
+				for (Map.Entry<String, String> cont : categoriaRst.entrySet()) {
+					if (cont.getValue().equals("Camisas")) {
+						totalCam += 1;
+						
+					}else if (cont.getValue().equals("Pantalones")) {
+						totalPan += 1;
+						
+					}else if (cont.getValue().equals("Zapatos")) {
+						totalZap += 1;
+						
+					}else if (cont.getValue().equals("Accesorios")) {
+						totalAcc += 1;
+						
+					}else if (cont.getValue().equals("Chaquetas")) {
+						totalCha += 1;
+						
+					}
+					
+				}
+
+			}
+			infoTotalCam = "{" + '"' + "Camisas" + '"' +":"+ '"' + String.valueOf(totalCam) + '"';
+			infoTotalPan = '"' + "Pantalones" + '"' +":"+ '"' + String.valueOf(totalPan) + '"';
+			infoTotalZap = '"' + "Zapatos" + '"' +":"+ '"' + String.valueOf(totalZap) + '"';
+			infoTotalCha = '"' + "Accesorios" + '"' +":"+ '"' + String.valueOf(totalAcc) + '"';
+			infoTotalAcc = '"' + "Chaquetas" + '"' +":"+ '"' + String.valueOf(totalCha) + '"' + "}";
+			
+			infoCat.add(infoTotalCam);
+			infoCat.add(infoTotalPan);
+			infoCat.add(infoTotalZap);
+			infoCat.add(infoTotalCha);
+			infoCat.add(infoTotalAcc);
+			
+		}
+		
+		finalStatInfo.put('"' + "headers" + '"', infoTot);
+
+		finalStatInfo.put('"' + "rows" + '"', infoCat);
+		
+		res = String.valueOf(finalStatInfo);
+		
+		formated = res.replace("=", ":");
+		
+		return formated;
+	}
+	
+	public String getStatsUbiFun(String idFundacion) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		String res = "";
+		String formated = "";
+		
+		HashMap<String,List<String>> ubiDon = fachadaLogica.getUbiDonacionByFundacionId(idFundacion);
+		
+		res = String.valueOf(ubiDon);
+		
+		formated = res.replace("=", ":");
+		
+		return formated;
+		
+	}
+	
+	public String getTotDonUsr(String idUsuario) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		String res = "";
+		
+		res = fachadaLogica.getTotDonUsr(idUsuario);
+		
+		
+		return res;
+	}
+	
+	public String getActiveDonFun(String idFundacion) {
+		// TODO Auto-generated method stub
+		ServiciosLogicaDonacionRemote fachadaLogica = lczFachada();
+		String res = "";
+		
+		res = fachadaLogica.getActiveDonFun(idFundacion);
+		
+		
+		return res;	}
 	
 	// FUNCIONES AUXILIARES
 	// Localizador de servicios logica de prenda
@@ -256,6 +421,22 @@ public class CrtlDonacion {
 		// TODO Auto-generated method stub
 		LocalizadorServiciosCarrito Lcz = new LocalizadorServiciosCarrito();
 		ServiciosLogicaCarritoRemote fachadaLogica = null;
+		try {
+			fachadaLogica = Lcz.getRemoteFachadaLogica();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return fachadaLogica;
+
+	}
+	
+	// Localizador de servicios logica de prenda
+	public ServiciosLogicaPrendaRemote lczFachadaPrend() {
+		// TODO Auto-generated method stub
+		LocalizadorServiciosPrenda Lcz = new LocalizadorServiciosPrenda();
+		ServiciosLogicaPrendaRemote fachadaLogica = null;
 		try {
 			fachadaLogica = Lcz.getRemoteFachadaLogica();
 		} catch (NamingException e) {
@@ -326,6 +507,8 @@ public class CrtlDonacion {
 	        }
 		 return readFile;
 	}
+
+
 
 
 }

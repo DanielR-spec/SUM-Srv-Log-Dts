@@ -29,6 +29,8 @@ public class FireBase {
 	private final static String outputFilePath = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeys.txt";
 	private final static String outputFilePathCart = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysCart.txt";
 	private final static String outputFilePathPrend = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrend.txt";
+	private final static String outputFilePathPrendId = "C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrendId.txt";
+
 
 
 	public FireBase() {
@@ -369,6 +371,116 @@ public class FireBase {
 
 		return keySaved;
 
+	}
+
+	
+	public String getIdPrendas(String idDonaFire, String idUsr) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocacion al metodo getIdPrendas() en la objeto FireBase===");
+
+		System.out.println("Creando conexion con base de datos...");
+		System.out.println("Files not added...");
+
+		//firebaseDatabase = this.getConexion();
+		try {
+			getConexion();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		firebaseDatabase = FirebaseDatabase.getInstance(fireApp);
+		//firebaseDatabase.goOnline();
+
+		String keySaved = "Files not added";
+
+		// Referencias a la base de datos
+		DatabaseReference ref = firebaseDatabase.getReference("/donaciones").child(idUsr).child(idDonaFire)
+				.child("prendas");
+
+		System.out.println("Metodo getKeys " + ref.getKey());
+
+		HashMap<String, String> uriKeys = new HashMap<String, String>();
+
+
+		// LEER DATOS DE BD FIREBASE
+		if (ref != null) {
+			System.out.println("Conexion establecida procesando solicitud");
+			// Trayendo informacion de la base de datos
+			ref.addChildEventListener(new ChildEventListener() {
+
+				@Override
+				public void onChildRemoved(DataSnapshot snapshot) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+					// TODO Auto-generated method stub
+					CartFB prenda = snapshot.getValue(CartFB.class);
+					
+					//Importante el mapa solo puede tener una linea para que no se sobre escriba
+					uriKeys.put(prenda.getIdFire(), prenda.getImgUrl());
+
+					File file = new File(outputFilePathPrendId);
+
+					BufferedWriter bf = null;
+
+					try {
+
+						// create new BufferedWriter for the output file
+						bf = new BufferedWriter(new FileWriter(file));
+
+						// iterate map entries
+						for (Map.Entry<String, String> entry : uriKeys.entrySet()) {
+
+							// put key and value separated by a colon
+							bf.write(entry.getKey()+ "@");
+
+							// new line
+							bf.newLine();
+
+						}
+
+						bf.flush();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+
+						try {
+
+							// always close the writer
+							bf.close();
+						} catch (Exception e) {
+						}
+					}
+				}
+
+				@Override
+				public void onCancelled(DatabaseError error) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+			System.out.println("Solicitud finalizada, archivos guardados en txt...");
+			keySaved = "Files Added";
+
+		}
+		//firebaseDatabase.goOffline();
+		return keySaved;
 	}
 
 }

@@ -18,7 +18,10 @@ public class Donacion implements Serializable {
 	private String fechaDon;
 	private int fundacionId;
 	private String idDonaFire;
+	private String latitud;
+	private String longitud;
 	private String nombreDon;
+	private String sector;
 	private String telDon;
 	private int usuarioId;
 
@@ -86,6 +89,24 @@ public class Donacion implements Serializable {
 	}
 
 
+	public String getLatitud() {
+		return this.latitud;
+	}
+
+	public void setLatitud(String latitud) {
+		this.latitud = latitud;
+	}
+
+
+	public String getLongitud() {
+		return this.longitud;
+	}
+
+	public void setLongitud(String longitud) {
+		this.longitud = longitud;
+	}
+
+
 	@Column(name="nombre_don")
 	public String getNombreDon() {
 		return this.nombreDon;
@@ -93,6 +114,15 @@ public class Donacion implements Serializable {
 
 	public void setNombreDon(String nombreDon) {
 		this.nombreDon = nombreDon;
+	}
+
+
+	public String getSector() {
+		return this.sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
 	}
 
 

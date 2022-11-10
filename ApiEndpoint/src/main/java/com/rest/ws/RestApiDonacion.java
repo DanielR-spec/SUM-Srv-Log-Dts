@@ -94,6 +94,32 @@ public class RestApiDonacion {
 		return new CrtlDonacion().getDonacionByUserId(idUsuario);
 
 	}
+	/**
+	 * @param uriInfo 
+	 * @throws NamingException 
+	 * 
+	 */	
+	@GET
+	@Path("/getDonUsrStat")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDonacionByUserIdStat(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
+		
+		return new CrtlDonacion().getDonacionByUserIdStat(idUsuario);
+
+	}
+	/**
+	 * @param uriInfo 
+	 * @throws NamingException 
+	 * 
+	 */	
+	@GET
+	@Path("/getActiveDonFun")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getActiveDonFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
+		
+		return new CrtlDonacion().getActiveDonFun(idFundacion);
+
+	}
 	
 	//Creo que no es necesario hacerlo en dos tiempos
 	@GET
@@ -117,6 +143,23 @@ public class RestApiDonacion {
 		
 	}
 	
+	//ESTE METODO ACCEDE A FIREBASE
+	@GET
+	@Path("/getStatsFun")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getStatsFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
+		
+		return new CrtlDonacion().getStatsFun(idFundacion);		
+	}
+	
+	@GET
+	@Path("/getStatsUbiFun")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getStatsUbiFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
+		
+		return new CrtlDonacion().getStatsUbiFun(idFundacion);		
+	}
+	
 	@POST
 	@Path("/add")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -127,10 +170,13 @@ public class RestApiDonacion {
 			@QueryParam("fechaDon") String fechaDon,
 			@QueryParam("idUsuario") String idUsuario,
 			@QueryParam("idDonaFire") String idFire,
+			@QueryParam("lat") String latitud,
+			@QueryParam("long") String longitud,
+			@QueryParam("sector") String sector,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new CrtlDonacion().addDona(nombreDon, telefonoDon, direccionDon, fechaDon, idUsuario, idFire);
+		return new CrtlDonacion().addDona(nombreDon, telefonoDon, direccionDon, fechaDon, idUsuario, idFire, latitud, longitud, sector);
 		
 		
 	}
@@ -150,6 +196,17 @@ public class RestApiDonacion {
 		
 		return respServ; 
 				
+	}
+	
+	//Creo que no es necesario hacerlo en dos tiempos
+	@GET
+	@Path("/getTotDonUsr")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getTotDonUsr(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getTotDonUsr(idUsuario);
+		
 	}
 	
 

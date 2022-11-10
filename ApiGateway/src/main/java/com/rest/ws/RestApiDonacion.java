@@ -84,15 +84,30 @@ public class RestApiDonacion {
 		
 	}
 	
+	//ESTE METODO ACCEDE A FIREBASE
 	@GET
 	@Path("/getPrendDonFun")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getPrendasDonacion(@QueryParam("idUsuario") String idUsuario, @QueryParam("idDonaFire") String idDonaFire, @Context UriInfo uriInfo) throws NamingException{
 		
+		return new CrtlDonacion().getPrendasByDonaId(idUsuario, idDonaFire);		
+	}
+	
+	//ESTE METODO ACCEDE A FIREBASE
+	@GET
+	@Path("/getStatsFun")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getStatsFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
 		
-		return new CrtlDonacion().getPrendasByDonaId(idUsuario, idDonaFire);
-
+		return new CrtlDonacion().getStats(idFundacion);		
+	}
+	
+	@GET
+	@Path("/getStatsUbiFun")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getStatsUbiFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
 		
+		return new CrtlDonacion().getStatsUbiFun(idFundacion);		
 	}
 	
 	@GET
@@ -104,6 +119,41 @@ public class RestApiDonacion {
 		return new CrtlDonacion().getDonacionUsr(idUsuario);
 
 		
+	}
+	@GET
+	@Path("/getDonUsrStat")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getDonacionUsrStat(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getDonacionUsrStat(idUsuario);
+
+		
+	}
+	
+	//Creo que no es necesario hacerlo en dos tiempos
+	@GET
+	@Path("/getTotDonUsr")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getTotDonUsr(@QueryParam("idUsuario") String idUsuario, @Context UriInfo uriInfo) throws NamingException{
+		
+		
+		return new CrtlDonacion().getTotDonUsr(idUsuario);
+		
+	}
+	
+	/**
+	 * @param uriInfo 
+	 * @throws NamingException 
+	 * 
+	 */	
+	@GET
+	@Path("/getActiveDonFun")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getActiveDonFun(@QueryParam("idFundacion") String idFundacion, @Context UriInfo uriInfo) throws NamingException{
+		
+		return new CrtlDonacion().getActiveDonFun(idFundacion);
+
 	}
 	
 	//iniciar el proceso de actualización de cuenta 
@@ -136,10 +186,13 @@ public class RestApiDonacion {
 			@QueryParam("fechaDon") String fechaDon,
 			@QueryParam("idUsuario") String idUsuario,
 			@QueryParam("idFire") String idFire,
+			@QueryParam("lat") String latitud,
+			@QueryParam("long") String longitud,
+			@QueryParam("sector") String sector,
 			@Context UriInfo uriInfo)
 			throws NamingException{
 		
-		return new CrtlDonacion().addDona(nombreDon, telefonoDon, direccionDon, fechaDon, idUsuario, idFire);
+		return new CrtlDonacion().addDona(nombreDon, telefonoDon, direccionDon, fechaDon, idUsuario, idFire, latitud, longitud, sector);
 		
 		
 	}

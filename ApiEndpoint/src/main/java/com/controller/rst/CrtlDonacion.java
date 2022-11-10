@@ -64,11 +64,11 @@ public class CrtlDonacion {
 		}
 		
 		public String addDona(String nombreDon, String telefonoDon, String direccionDon, String fechaDon,
-				String idUsuario, String idFire) {
+				String idUsuario, String idFire, String latitud, String longitud, String sector) {
 			// TODO Auto-generated method stub
 			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
 			return gestorSolicitudes.addDonacion(nombreDon, telefonoDon, direccionDon, fechaDon,
-					idUsuario, idFire); 
+					idUsuario, idFire, latitud, longitud, sector); 
 		}
 		public String getDonacionByUserId(String idUsuario) {
 			// TODO Auto-generated method stub
@@ -77,6 +77,40 @@ public class CrtlDonacion {
 			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
 			return gestorSolicitudes.getDonacionesUsr(idUsuario);
 		}
+		public String getStatsFun(String idFundacion) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getStatsFun() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getStatsFun(idFundacion);
+		}
+		public String getStatsUbiFun(String idFundacion) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getStatsUbiFun() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getStatsUbiFun(idFundacion);
+		}
+		public String getDonacionByUserIdStat(String idUsuario) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getDonacionByUserIdStat() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getDonacionesUsrStat(idUsuario);
+		}
+		public String getTotDonUsr(String idUsuario) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getTotDonUsr() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getTotDonUsr(idUsuario);
+		}
+		public String getActiveDonFun(String idFundacion) {
+			// TODO Auto-generated method stub
+			System.out.println("===Invocando al metodo getActiveDonFun() en CrtlDonacion===");
+			
+			GestorSolicitudesDona gestorSolicitudes = new GestorSolicitudesDona();
+			return gestorSolicitudes.getActiveDonFun(idFundacion);		}
 		
 
 }

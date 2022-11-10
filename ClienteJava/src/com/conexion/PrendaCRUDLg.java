@@ -159,6 +159,22 @@ public class PrendaCRUDLg {
 				
 	}
 	
+	public static void getIdPrenda(ServiciosLogicaPrendaRemote dt) {
+		
+		//Traer Prenda
+		System.out.println("inicia prueba de traer prnda");
+		String idFire = "1_08_11_2022_01_01_36_136";
+		
+		String idBack = dt.getIdPrendaByIdFire(idFire);
+		
+		System.out.println("idBack: "+idBack);
+		
+		
+		System.out.println("End Function"+ "\n");
+		
+				
+	}
+	
 	public static void deletPrenda(ServiciosLogicaPrendaRemote dt) {
 		
  		//Eliminar prenda DELETE prenda Funciona
@@ -215,7 +231,10 @@ public class PrendaCRUDLg {
 		//updatePrenda(prendaRemote);
 		
 		//Test get categoria
-		getCatPrenda(prendaRemote);
+		//getCatPrenda(prendaRemote);
+		
+		//Test get id
+		getIdPrenda(prendaRemote);
 		
 	
 

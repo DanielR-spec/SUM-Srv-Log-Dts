@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import com.model.ent.Donacion;
-
 @Remote
 public interface ServiciosLogicaDonacionRemote {
 
@@ -19,6 +17,16 @@ public interface ServiciosLogicaDonacionRemote {
 	public String updDonacion(String id, String estado);
 
 	public HashMap<String, String> getDonacionByIdUsr(String idUsuario);
+
+	public HashMap<String, String> getCatTonFun(String idFun);
+	
+	public HashMap<String,List<String>> getUbiDonacionByFundacionId(String id);
+
+	public HashMap<String, String> getDonacionByIdUsrSat(String idUsuario);
+
+	public String getTotDonUsr(String idUsuario);
+
+	public String getActiveDonFun(String idFundacion);
 
 
 }

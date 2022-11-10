@@ -49,7 +49,7 @@ public class CrtlDonaFireBase {
 
 	// FUNCIONES DE FIREBASE
 	public String getPrendasDonaFireBase(String idUsuario, String idDonaFire) throws IOException {
-		System.out.println("===Invocando al metodo authPrnd() en CrtlPrenda===");
+		System.out.println("===Invocando al metodo getPrendasDonaFireBase() en CrtlDonaFireBase===");
 
 		// TODO Auto-generated method stub
 		String STATUS_CODE = ":(";
@@ -59,6 +59,8 @@ public class CrtlDonaFireBase {
 
 		try {
 			System.out.println("Iniciando proceso de conexion...");
+			//Este parte del proceso escribe la informacion de los id en txt para ser 
+			//leidos en la siguiente parte
 			keySaved = base.getUriKeysPrendas(idUsuario, idDonaFire);
 
 		} catch (IOException e) {
@@ -67,6 +69,7 @@ public class CrtlDonaFireBase {
 		}
 		if (keySaved.equals("Files Added")) {
 			// Declarar hashmap y llamar la funcion
+			//Esta parte lee la informacion leida en el txt ya fomateada
 			uriKeys = uriFormatTemp();
 			STATUS_CODE = ":)";
 			System.out.println("Prenda existosamente guardada" + STATUS_CODE);
@@ -80,6 +83,34 @@ public class CrtlDonaFireBase {
 
 	}
 
+	public HashMap<String,  List<String>> getTotalIdPrendasDonaFireBase(String idDonaFire, String idUsr) {
+		// TODO Auto-generated method stub
+		System.out.println("===Invocando al metodo getPrendasDonaFireBase() en CrtlDonaFireBase===");
+
+		// TODO Auto-generated method stub
+		String STATUS_CODE = ":(";
+		FireBase base = new FireBase();
+		String keySaved = "Not Added";
+		HashMap<String,  List<String>> uriKeys = new HashMap<String,   List<String>>();
+
+		System.out.println("Iniciando proceso de conexion...");
+		//Este parte del proceso escribe la informacion de los id en txt para ser 
+		//leidos en la siguiente parte
+		keySaved = base.getIdPrendas(idDonaFire, idUsr);
+		
+		if (keySaved.equals("Files Added")) {
+			// Declarar hashmap y llamar la funcion
+			//Esta parte lee la informacion leida en el txt ya fomateada
+			uriKeys = uriFormatIdPren();
+			STATUS_CODE = ":)";
+			System.out.println("Prenda existosamente guardada" + STATUS_CODE);
+
+			return uriKeys;
+
+		}
+		return uriKeys;
+	}
+	
 	public HashMap<Integer, PrendaRs> uriFormat() {
 
 		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
@@ -124,6 +155,21 @@ public class CrtlDonaFireBase {
 
 	}
 
+	public HashMap<String, List<String>> uriFormatIdPren() {
+
+		System.out.println("===Invocando al metodo uriFormat() en CrtlPrenda===");
+
+		// File path is passed as parameter
+		File file = new File("C:\\Users\\danie\\Downloads\\imagenes\\uriKeysPrendId.txt");
+
+		HashMap<String,  List<String>> uriKeys = new HashMap<String, List<String>>();
+
+		uriKeys = saveMapIdPrend(file);
+
+		return uriKeys;
+
+	}
+	
 	public HashMap<Integer, PrendaRs> saveMap(File file) {
 
 		HashMap<Integer, PrendaRs> uriKeys = new HashMap<Integer, PrendaRs>();
@@ -330,4 +376,89 @@ public class CrtlDonaFireBase {
 
 	}
 
+	public HashMap<String,  List<String>> saveMapIdPrend(File file) {
+
+		HashMap<String, List<String>> uriKeys = new HashMap<String, List<String>>();
+
+		// Declaring a string variable
+
+		String str = "";
+		String lineKey = "in";
+		int cont = 0;
+		int length = 0;
+		
+		List<String> externalValues = new ArrayList<String>();
+
+		// Creating an object of BufferedReader class
+		BufferedReader br = null;
+
+		try {
+			System.out.println("Leyendo archivo...");
+			br = new BufferedReader(new FileReader(file));
+
+			// Condition holds true till
+			// there is character in a string
+
+			try {
+				System.out.println("Cargando archivo...");
+				while ((str = br.readLine()) != null) {// Print the string
+					PrendaRs prendaRs = new PrendaRs();
+					String idPrendFire = "";
+
+					// Creating array of string length
+					// using length() method
+					char[] chNames = new char[str.length()];
+
+					length = str.length();
+
+					String flag = "chNm";
+
+					// System.out.println(str);
+
+					// Copying character by character into array
+					// using for each loop
+
+					for (int i = 0; i < length; i++) {
+						lineKey = Character.toString(str.charAt(i));
+
+						if (flag.equals("chNm")) {
+							chNames[i] = str.charAt(i);
+
+							if (lineKey.equals("@")) {
+								idPrendFire = String.valueOf(chNames).trim();
+								idPrendFire = StringUtils.chop(idPrendFire); 
+								prendaRs.setNombre(idPrendFire);
+								externalValues.add(prendaRs.getNombre());
+								flag = "chUri";
+
+							}
+
+						}
+
+					}
+					
+					uriKeys.put("id", externalValues);
+				}
+				
+				try {
+					br.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				return uriKeys;
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return uriKeys;
+
+	}
+	
 }

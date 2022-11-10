@@ -88,6 +88,33 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 		return null;
 	}
 	
+	// METODO PARA TRAER PRENDA POR ID, RETORNA LA INFORMACION DE LA PRENDA SI
+	// EXISTE
+	// FUNCIONA
+	@Override
+	public String getIdPrendaByIdFire(String idFire) {
+		// TODO Auto-generated method stub
+		ServiciosPrendaRemote fachadaDat = lczFachada();
+
+		HashMap<String, String> prendaRst = new HashMap<String, String>();
+
+		List<Prenda> prendaDt = fachadaDat.getPrendaByIdFire(idFire);
+
+		if (prendaDt.size() > 0) {
+			for (Prenda prenda : prendaDt) {
+
+				prendaRst.put("idPrenda", String.valueOf(prenda.getIdPrenda()));
+				prendaRst.put("idUsuario", String.valueOf(prenda.getIdUsuario()));
+				prendaRst.put("imgUrl", prenda.getImageUrl());
+				prendaRst.put("id_fire", prenda.getIdFire());
+
+			}
+			
+		}
+
+		return prendaRst.get("idPrenda");
+	}
+	
 	// METODO PARA TRAER CATEGORIA PRENDA POR ID, RETORNA LA INFORMACION DE LA PRENDA SI
 	// EXISTE
 	// FUNCIONA
@@ -106,6 +133,32 @@ public class ServiciosLogicaPrenda implements ServiciosLogicaPrendaRemote, Servi
 
 				categoriaRst.put('"' + "tipo" + '"', '"' + String.valueOf(prenda.getTipo()) + '"');
 				categoriaRst.put('"' + "genero" + '"', '"' + String.valueOf(prenda.getGenero()) + '"');
+
+			}
+			return categoriaRst;
+		}
+
+		return null;
+	}
+	
+	// METODO PARA TRAER CATEGORIA PRENDA POR ID PARA STATS, RETORNA LA INFORMACION DE LA PRENDA SI
+	// EXISTE
+	// FUNCIONA
+	@Override
+	public HashMap<String, String> getCatPrendaByIdStats(String id) {
+
+		// TODO Auto-generated method stub
+		ServiciosPrendaRemote fachadaDat = lczFachada();
+
+		HashMap<String, String> categoriaRst = new HashMap<String, String>();
+
+		List<CategoriaPrenda> categoriaDt = fachadaDat.getCategoriaPrenda(Integer.parseInt(id));
+
+		if (categoriaDt.size() > 0) {
+			for (CategoriaPrenda prenda : categoriaDt) {
+
+				categoriaRst.put("tipo",String.valueOf(prenda.getTipo()));
+				categoriaRst.put("genero",String.valueOf(prenda.getGenero()));
 
 			}
 			return categoriaRst;

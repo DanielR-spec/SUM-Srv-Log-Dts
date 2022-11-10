@@ -47,9 +47,11 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		if (donacion.size() > 0) {
  			for (Donacion dona : donacion) {
 
+ 	 				donacionRst.put("idUsuario", String.valueOf(dona.getUsuarioId()));
+ 	 				donacionRst.put("idDonaFire", dona.getIdDonaFire());
+				
  				//donacionRst.put("idDonacion", String.valueOf(dona.getIdDonacion()));
- 				donacionRst.put("idUsuario", String.valueOf(dona.getUsuarioId()));
- 				donacionRst.put("idDonaFire", dona.getIdDonaFire());
+
  				//donacionRst.put("direccion", dona.getDireccionDon());
 
  			}
@@ -91,6 +93,8 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  	 	 			String keyidUsr = "{" + '"' + "idUsr"  + '"' + ":";
  	 	 			String keyidDonaFire = '"' + "idDonaFire" + '"' + ":";
  	 	 			String keyidDonaBack = '"' + "idDonaBack" + '"' + ":";
+ 	 	 			String keylat = '"' + "lat" + '"' + ":";
+ 	 	 			String keylong = '"' + "long" + '"' + ":";
 // 	 	 			
  	 	 			//String keyidUsr = "idUsr"+":";
  	 	 			//String keyidDonaFire = "idDonaFire"+":"; 
@@ -98,12 +102,17 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  	 	 			String valueidUsr = '"' + String.valueOf(donacion.getUsuarioId()) + '"';
  	 	 			String valueidDonaFire = '"' +  String.valueOf(donacion.getIdDonaFire()) + '"';
  	 	 			String valueidDonaBack = '"' +  String.valueOf(donacion.getIdDonacion()) + '"';
+ 	 	 			String valueLat = '"' +  String.valueOf(donacion.getLatitud()) + '"';
+ 	 	 			String valueLong = '"' +  String.valueOf(donacion.getLongitud()) + '"';
+
 
 
  	 	 			
  	 	 			internalHeatherValues.add(keyidUsr+"["+valueidUsr+"]");
  	 	 			internalHeatherValues.add(keyidDonaFire+"["+valueidDonaFire+"]");
- 	 	 			internalHeatherValues.add(keyidDonaBack+"["+valueidDonaBack+"]" + "}");
+ 	 	 			internalHeatherValues.add(keyidDonaBack+"["+valueidDonaBack+"]");
+ 	 	 			internalHeatherValues.add(keylat+"["+valueLat+"]");
+ 	 	 			internalHeatherValues.add(keylong+"["+valueLong+"]" + "}");
 
  	 	 			
  	 	 			externalValues.add(internalValues);
@@ -122,7 +131,110 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  			
  	 		return mapDonacion;
  	 	}
- 	 
+ 	
+ 	// METODO PARA TRAER DONACIONES POR ID DE LA FUNDACION, RETORNA LA INFORMACION DE LA DONACION SI
+ 	// EXISTE
+ 	// FUNCIONA
+ 	public HashMap<String,List<String>> getUbiDonacionByFundacionId(String id) {
+
+ 	 		// TODO Auto-generated method stub
+ 	 		ServiciosDonacionRemote fachadaDat = lczFachada();
+ 	 		int contTeu = 0;
+ 	 		int contCha = 0;
+ 	 		int contSub = 0;
+ 	 		int contBos = 0;
+ 	 		int contKen = 0;
+
+
+ 	 		List<Donacion> donaciones = fachadaDat.findDonacionByFundacionId(Integer.parseInt(id));
+
+ 	 		List<String> internalValues = new ArrayList<String>();
+ 	 		List<String> internalValuesCiu = new ArrayList<String>();
+
+
+ 	 		HashMap<String,List<String>> ubiDon = new HashMap<String,List<String>>();
+ 	 		
+ 	 		for (Donacion donacion : donaciones) {			
+ 	 			if (donacion.getSector().equals("Teusaquillo")) {
+ 	 				contTeu += 1;
+ 	 			}else if (donacion.getSector().equals("Chapinero")) {
+ 	 				contCha += 1;
+				}else if (donacion.getSector().equals("Suba")) {
+					contSub += 1;
+				}else if (donacion.getSector().equals("Bosa")) {
+					contBos += 1;
+				}else if (donacion.getSector().equals("Kenedy")) {
+					contKen += 1;
+				}
+ 	 				
+ 	 	 								
+			}
+ 	 			internalValuesCiu.add("{" + '"' +"Ciudad"+'"'+":"+'"' + "Bogota" + '"'+ "}");
+	 	 		internalValues.add("{" +'"' +"Teusaquillo"+'"'+":"+'"' + contTeu + '"');
+	 	 		internalValues.add('"' +"Chapinero"+'"'+":"+'"' + contCha + '"');
+	 	 		internalValues.add('"' +"Suba"+'"'+":"+'"' + contSub + '"');
+	 	 		internalValues.add('"' +"Bosa"+'"'+":"+'"' + contBos + '"');
+	 	 		internalValues.add('"' +"Kenedy"+'"'+":"+'"' + contKen + '"'+ "}");
+ 	 			
+	 		ubiDon.put('"' +"headers"+'"' , internalValuesCiu);
+
+ 			ubiDon.put('"' +"rows"+'"' , internalValues);
+ 			
+ 	 		return ubiDon;
+ 	 	}
+ 	 			
+ 	public HashMap<String, String> getDonacionByIdUsrSat(String id) {
+
+ 		ServiciosDonacionRemote fachadaDat = lczFachada();
+	 	ServiciosUsuarioRemote fachadaDatUsr = lczFachadaUsr();
+
+	 	
+		HashMap<String, String> donacionRst = new HashMap<String, String>();
+
+		List<Donacion> donacionDt = fachadaDat.findDonacionByUsrId(Integer.parseInt(id));
+
+
+		if (donacionDt.size() > 0) {
+			for (Donacion donacion : donacionDt) {
+				
+				if (donacion.getEstado().equals("En proceso")) {
+					donacionRst.put('"' +"nombre"+'"', '"' +donacion.getNombreDon()+'"');
+					donacionRst.put('"' +"direccion"+'"', '"' +donacion.getDireccionDon()+'"');
+					donacionRst.put('"' +"fecha"+'"', '"' +donacion.getFechaDon()+'"');
+					donacionRst.put('"' +"telefono"+'"', '"' +donacion.getTelDon()+'"');
+					donacionRst.put('"' +"estado"+'"', '"' +donacion.getEstado()+'"');
+					
+//					donacionRst.put("nombre",donacion.getNombreDon());
+//					donacionRst.put("direccion",donacion.getDireccionDon());
+//					donacionRst.put("fecha",donacion.getFechaDon());
+//					donacionRst.put("telefono",donacion.getTelDon());
+//					donacionRst.put("estado",donacion.getEstado());
+					
+					List<Usuario> empresaDt = fachadaDatUsr.findUsuarioById(donacion.getFundacionId());
+					
+					for (Usuario empresa : empresaDt) {
+						donacionRst.put('"' +"nombreEmp"+'"', '"' +empresa.getNombres()+'"');
+						donacionRst.put('"' +"telefonoEmp"+'"', '"' +empresa.getCell()+'"');
+						donacionRst.put('"' +"direccionEmp"+'"', '"' +empresa.getDireccion()+'"');
+						donacionRst.put('"' +"correoEmp"+'"', '"' +empresa.getCorreo()+'"');
+						
+//						donacionRst.put("nombreEmp",empresa.getNombres());
+//						donacionRst.put("telefonoEmp",empresa.getCell());
+//						donacionRst.put("direccionEmp",empresa.getDireccion());
+//						donacionRst.put("correoEmp",empresa.getCorreo());
+					}
+					
+				}
+
+				
+
+			}
+			return donacionRst;
+		}
+
+		return null;
+	 		}
+ 	
  	@Override
  	public HashMap<String, String> getDonacionByIdUsr(String idUsuario) {
  		// TODO Auto-generated method stub
@@ -170,6 +282,59 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
 
 		return null;
  	}
+ 	
+ 	@Override
+ 	public HashMap<String, String> getCatTonFun(String idFun) {
+ 		// TODO Auto-generated method stub
+	 	ServiciosDonacionRemote fachadaDat = lczFachada();
+	 	ServiciosUsuarioRemote fachadaDatUsr = lczFachadaUsr();
+	 	
+	 	String totalDon = "";
+
+	 	
+		HashMap<String, String> donacionRst = new HashMap<String, String>();
+
+		List<Donacion> donacionDt = fachadaDat.findDonacionByFundacionId(Integer.parseInt(idFun));
+
+
+		if (donacionDt.size() > 0) {
+			totalDon = String.valueOf(donacionDt.size());
+			for (Donacion donacion : donacionDt) {
+
+				donacionRst.put("total",totalDon);
+				donacionRst.put("idFire",donacion.getIdDonaFire());
+				donacionRst.put("idUser",String.valueOf(donacion.getUsuarioId()));
+
+			}
+			return donacionRst;
+		}
+
+		return null;
+ 	}
+ 	
+	@Override
+	public String getTotDonUsr(String idUsuario) {
+		// TODO Auto-generated method stub
+	 	ServiciosDonacionRemote fachadaDat = lczFachada();
+	 	
+	 	String totalDon = "";
+
+		List<Donacion> donacionDt = fachadaDat.findDonacionByUsrId(Integer.parseInt(idUsuario));
+
+		int cont = 0;
+		if (donacionDt.size() > 0) {
+			for (Donacion donacion : donacionDt) {
+				if (donacion.getEstado().equals("Finalizado")) {
+					cont += 1;
+				}
+
+			}
+			
+			totalDon = String.valueOf(cont);
+		}
+
+		return totalDon;
+	}
 
  	// METODO PARA AGREGAR DONACION, RETORNA MSN DE CONFIRMACION SI SE AGREGO O NO
  	// FUNCIONA
@@ -182,6 +347,8 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		Donacion tstDona = new Donacion();
 
  		tstDona = formatDonacionAdd(donacion);
+ 		
+ 		System.out.println(tstDona.getSector());
  	
  		try {
  			String resultado = fachadaDat.addDonacion(tstDona);
@@ -239,6 +406,7 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
  		}
  		return "Error actualizando donacion";
  	}
+
 
  	
 	public Donacion formatDonacionAdd(HashMap<String, String> dona) {
@@ -309,6 +477,33 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
 				break;
 
 			}
+			case "lat": {
+				if (entry.getValue() != "") {
+					donacion.setLatitud(entry.getValue());
+
+					break;
+				}
+				break;
+
+			}
+			case "long": {
+				if (entry.getValue() != "") {
+					donacion.setLongitud(entry.getValue());
+
+					break;
+				}
+				break;
+
+			}
+			case "sector": {
+				if (entry.getValue() != "") {
+					donacion.setSector(entry.getValue());
+
+					break;
+				}
+				break;
+
+			}
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + entry.getKey());
 			}
@@ -317,6 +512,27 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
 
 		return donacion;
 
+	}
+	
+	@Override
+	public String getActiveDonFun(String idFundacion) {
+		// TODO Auto-generated method stub
+ 		ServiciosDonacionRemote fachadaDat = lczFachada();
+ 		int cont = 0;
+
+ 		List<Donacion> tstDona = new ArrayList<Donacion>();
+ 		
+ 	
+ 			tstDona = fachadaDat.findDonacionByFundacionId(Integer.parseInt(idFundacion));
+ 			
+ 			for (Donacion donacion : tstDona) {
+				if (donacion.getEstado().equals("Activa")) {
+					cont += 1;
+				}
+			}
+
+
+ 		return String.valueOf(cont);
 	}
 	
 	// FUNCIONES AUXILIARES
