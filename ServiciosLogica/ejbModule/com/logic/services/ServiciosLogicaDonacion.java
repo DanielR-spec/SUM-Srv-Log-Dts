@@ -390,6 +390,10 @@ public class ServiciosLogicaDonacion implements ServiciosLogicaDonacionRemote, S
 				donaAct.setNombreDon(donacion.getNombreDon());
 				donaAct.setTelDon(donacion.getTelDon());
 				donaAct.setUsuarioId(donacion.getUsuarioId());
+				donaAct.setLatitud(donacion.getLatitud());
+				donaAct.setLongitud(donacion.getLongitud());
+				donaAct.setSector(donacion.getSector());
+
 				
 			}
  			String resultado = fachadaDat.updDonacion(donaAct);
